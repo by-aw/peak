@@ -11,10 +11,11 @@ import { ChatMockup } from "./chat-mockup";
 import { CrmMockup } from "./crm-mockup";
 
 /**
- * Tablet/desktop variant of the Features Section: one card per feature, stacked 32px apart and inset 32px
- * from the screen edges. Every card holds its own phone, `position: fixed` in the centre of the left half,
- * so all five phones sit in the same spot on screen. The card's clip-path clips its phone (clip-path, unlike
- * overflow, also clips fixed descendants), so the phone stays put while the card edges scroll across it,
+ * Tablet/desktop variant of the Features Section: one card per feature, stacked 32px apart, inset 32px from the
+ * screen edges and 128px shorter than the screen at each end. Every card holds its own phone, `position: fixed`
+ * in the centre of the right half and vertically centred on screen, so all five phones sit in the same spot and
+ * each one is centred in its card when the card is centred. The card's clip-path clips its phone (clip-path,
+ * unlike overflow, also clips fixed descendants), so the phone stays put while the card edges scroll across it,
  * revealing the next feature's phone like a mask.
  */
 
@@ -40,36 +41,36 @@ function FeatureCard({ index }: { index: number }) {
   const near = useInView(ref, { once: true, margin: "100% 0px" });
   const play = useInView(ref, { once: true, amount: 0.4 });
   const feature = FEATURES[index];
+  const fade = index === 4;
 
   return (
     <article
       ref={ref}
-      className="relative flex h-[calc(100svh-64px)] min-h-[640px] w-full [clip-path:inset(0_round_32px)]"
+      className="relative flex h-[max(560px,calc(100svh-256px))] w-full [clip-path:inset(0_round_32px)]"
       style={{
-        background: `radial-gradient(90% 100% at 20% 100%, ${feature.tint} 0%, rgba(255,255,255,0) 70%), linear-gradient(135deg, #f4f5f9 0%, #eceef5 100%)`,
+        background: `radial-gradient(90% 100% at 80% 100%, ${feature.tint} 0%, rgba(255,255,255,0) 70%), linear-gradient(225deg, #f4f5f9 0%, #eceef5 100%)`,
       }}
     >
-      {/* phone: at least 64px below the screen top. The tablet frame fades out at the bottom, so it is centred
-          vertically; the desktop frame has a flat bottom edge, so it sits low enough for that edge to stay off screen. */}
-      <div className="pointer-events-none fixed top-[max(64px,calc(50svh-324px))] left-[calc(25%+16px)] -translate-x-1/2 lg:top-[max(64px,calc(100svh-800px))]">
-        <PhoneFrame fade={index === 4}>{near ? <Mockup index={index} play={play} /> : null}</PhoneFrame>
+      {/* phone. The 800px frame is taller than most cards, so its flat bottom edge would show inside the next card
+          while it scrolls in; on desktop it gets the same bottom fade the tablet and CRM frames already have. */}
+      <div
+        className={`pointer-events-none fixed top-1/2 left-[calc(75%-16px)] -translate-x-1/2 -translate-y-1/2 ${fade ? "" : "lg:[mask-image:linear-gradient(0deg,rgba(0,0,0,0)_0%,#000_20%)]"}`}
+      >
+        <PhoneFrame fade={fade}>{near ? <Mockup index={index} play={play} /> : null}</PhoneFrame>
       </div>
-      {/* copy, vertically centred in the right half, with the mascot underneath */}
-      <div className="ml-auto flex h-full w-1/2 justify-center px-8 lg:px-16">
-        <div className="flex h-full w-full max-w-[396px] flex-col lg:max-w-[528px]">
-          <div className="flex-1" />
-          <div className="flex flex-col items-start gap-12">
-            <FeatureText feature={feature} />
+      {/* copy, centred in the left half; the mascot sits beside the CTA, outside the flow so the copy stays centred */}
+      <div className="flex h-full w-1/2 items-center justify-center px-8 lg:px-16">
+        <div className="flex w-full max-w-[396px] flex-col items-start gap-12 lg:max-w-[528px]">
+          <FeatureText feature={feature} />
+          <div className="relative inline-flex">
             <FeatureCta />
-          </div>
-          <div className="flex min-h-[172px] flex-1 items-end pb-8">
             <Image
               src={feature.mascot.src}
               alt=""
               width={feature.mascot.width}
               height={feature.mascot.height}
               style={{ width: feature.mascot.width, height: feature.mascot.height }}
-              className="object-cover"
+              className="absolute top-1/2 left-[calc(100%+24px)] max-w-none -translate-y-1/2 object-cover"
             />
           </div>
         </div>

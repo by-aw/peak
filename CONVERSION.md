@@ -23,6 +23,7 @@
 
 ## Known deviations from the Framer site
 
+- Hero sky follows the updated Figma design (mochi-web-v2 `background`, node 304:2249) instead of Framer: one 50%-opacity layer (blue-to-white gradient + clouds, fading to white), without Framer's grainy "Sky Background" strip underneath. On phone the layer is clipped and faded too, so it has no hard bottom edge.
 - Phone footer: Framer's grid is broken on the live site (Integrations column collapses, 1549px tall). The intended 2-column grid is implemented instead (~757px).
 - Several "Start Free Trial" CTAs have no destination in Framer (`href=null`); they link to `https://use.themochi.app` (nav/footer CTAs use `/login`).
 - "AS SEEN IN" (Forbes) label uses Montserrat on Framer; rendered in Inter here (Montserrat not bundled).

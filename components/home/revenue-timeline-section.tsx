@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { DesktopStep, MobileStep, STEPS } from "./revenue-step-cards";
 import { RevenueStepsMobile } from "./revenue-steps-mobile";
 import { RevenueStepsTrack } from "./revenue-steps-track";
@@ -23,7 +22,7 @@ function Copy() {
 /**
  * "Turn DMs into revenue" (Framer "Section"): the lead-to-won timeline mockup.
  * Tablet/desktop: a sticky block whose step row slides left as the page scrolls through a 400px spacer.
- * Phone: a looping vertical list inside a gray card, followed by a full-width "Start Free Trial" button.
+ * Phone: a looping vertical list inside a gray card (the features section below carries the CTA).
  */
 export function RevenueTimelineSection() {
   return (
@@ -41,13 +40,6 @@ export function RevenueTimelineSection() {
                 <MobileStep key={s.name} step={s} />
               ))}
             </RevenueStepsMobile>
-            <Button
-              variant="primaryBig"
-              href="https://use.themochi.app/"
-              className="w-full text-[15px]! leading-[21.75px]! tracking-[-0.3px]!"
-            >
-              Start Free Trial
-            </Button>
           </div>
           {/* tablet / desktop */}
           <div className="hidden w-full flex-col items-center md:flex md:gap-6 lg:gap-0">

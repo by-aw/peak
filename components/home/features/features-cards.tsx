@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useInView } from "motion/react";
 import { useRef } from "react";
-import { FEATURES } from "./data";
+import { FEATURES, cardBackground } from "./data";
 import { FeatureCta, FeatureText } from "./feature-copy";
 import { PhoneFrame } from "./frame";
 import { InboxMockup } from "./inbox-mockup";
@@ -12,7 +12,7 @@ import { CrmMockup } from "./crm-mockup";
 
 /**
  * Tablet/desktop variant of the Features Section: one card per feature, stacked 32px apart, inset 32px from the
- * screen edges and 128px shorter than the screen at each end. Every card holds its own phone, `position: fixed`
+ * screen edges and 128px shorter than the screen at each end (taller when the copy and mascot need it). Every card holds its own phone, `position: fixed`
  * in the centre of the right half and vertically centred on screen, so all five phones sit in the same spot and
  * each one is centred in its card when the card is centred. The card's clip-path clips its phone (clip-path,
  * unlike overflow, also clips fixed descendants), so the phone stays put while the card edges scroll across it,
@@ -46,10 +46,8 @@ function FeatureCard({ index }: { index: number }) {
   return (
     <article
       ref={ref}
-      className="relative flex h-[max(560px,calc(100svh-256px))] w-full [clip-path:inset(0_round_32px)]"
-      style={{
-        background: `radial-gradient(90% 100% at 80% 100%, ${feature.tint} 0%, rgba(255,255,255,0) 70%), linear-gradient(225deg, #f4f5f9 0%, #eceef5 100%)`,
-      }}
+      className="relative flex min-h-[max(560px,calc(100svh-256px))] w-full [clip-path:inset(0_round_32px)]"
+      style={{ background: cardBackground(feature.tint, "80%") }}
     >
       {/* phone. The 800px frame is taller than most cards, so its flat bottom edge would show inside the next card
           while it scrolls in; on desktop it gets the same bottom fade the tablet and CRM frames already have. */}
@@ -58,19 +56,24 @@ function FeatureCard({ index }: { index: number }) {
       >
         <PhoneFrame fade={fade}>{near ? <Mockup index={index} play={play} /> : null}</PhoneFrame>
       </div>
-      {/* copy, centred in the left half; the mascot sits beside the CTA, outside the flow so the copy stays centred */}
-      <div className="flex h-full w-1/2 items-center justify-center px-8 lg:px-16">
-        <div className="flex w-full max-w-[396px] flex-col items-start gap-12 lg:max-w-[528px]">
-          <FeatureText feature={feature} />
-          <div className="relative inline-flex">
+      {/* copy, vertically centred in the left half, with the mascot underneath in the bottom-left corner. On desktop
+          its left edge sits on the page grid (max(100px, (100% - 1200px) / 2) from the screen edge, as in the other
+          sections); the card starts 32px in and is 64px narrower than the screen, so that is max(68px, 50% - 600px). */}
+      <div className="flex w-1/2 px-8 lg:pr-16 lg:pl-[max(68px,calc(50%-600px))]">
+        <div className="flex w-full max-w-[396px] flex-col lg:max-w-[528px]">
+          <div className="min-h-8 flex-1" />
+          <div className="flex flex-col items-start gap-12">
+            <FeatureText feature={feature} />
             <FeatureCta />
+          </div>
+          <div className="flex min-h-[196px] flex-1 items-end pt-6 pb-8">
             <Image
               src={feature.mascot.src}
               alt=""
               width={feature.mascot.width}
               height={feature.mascot.height}
               style={{ width: feature.mascot.width, height: feature.mascot.height }}
-              className="absolute top-1/2 left-[calc(100%+24px)] max-w-none -translate-y-1/2 object-cover"
+              className="object-cover"
             />
           </div>
         </div>

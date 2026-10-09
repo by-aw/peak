@@ -1,6 +1,20 @@
 import { buttonShadow } from "@/components/ui/button";
 import { CTA_HREF, type FeatureCopy } from "./data";
 
+/** Label + heading of one feature. Sizes: phone 16/32, tablet 18/40, desktop 20/48. */
+export function FeatureHeader({ feature, className = "" }: { feature: FeatureCopy; className?: string }) {
+  return (
+    <div className={`flex flex-col gap-5 ${className}`}>
+      <p className="font-sans text-[16px] leading-[22.4px] font-medium tracking-[-0.24px] text-gray-800 md:text-[18px] md:leading-[25.2px] lg:text-[20px] lg:leading-[28px]">
+        {feature.label}
+      </p>
+      <h3 className="font-display text-[32px] leading-[35.2px] font-semibold tracking-[1px] text-ink md:text-[40px] md:leading-[44px] md:tracking-[1.6px] lg:text-[48px] lg:leading-[52.8px]">
+        {feature.heading}
+      </h3>
+    </div>
+  );
+}
+
 /**
  * Label + heading + body of one feature ("Content N" in Framer).
  * Sizes: phone 16/32/16, tablet 18/40/18, desktop 20/48/20.
@@ -8,12 +22,7 @@ import { CTA_HREF, type FeatureCopy } from "./data";
 export function FeatureText({ feature }: { feature: FeatureCopy }) {
   return (
     <div className="flex flex-col gap-5">
-      <p className="font-sans text-[16px] leading-[22.4px] font-medium tracking-[-0.24px] text-gray-800 md:text-[18px] md:leading-[25.2px] lg:text-[20px] lg:leading-[28px]">
-        {feature.label}
-      </p>
-      <h3 className="font-display text-[32px] leading-[35.2px] font-semibold tracking-[1px] text-ink md:text-[40px] md:leading-[44px] md:tracking-[1.6px] lg:text-[48px] lg:leading-[52.8px]">
-        {feature.heading}
-      </h3>
+      <FeatureHeader feature={feature} />
       <p className="font-sans text-[16px] leading-[22.4px] font-normal tracking-[-0.24px] text-gray-800 md:text-[18px] md:leading-[25.2px] lg:text-[20px] lg:leading-[28px]">
         {feature.body}
         {feature.accent ? <span className="text-purple-500">{feature.accent}</span> : null}

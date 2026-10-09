@@ -10,11 +10,16 @@ export type FeatureCopy = {
   accent?: string;
   /** Mochi mascot shown under the copy in the feature card (desktop/tablet only). */
   mascot: { src: string; width: number; height: number };
-  /** Soft wash behind the phone in the feature card (desktop/tablet only), taken from the mascot's colour. */
+  /** Soft wash behind the phone in the feature card, taken from the mascot's colour. */
   tint: string;
 };
 
 export const CTA_HREF = "https://use.themochi.app";
+
+/** Feature card background: the feature's tint washing up from the bottom edge at `x` (under the phone) over light gray. */
+export function cardBackground(tint: string, x: string) {
+  return `radial-gradient(90% 100% at ${x} 100%, ${tint} 0%, rgba(255,255,255,0) 70%), linear-gradient(225deg, #f4f5f9 0%, #eceef5 100%)`;
+}
 
 export const FEATURES: FeatureCopy[] = [
   {

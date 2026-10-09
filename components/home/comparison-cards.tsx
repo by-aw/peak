@@ -202,11 +202,7 @@ export function ComparisonCards() {
             <WithCard style={desktop ? { x: withX } : undefined} />
           </Reveal>
           <div className="hidden md:block">
-            <Button
-              variant="primaryBig"
-              href={APP_URL}
-              className="text-[16px] leading-[23.2px] tracking-[-0.32px] lg:text-[18px] lg:leading-[26.1px] lg:tracking-[-0.36px]"
-            >
+            <Button variant="primaryBig" href={APP_URL}>
               Start Free Trial
             </Button>
           </div>

@@ -18,7 +18,7 @@ export function ComparisonSection() {
           <Button
             variant="primaryBig"
             href={APP_URL}
-            className="w-full text-[15px] leading-[21.75px] tracking-[-0.3px] md:hidden"
+            className="w-full md:hidden"
           >
             Start Free Trial
           </Button>

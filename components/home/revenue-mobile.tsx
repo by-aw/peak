@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Reveal } from "@/components/ui/reveal";
+import { descriptionText } from "@/components/ui/text";
 import { RevenueTabBar, revenueTabs } from "./revenue-tabs";
 
 /** Phone crops of the three tab screens, in tab order. */
@@ -34,7 +35,7 @@ export function RevenueMobile() {
             <h3 className="font-display text-[32px] font-semibold leading-[35.2px] tracking-[1px] text-balance text-ink whitespace-pre-wrap">
               {t.heading}
             </h3>
-            <p className="text-[16px] font-normal leading-[22.4px] tracking-[-0.24px] text-gray-800 whitespace-pre-wrap">
+            <p className={`whitespace-pre-wrap ${descriptionText}`}>
               {t.body}
             </p>
           </div>

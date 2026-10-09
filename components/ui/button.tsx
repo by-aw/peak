@@ -5,7 +5,7 @@ import type { ComponentProps, ReactNode } from "react";
  * Button variants ported from the Framer "Buttons" component.
  *
  * - primary      -> Framer "Desktop/Primary": dark pill, 16px text, 6px 12px padding (nav)
- * - primaryBig   -> Framer "Desktop/Big": dark 12px-radius block, 18px text, 12px 20px padding (hero / section CTAs)
+ * - primaryBig   -> Framer "Desktop/Big": dark 12px-radius block, 20px text, 12px 20px padding (hero / section CTAs)
  * - white        -> Framer "Desktop/White": white pill, same shadow (nav "Log In", footer CTA)
  * - ghost        -> Framer "With Icon": transparent pill nav link, 16px/400
  *
@@ -20,11 +20,11 @@ const variants = {
   primary:
     `inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-1.5 text-[16px] font-medium leading-6 tracking-[-0.32px] text-white bg-[linear-gradient(#14151a_0%,#14151a_100%)] hover:bg-[linear-gradient(#000_0%,#14151a_100%)] transition-[background] duration-200 ${buttonShadow}`,
   primaryBig:
-    `inline-flex items-center justify-center whitespace-nowrap rounded-[12px] px-5 py-3 text-[18px] font-medium leading-[1.45em] tracking-[-0.36px] text-white bg-[linear-gradient(#14151a_0%,#14151a_100%)] hover:bg-[linear-gradient(#000_0%,#14151a_100%)] transition-[background] duration-200 ${buttonShadow}`,
+    `inline-flex items-center justify-center whitespace-nowrap rounded-[12px] px-5 py-3 text-[20px] font-medium leading-[21.75px] tracking-[-0.3px] text-white bg-[linear-gradient(#14151a_0%,#14151a_100%)] hover:bg-[linear-gradient(#000_0%,#14151a_100%)] transition-[background] duration-200 ${buttonShadow}`,
   white:
     `inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-1.5 text-[16px] font-medium leading-6 tracking-[-0.32px] text-black hover:text-gray-800 bg-white transition-colors duration-200 ${buttonShadow}`,
   whiteBig:
-    `inline-flex items-center justify-center whitespace-nowrap rounded-[12px] px-5 py-3 text-[18px] font-medium leading-[1.45em] tracking-[-0.36px] text-black hover:text-gray-800 bg-white transition-colors duration-200 ${buttonShadow}`,
+    `inline-flex items-center justify-center whitespace-nowrap rounded-[12px] px-5 py-3 text-[20px] font-medium leading-[21.75px] tracking-[-0.3px] text-black hover:text-gray-800 bg-white transition-colors duration-200 ${buttonShadow}`,
   ghost:
     "inline-flex items-center justify-center whitespace-nowrap gap-1 rounded-full px-2.5 py-1.5 text-[16px] font-normal leading-[1.4em] tracking-[-0.32px] text-black",
 } as const;

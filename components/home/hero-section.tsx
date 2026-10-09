@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
+import { descriptionText } from "@/components/ui/text";
 import { ForbesLogo } from "@/components/icons/timeline-icons";
 import { FounderVideo } from "./founder-video";
 import { HeroClouds } from "./hero-clouds";
@@ -42,16 +43,49 @@ const FORBES_URL =
   "https://www.forbes.com/sites/kolawolesamueladebayo/2026/02/13/how-ai-is-helping-creators-scale-sales-without-losing-the-personal-touch/";
 
 const h1Class =
-  "text-center font-display font-semibold tracking-[1.68px] text-ink text-[42px] leading-[46.2px] md:text-[56px] md:leading-[61.6px] lg:text-[64px] lg:leading-[70.4px]";
+  "text-center text-pretty font-display font-semibold tracking-[1.68px] text-ink text-[48px] leading-[48px] md:text-[56px] md:leading-[61.6px] lg:text-[64px] lg:leading-[70.4px]";
 
-/** Home hero: headline, CTA, partner logos, "Trusted by" ticker and the founder video. */
+/** Meta Business Partner + "As seen in Forbes". The caller sets the display/layout classes. */
+function PartnerLogos({ className }: { className: string }) {
+  return (
+    <div className={`items-center justify-center ${className}`}>
+      <div className="flex flex-1 justify-center md:flex-none">
+        <Image
+          src="/framer/JpADX97vCwReyzHtPaWQqVzpic.png"
+          alt="Meta Business Partner"
+          width={408}
+          height={160}
+          preload
+          className="h-10 w-[102px] object-contain"
+        />
+      </div>
+      <div className="flex flex-1 justify-center md:flex-none">
+        <a
+          href={FORBES_URL}
+          target="_blank"
+          rel="noopener"
+          className="flex flex-col items-center justify-center gap-[9px] md:gap-[10.2128px]"
+        >
+          <p className="text-[12px] leading-[10px] font-medium whitespace-pre text-ink-3 opacity-50">AS SEEN IN</p>
+          <ForbesLogo className="h-[21px] w-[76px] text-black" />
+        </a>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Home hero: headline, CTA, partner logos, "Trusted by" ticker and the founder video.
+ * Phone (mochi-web-v2 Figma, node 540:16490): "Trusted by" title centred over a full-width ticker with the
+ * partner logos in two columns below it. Tablet/desktop: logos under the CTA, "Trusted by" inline before the ticker.
+ */
 export function HeroSection() {
   return (
     <section className="relative flex w-full items-center justify-center">
       <div className="flex w-full flex-1 items-center justify-center px-5 pt-14 md:px-8 md:pt-20 lg:px-[100px] lg:pt-28">
-        <div className="flex w-full max-w-[1200px] flex-1 flex-col items-center gap-16">
+        <div className="flex w-full max-w-[1200px] flex-1 flex-col items-center gap-8 md:gap-16">
           <div className="flex w-full flex-col items-center gap-8 md:gap-10">
-            <div className="flex w-full flex-col items-center gap-5 md:gap-6">
+            <div className="flex w-full flex-col items-center gap-4 md:gap-6">
               <Reveal y={48} delay={0.2} className="w-full">
                 {/* Framer uses one h1 on phone and two stacked h1s on tablet/desktop */}
                 <h1 className={`${h1Class} md:hidden`}>Stop losing money inside your DMs</h1>
@@ -59,52 +93,33 @@ export function HeroSection() {
                 <h1 className={`${h1Class} hidden md:block`}>inside your DMs</h1>
               </Reveal>
               <Reveal y={48} delay={0.2} className="w-full max-w-[526px]">
-                <p className="text-center text-[16px] leading-[22.4px] font-normal tracking-[-0.24px] text-gray-800 md:text-[18px] md:leading-[25.2px] lg:text-[20px] lg:leading-[28px]">
+                <p className={`text-center ${descriptionText}`}>
                   Organize every Instagram conversation, keep your team accountable, and turn more DMs into booked
                   calls.
                 </p>
               </Reveal>
             </div>
             <Reveal y={32} delay={0.3} className="flex w-full flex-col items-center gap-6 md:w-auto">
-              <Button
-                variant="primaryBig"
-                href="https://use.themochi.app/"
-                className="w-full text-[15px]! leading-[21.75px]! tracking-[-0.3px]! md:w-auto md:text-[16px]! md:leading-[23.2px]! md:tracking-[-0.32px]! lg:text-[18px]! lg:leading-[26.1px]! lg:tracking-[-0.36px]!"
-              >
+              <Button variant="primaryBig" href="https://use.themochi.app/" className="w-full rounded-full! md:w-auto">
                 Start Free Trial
               </Button>
-              <div className="flex items-center justify-center gap-10">
-                <Image
-                  src="/framer/JpADX97vCwReyzHtPaWQqVzpic.png"
-                  alt="Meta Business Partner"
-                  width={408}
-                  height={160}
-                  preload
-                  className="h-10 w-[102px] object-contain"
-                />
-                <a
-                  href={FORBES_URL}
-                  target="_blank"
-                  rel="noopener"
-                  className="flex flex-col items-center justify-center gap-[9px] md:gap-[10.2128px]"
-                >
-                  <p className="text-[12px] leading-[10px] font-medium whitespace-pre text-ink-3 opacity-50">
-                    AS SEEN IN
-                  </p>
-                  <ForbesLogo className="h-[21px] w-[76px] text-black" />
-                </a>
-              </div>
+              <PartnerLogos className="hidden gap-10 md:flex" />
             </Reveal>
           </div>
 
-          <Reveal y={40} delay={0.35} className="relative flex w-full flex-col gap-8 md:w-[896px]">
-            <div className="flex w-full items-center">
+          <Reveal y={40} delay={0.35} className="relative flex w-full flex-col gap-16 md:w-[896px] md:gap-8">
+            <div className="flex w-full flex-col items-center gap-4 md:flex-row md:gap-0">
               <div className="flex shrink-0 items-center justify-center rounded-full p-2.5">
-                <p className="text-[16px] leading-5 font-medium tracking-[-0.6px] whitespace-pre text-ink-3 opacity-50">
+                <p className="text-[18px] leading-5 font-medium tracking-[-0.6px] whitespace-pre text-ink-3 opacity-80 md:text-[16px] md:opacity-50">
                   Trusted by
                 </p>
               </div>
-              <TrustedTicker users={TRUSTED_BY} />
+              <div className="flex w-full min-w-0 flex-col gap-6 md:flex-1">
+                <div className="flex w-full">
+                  <TrustedTicker users={TRUSTED_BY} />
+                </div>
+                <PartnerLogos className="flex w-full md:hidden" />
+              </div>
             </div>
             <FounderVideo />
             <HeroClouds />

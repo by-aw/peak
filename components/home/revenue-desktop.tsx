@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { APP_URL } from "@/lib/site";
 import { Reveal } from "@/components/ui/reveal";
+import { descriptionText } from "@/components/ui/text";
 import { AskMochiMockup } from "./ask-mochi-mockup";
 import { RevenueTabBar, revenueTabs } from "./revenue-tabs";
 
@@ -28,7 +29,7 @@ export function RevenueDesktop() {
             </h3>
           </div>
           <div className="w-[440px] shrink-0">
-            <p className="text-[18px] font-normal leading-[25.2px] tracking-[-0.24px] text-gray-800 whitespace-pre-wrap lg:text-[20px] lg:leading-[28px]">
+            <p className={`whitespace-pre-wrap ${descriptionText}`}>
               {tab.body}
             </p>
           </div>
@@ -67,11 +68,7 @@ export function RevenueDesktop() {
         </div>
       </Reveal>
 
-      <Button
-        variant="primaryBig"
-        href={APP_URL}
-        className="text-[16px] leading-[23.2px] tracking-[-0.32px] lg:text-[18px] lg:leading-[26.1px] lg:tracking-[-0.36px]"
-      >
+      <Button variant="primaryBig" href={APP_URL}>
         Start Free Trial
       </Button>
     </div>

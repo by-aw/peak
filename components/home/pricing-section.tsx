@@ -145,7 +145,7 @@ function PlanCard({ plan, period }: { plan: Plan; period: "monthly" | "yearly" }
         <Button
           variant="primaryBig"
           href={APP_URL}
-          className={`w-full text-[15px] leading-[21.75px] tracking-[-0.3px] md:text-[16px] md:leading-[23.2px] md:tracking-[-0.32px] lg:text-[18px] lg:leading-[26.1px] lg:tracking-[-0.36px] ${
+          className={`w-full ${
             plan.popular ? "bg-[linear-gradient(#a855f7_0%,#a855f7_100%)] hover:bg-[linear-gradient(#a855f7_0%,#a855f7_100%)]" : ""
           }`}
         >

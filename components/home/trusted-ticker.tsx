@@ -19,11 +19,11 @@ function Pill({ user }: { user: TickerUser }) {
           alt=""
           width={72}
           height={76}
-          className="absolute top-[15px] left-5 z-[1] h-[19px] w-[18px] object-cover"
+          className="absolute top-[16.83px] left-[17px] z-[1] h-[19px] w-[18px] object-cover"
         />
       </div>
       <div className="px-1.5">
-        <p className="text-[14px] leading-[19.6px] font-medium tracking-[-0.2px] whitespace-pre text-black/60">
+        <p className="text-[14px] leading-4 font-medium tracking-[-0.2px] whitespace-pre text-black/60">
           {user.name}
         </p>
       </div>
@@ -35,7 +35,8 @@ function Pill({ user }: { user: TickerUser }) {
  * Infinite avatar marquee from the hero ("Trusted by …").
  * The list is rendered twice and translated by exactly one copy (+gap) per cycle via the Web
  * Animations API; the duration is derived from the measured width so the speed matches the live
- * site regardless of font metrics.
+ * site regardless of font metrics. Both ends fade out over 5% (on tablet/desktop the start fades
+ * under a white blur next to the "Trusted by" label instead).
  */
 export function TrustedTicker({ users }: { users: TickerUser[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -66,11 +67,11 @@ export function TrustedTicker({ users }: { users: TickerUser[] }) {
   }, []);
 
   return (
-    <div className="relative flex min-w-0 flex-1 items-center overflow-clip [mask-image:linear-gradient(90deg,rgba(0,0,0,0)_0%,#000_9%)] md:[mask-image:none]">
-      {/* soft white edge over the start of the ticker */}
+    <div className="relative flex min-w-0 flex-1 items-center overflow-clip [mask-image:linear-gradient(90deg,rgba(0,0,0,0)_0%,#000_5%)] md:[mask-image:none]">
+      {/* tablet/desktop: soft white edge between the "Trusted by" label and the ticker */}
       <div
         aria-hidden
-        className="pointer-events-none absolute top-[-16px] bottom-[-16px] left-[-24px] z-[3] w-[45px] bg-white blur-[3px]"
+        className="pointer-events-none absolute top-[-16px] bottom-[-16px] left-[-24px] z-[3] hidden w-[45px] bg-white blur-[3px] md:block"
       />
       <div className="flex min-w-0 flex-1 items-center overflow-hidden [mask-image:linear-gradient(270deg,rgba(0,0,0,0)_0%,#000_5%)]">
         <div ref={trackRef} className="flex shrink-0 items-center gap-4 will-change-transform">

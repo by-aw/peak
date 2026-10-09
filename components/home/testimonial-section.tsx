@@ -142,7 +142,7 @@ function Header() {
       <h3 className="w-[394px] text-center font-display text-[40px] leading-[44px] font-semibold tracking-[1.6px] text-black lg:w-[480px] lg:text-[48px] lg:leading-[52.8px]">
         What our clients are saying
       </h3>
-      <Button variant="primaryBig" href="https://use.themochi.app" className="text-[16px] leading-[23.2px] tracking-[-0.32px] lg:text-[18px] lg:leading-[26.1px] lg:tracking-[-0.36px]">
+      <Button variant="primaryBig" href="https://use.themochi.app">
         Start Free Trial
       </Button>
     </div>
@@ -189,7 +189,7 @@ export function TestimonialSection() {
           <h3 className="w-full max-w-[335px] text-center font-display text-[32px] leading-[35.2px] font-semibold tracking-[1px] text-ink">
             What our clients are saying
           </h3>
-          <Button variant="primaryBig" href="https://use.themochi.app" className="w-full text-[15px] leading-[21.75px] tracking-[-0.3px]">
+          <Button variant="primaryBig" href="https://use.themochi.app" className="w-full">
             Start Free Trial
           </Button>
         </div>

@@ -1,3 +1,4 @@
+import { descriptionText } from "@/components/ui/text";
 import { DesktopStep, MobileStep, STEPS } from "./revenue-step-cards";
 import { RevenueStepsMobile } from "./revenue-steps-mobile";
 import { RevenueStepsTrack } from "./revenue-steps-track";
@@ -12,7 +13,7 @@ function Heading() {
 
 function Copy() {
   return (
-    <p className="text-[16px] leading-[22.4px] font-normal tracking-[-0.24px] whitespace-pre-wrap text-gray-800 md:text-right md:text-[18px] md:leading-[25.2px] lg:text-left lg:text-[20px] lg:leading-[28px]">
+    <p className={`whitespace-pre-wrap md:text-right lg:text-left ${descriptionText}`}>
       Everything your team needs to organize conversations, improve replies &amp; know exactly what’s driving booked
       calls and revenue.
     </p>

@@ -44,7 +44,7 @@ export function CtaSection() {
                 href={SIGNUP_URL}
                 target="_blank"
                 rel="noopener"
-                className={`flex flex-1 items-center justify-center rounded-[12px] bg-white px-5 py-3 text-[15px] font-medium leading-[21.75px] tracking-[-0.3px] text-black transition-colors duration-200 hover:text-gray-800 md:flex-none md:text-[16px] md:leading-[23.2px] md:tracking-[-0.32px] lg:text-[18px] lg:leading-[26.1px] lg:tracking-[-0.36px] ${buttonShadow}`}
+                className={`flex flex-1 items-center justify-center rounded-[12px] bg-white px-5 py-3 text-[20px] font-medium leading-[21.75px] tracking-[-0.3px] text-black transition-colors duration-200 hover:text-gray-800 md:flex-none ${buttonShadow}`}
               >
                 Start Free Trial
               </Link>

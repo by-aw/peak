@@ -6,9 +6,11 @@ import { CTA_HREF, type FeatureCopy } from "./data";
 export function FeatureHeader({ feature, className = "" }: { feature: FeatureCopy; className?: string }) {
   return (
     <div className={`flex flex-col gap-5 ${className}`}>
-      <p className="font-sans text-[16px] leading-[22.4px] font-medium tracking-[-0.24px] text-gray-800 md:text-[18px] md:leading-[25.2px] lg:text-[20px] lg:leading-[28px]">
-        {feature.label}
-      </p>
+      {feature.label ? (
+        <p className="font-sans text-[16px] leading-[22.4px] font-medium tracking-[-0.24px] text-gray-800 md:text-[18px] md:leading-[25.2px] lg:text-[20px] lg:leading-[28px]">
+          {feature.label}
+        </p>
+      ) : null}
       <h3 className="font-display text-[32px] leading-[35.2px] font-semibold tracking-[1px] text-ink md:text-[40px] md:leading-[44px] md:tracking-[1.6px] lg:text-[48px] lg:leading-[52.8px]">
         {feature.heading}
       </h3>

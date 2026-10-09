@@ -1,15 +1,15 @@
 /**
- * Copy and assets for the home "Features Section" (five scroll-pinned feature blocks).
+ * Copy and assets for the home "Features Section": the "Turn DMs into revenue" card, then five feature cards.
  * Text is verbatim from the Framer dump.
  */
 export type FeatureCopy = {
-  label: string;
+  label?: string;
   heading: string;
   /** Body copy. `accent` (purple, #a855f7) is appended after `body` inside the same paragraph. */
   body: string;
   accent?: string;
   /** Mochi mascot shown under the copy in the feature card (desktop/tablet only). */
-  mascot: { src: string; width: number; height: number };
+  mascot?: { src: string; width: number; height: number };
   /** Soft wash behind the phone in the feature card, taken from the mascot's colour. */
   tint: string;
 };
@@ -20,6 +20,16 @@ export const CTA_HREF = "https://use.themochi.app";
 export function cardBackground(tint: string, x: string) {
   return `radial-gradient(90% 100% at ${x} 100%, ${tint} 0%, rgba(255,255,255,0) 70%), linear-gradient(225deg, #f4f5f9 0%, #eceef5 100%)`;
 }
+
+/**
+ * The section intro: on tablet/desktop the first card, with the lead timeline in place of a phone (see timeline.tsx);
+ * on phones a stack of step cards above the heading and copy (see timeline-stack.tsx).
+ */
+export const TIMELINE: FeatureCopy = {
+  heading: "Turn DMs into revenue",
+  body: "Everything your team needs to organize conversations, improve replies & know exactly what’s driving booked calls and revenue.",
+  tint: "rgba(224,170,72,0.24)",
+};
 
 export const FEATURES: FeatureCopy[] = [
   {

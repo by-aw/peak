@@ -1,37 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "motion/react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { APP_URL } from "@/lib/site";
 import { Reveal } from "@/components/ui/reveal";
 import { AskMochiMockup } from "./ask-mochi-mockup";
-
-type Tab = {
-  label: string;
-  heading: string;
-  body: string;
-};
-
-/** Tab copy taken verbatim from the live Framer page (desktop variant). */
-export const revenueTabs: Tab[] = [
-  {
-    label: "Ask Mochi",
-    heading: "See exactly where revenue is leaking",
-    body: "Connect Mochi AI to Claude via MCP to chat with conversations, automations, and sales data. Uncover bottlenecks and discover opportunities.",
-  },
-  {
-    label: "Funnel Dashboard",
-    heading: "See exactly where revenue is leaking",
-    body: "Mochi connects every conversation, setter action, funnel stage and lead source in one live view. See what needs fixing before another opportunity goes cold.",
-  },
-  {
-    label: "Performance Reports",
-    heading: "Know if the work is actually getting done",
-    body: "See replies, follow-ups, conversations started and calls booked across your entire team without chasing setters for updates.",
-  },
-];
+import { RevenueTabBar, revenueTabs } from "./revenue-tabs";
 
 const mask = "[mask-image:linear-gradient(0deg,rgba(0,0,0,0)_0%,#000_7%)]";
 
@@ -60,27 +35,7 @@ export function RevenueDesktop() {
         </div>
 
         <div className="flex w-full flex-col items-center gap-12">
-          <div className="relative flex w-full rounded-[12px] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)]">
-            {revenueTabs.map((t, i) => (
-              <button
-                key={t.label}
-                type="button"
-                onClick={() => setActive(i)}
-                className="relative z-[3] flex min-h-12 flex-1 cursor-pointer flex-col items-center justify-center rounded-[12px] p-[14px]"
-              >
-                {active === i && (
-                  <motion.span
-                    layoutId="revenue-tab-indicator"
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="absolute inset-0 z-0 rounded-[12px] bg-black/5"
-                  />
-                )}
-                <span className="relative z-[1] text-[18px] font-medium leading-5 tracking-[-0.24px] text-black/80 whitespace-pre">
-                  {t.label}
-                </span>
-              </button>
-            ))}
-          </div>
+          <RevenueTabBar active={active} onChange={setActive} layoutId="revenue-tab-indicator" />
 
           <div className={`relative flex w-full flex-col items-center overflow-clip ${mask}`}>
             {active === 0 && (

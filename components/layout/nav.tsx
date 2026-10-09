@@ -10,9 +10,9 @@ import { LOGIN_URL, SIGNUP_URL, menuSections, navLinks, type MenuItem, type Menu
 
 const spring = { type: "spring", stiffness: 300, damping: 30 } as const;
 
-/** Big soft drop shadow of the Framer nav "Container". */
+/** Figma nav "Container" (536:7022): 1px hairline ring + big soft drop shadow. */
 const pillShadow =
-  "shadow-[0_14px_30px_0_rgba(0,0,0,0.05),0_55px_55px_0_rgba(0,0,0,0.04),0_125px_75px_0_rgba(0,0,0,0.03),0_222px_89px_0_rgba(0,0,0,0.01),0_347px_97px_0_rgba(0,0,0,0)]";
+  "shadow-[0_0_0_1px_rgba(0,0,0,0.1),0_347px_97px_0_rgba(0,0,0,0),0_222px_89px_0_rgba(0,0,0,0.01),0_125px_75px_0_rgba(0,0,0,0.03),0_55px_55px_0_rgba(0,0,0,0.04),0_14px_30px_0_rgba(0,0,0,0.05)]";
 
 function Chevron({ className = "" }: { className?: string }) {
   return (
@@ -195,7 +195,7 @@ export function Nav() {
           {!solid ? <LiquidGlass /> : null}
           {/* Container */}
           <div
-            className={`relative z-[3] flex w-full overflow-clip rounded-[inherit] ${menuOpen ? "" : pillShadow} ${
+            className={`relative z-[3] flex w-full overflow-clip rounded-[inherit] border border-white ${menuOpen ? "" : pillShadow} ${
               menuOpen
                 ? "flex-col items-start gap-6 bg-white px-2 pb-6 pt-2.5"
                 : `items-center justify-center px-2 py-2.5 md:p-2 ${
@@ -205,8 +205,8 @@ export function Nav() {
           >
             {/* Left: logo (+ hamburger on phone) */}
             <div className={`flex items-center justify-between pr-0.5 md:pr-0 ${menuOpen ? "w-full" : "w-full md:w-auto md:flex-1 md:basis-0"}`}>
-              <Link ref={logoRef} href="/" aria-label="Mochi" className="flex h-8 w-[116px] items-center justify-center">
-                <MochiLogo className="h-8 w-[116px]" />
+              <Link ref={logoRef} href="/" aria-label="Mochi" className="flex h-8 items-center px-2">
+                <MochiLogo />
               </Link>
               <button
                 type="button"

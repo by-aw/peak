@@ -30,6 +30,7 @@
 - Liquid-glass displacement filters inside the feature mockups (pills, chips, composer) are approximated with translucent backgrounds/blur; the nav pill uses a real port of the SVG displacement filter.
 - Mega menu open/close, mobile menu height and scrolled-nav width use CSS/motion springs that approximate Framer's layout springs.
 - Chat mockup intermediate animation frames in the Features section are approximations; final states and step timings match.
+- Features section on tablet/desktop no longer uses Framer's 450vh pinned showcase (one phone, swapping copy, progress dots). Each feature is a card (32px from the screen edges, 32px apart, copy and mascot in the right half) whose clip-path masks a phone fixed in the centre of the left half, so scrolling reveals each feature's phone. Mockups mount a screen early and play once their card is 40% visible. The phone variant is unchanged.
 - Yearly struck-through pricing uses Clash Display 500 instead of the variable 400 weight.
 
 ## Next steps

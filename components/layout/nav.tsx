@@ -192,15 +192,13 @@ export function Nav() {
           className={`relative w-full max-w-[896px] transition-[width,border-radius] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${menuOpen ? "rounded-[32px]" : "rounded-full"}`}
           style={{ width: compactWidth }}
         >
-          {!solid ? <LiquidGlass /> : null}
+          <LiquidGlass />
           {/* Container */}
           <div
             className={`relative z-[3] flex w-full overflow-clip rounded-[inherit] border border-white ${menuOpen ? "" : pillShadow} ${
               menuOpen
                 ? "flex-col items-start gap-6 bg-white px-2 pb-6 pt-2.5"
-                : `items-center justify-center px-2 py-2.5 md:p-2 ${
-                    solid ? "bg-white" : "bg-[linear-gradient(rgba(255,255,255,0.5)_0%,rgba(255,255,255,0.75)_100%)] backdrop-blur-[8px]"
-                  }`
+                : `items-center justify-center px-2 py-2.5 md:p-2 bg-white/80`
             }`}
           >
             {/* Left: logo (+ hamburger on phone) */}

@@ -2,13 +2,41 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 
+/** Bezel strength from the pill's edge inwards (quadratic ease-out): full refraction at the edge, none past it. */
+const BEZEL_PROFILE = [1, 0.5625, 0.25, 0.0625, 0];
+
 /**
- * Framer "Liquid Glass" layer used behind the nav pill: a transparent overlay whose
- * backdrop-filter is an SVG displacement map (edge-refraction + slight chromatic aberration),
- * ported from the SVG filter the published site injects. The map is drawn at half size
- * (448x26 for the 896x52 pill), so it is regenerated on resize.
+ * Displacement map: transparent except for a bezel along each edge that pulls the backdrop in from inside the pill
+ * (R drives x, B drives y; 255 samples from the right/below, 0 from the left/above). It points inwards because Chrome
+ * clips the backdrop to the element and mirrors anything sampled past its edge.
  */
-export function LiquidGlass({ scale = 410, blur = 10 }: { scale?: number; blur?: number }) {
+function bezelMap(w: number, h: number, bezel: number) {
+  const bx = Math.min(bezel, w / 2);
+  const by = Math.min(bezel, h / 2);
+  const gradient = (id: string, direction: string, color: string) =>
+    `<linearGradient id="${id}" ${direction}>${BEZEL_PROFILE.map((a, i) => `<stop offset="${i / 4}" stop-color="${color}" stop-opacity="${a}"/>`).join("")}</linearGradient>`;
+  return (
+    "data:image/svg+xml," +
+    encodeURIComponent(
+      `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"><defs>` +
+        gradient("l", 'x2="1"', "#ff8080") +
+        gradient("r", 'x1="1" x2="0"', "#008080") +
+        gradient("t", 'x2="0" y2="1"', "#8080ff") +
+        gradient("b", 'x2="0" y1="1" y2="0"', "#808000") +
+        `</defs><rect width="${bx}" height="${h}" fill="url(#l)"/><rect x="${w - bx}" width="${bx}" height="${h}" fill="url(#r)"/>` +
+        `<rect width="${w}" height="${by}" fill="url(#t)"/><rect y="${h - by}" width="${w}" height="${by}" fill="url(#b)"/></svg>`,
+    )
+  );
+}
+
+/**
+ * Framer "Liquid Glass" layer used behind the nav pill: a transparent overlay whose backdrop-filter is an SVG
+ * displacement map (edge refraction + slight chromatic aberration), ported from the SVG filter the published site
+ * injects. Framer's map displaced the whole backdrop like a lens; here only a bezel along the edges refracts and the
+ * middle stays put, so the page seen through the pill lines up with the page around it. The map is regenerated on
+ * resize.
+ */
+export function LiquidGlass({ scale = 50, blur = 2, bezel = 16 }: { scale?: number; blur?: number; bezel?: number }) {
   const rawId = useId();
   const filterId = `liquid-glass-${rawId.replace(/[^a-zA-Z0-9]/g, "")}`;
   const ref = useRef<HTMLDivElement>(null);
@@ -25,13 +53,7 @@ export function LiquidGlass({ scale = 410, blur = 10 }: { scale?: number; blur?:
     return () => ro.disconnect();
   }, []);
 
-  const w = size.w / 2;
-  const h = size.h / 2;
-  const map =
-    "data:image/svg+xml," +
-    encodeURIComponent(
-      `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="red" x1="100%" y1="0%" x2="0%" y2="0%"><stop offset="0%" stop-color="#0000"/><stop offset="100%" stop-color="red"/></linearGradient><linearGradient id="blue" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#0000"/><stop offset="100%" stop-color="blue"/></linearGradient></defs><rect x="0" y="0" width="${w}" height="${h}" fill="black"/><rect x="0" y="0" width="${w}" height="${h}" rx="14" fill="url(#red)"/><rect x="0" y="0" width="${w}" height="${h}" rx="14" fill="url(#blue)" style="mix-blend-mode: difference"/><rect x="0" y="0" width="${w}" height="${h}" rx="14" fill="hsl(0 0% 10% / 0)" style="filter:blur(5px)"/></svg>`,
-    );
+  const map = bezelMap(size.w, size.h, bezel);
 
   return (
     <div ref={ref} className="pointer-events-none absolute inset-0 z-[1] overflow-hidden rounded-[inherit]" aria-hidden="true">
@@ -39,7 +61,11 @@ export function LiquidGlass({ scale = 410, blur = 10 }: { scale?: number; blur?:
         <svg className="absolute inset-0 h-full w-full overflow-hidden">
           <defs>
             <filter id={filterId} colorInterpolationFilters="sRGB">
-              <feImage href={map} x="0" y="0" width="100%" height="100%" result="map" />
+              {/* the map sits on a flat neutral grey (no displacement); Chrome doesn't keep a grey inside the map image
+                  exactly neutral, which shifted everything behind the glass by a few pixels */}
+              <feFlood floodColor="rgb(128,128,128)" result="neutral" />
+              <feImage href={map} x="0" y="0" width="100%" height="100%" result="bezel" />
+              <feComposite in="bezel" in2="neutral" operator="over" result="map" />
               <feDisplacementMap in="SourceGraphic" in2="map" scale={scale} xChannelSelector="R" yChannelSelector="B" result="dispRed" />
               <feColorMatrix in="dispRed" type="matrix" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="red" />
               <feDisplacementMap in="SourceGraphic" in2="map" scale={scale} xChannelSelector="R" yChannelSelector="B" result="dispGreen" />

@@ -23,7 +23,7 @@
 
 ## Known deviations from the Framer site
 
-- Hero sky follows the updated Figma design (mochi-web-v2 `background`, node 304:2249) instead of Framer: one 50%-opacity layer (blue-to-white gradient + clouds, fading to white), without Framer's grainy "Sky Background" strip underneath. On phone the layer is clipped and faded too, so it has no hard bottom edge.
+- Hero sky follows the updated Figma design (mochi-web-v2 `background`, node 304:2249) instead of Framer: one 50%-opacity layer (blue-to-white gradient + clouds, fading out at the bottom). Underneath, Framer's grainy "Sky Background" strip is replaced by a plain gradient of its average row colours, which keeps Framer's saturation without the grain, painted clouds and horizon. On phone the 50% layer is clipped and fades into that base, so it has no hard bottom edge. The html background is the sky's top colour (white in the bottom half of the page) and body is transparent (Safari uses body's background over html's), so overscrolling or pull-to-refresh past the top shows sky instead of white. Keep html and body agreeing on that colour: Safari 26+ samples the transparent fixed nav at the top edge (the sky) and paints a solid block over the nav when that differs from the page colour; offsetting the nav off the edge instead makes Safari let page content cover it during pull-to-refresh.
 - Phone footer: Framer's grid is broken on the live site (Integrations column collapses, 1549px tall). The intended 2-column grid is implemented instead (~757px).
 - Several "Start Free Trial" CTAs have no destination in Framer (`href=null`); they link to `https://use.themochi.app` (nav/footer CTAs use `/login`).
 - "AS SEEN IN" (Forbes) label uses Montserrat on Framer; rendered in Inter here (Montserrat not bundled).

@@ -98,6 +98,19 @@ body {
   line-height: 1.2em;
 }
 
+/*
+ * Pages with the hero sky (components/home/sky-background.tsx): overscrolling past the top shows the page background,
+ * so make it the sky's top colour (base sky #57baef under the cloud image #0292fa at 50%). Safari uses body's
+ * background over html's there, so body goes transparent (the page wrapper is white).
+ */
+html:has([data-sky-background]) {
+  background-color: #2da6f5;
+}
+
+body:has([data-sky-background]) {
+  background-color: transparent;
+}
+
 h1, h2, h3, h4, h5, h6, p, figure { margin: 0; }
 
 button, input, textarea, select { font: inherit; }

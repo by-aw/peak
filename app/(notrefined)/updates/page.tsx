@@ -4,13 +4,14 @@ import { PostList } from "@/components/pages/updates/post-list";
 import { ScaleCta } from "@/components/pages/updates/scale-cta";
 import { getUpdatesByDate } from "@/lib/updates";
 
-const TITLE = "Blog - Mochi";
-const DESCRIPTION = "Product updates, how-to guides and company news from Mochi.";
+const TITLE = "Product Updates & Customer Wins | Mochi";
+const DESCRIPTION =
+  "Latest Mochi features, real results from 7-figure coaching businesses, and infrastructure insights you won't find anywhere else. No fluff, just wins.";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
+  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og/updates.png", width: 1200, height: 630 }] },
 };
 
 export default function UpdatesPage() {

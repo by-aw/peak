@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { StackButton } from "./stack-button";
+import { interFeatures } from "./inter-features";
 
 /**
  * "You already built something great / Now let's scale it" card shown under the Updates list and
@@ -34,7 +35,7 @@ export function ScaleCta() {
                 Now let’s scale it
               </strong>
             </p>
-            <p className="w-[326px] text-center text-[20px] leading-8 font-normal whitespace-pre-wrap text-gray-750 md:w-[353px]">
+            <p className={`w-[326px] text-center text-[20px] leading-8 font-normal whitespace-pre-wrap text-gray-750 md:w-[353px] ${interFeatures}`}>
               You get the team to install it.
               <br />
               You get the tool to run it.

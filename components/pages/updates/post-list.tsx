@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { MagnifyingGlassMicro } from "@/components/icons/updates-icons";
 import type { UpdateSummary } from "@/lib/updates";
 import { PostCard } from "./post-card";
+import { interFeatures } from "./inter-features";
 
 /** Category chips of the Framer collection list (in this order; "Blog" posts have no chip). */
 const CATEGORIES = ["Product Updates", "How-to Guides", "Testimonials", "Company"] as const;
@@ -11,7 +12,7 @@ const PAGE = 3;
 
 // `button { font: inherit }` in globals.css beats utilities on the <button> itself, so the type is set on an inner <span>.
 const chipBase = "flex items-center gap-1 overflow-hidden rounded-[10px] bg-white px-3 py-2.5 transition-[color,box-shadow] duration-200";
-const chipText = "text-[14px] leading-5 font-normal whitespace-pre";
+const chipText = `text-[14px] leading-5 font-normal whitespace-pre ${interFeatures}`;
 const chipIdle = "text-gray-550 shadow-[0_0_0_1px_rgba(18,43,105,0.08),0_1px_2px_0_rgba(18,43,105,0.08),0_2px_6px_0_rgba(18,43,105,0.04)]";
 const chipActive = "text-ink-3 shadow-[0_2px_6px_0_rgba(18,43,105,0.04),0_1px_2px_0_rgba(18,43,105,0.08),0_0_0_1px_rgb(59,130,245)]";
 

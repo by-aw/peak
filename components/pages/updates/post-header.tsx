@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeftMini } from "@/components/icons/updates-icons";
 import type { Update } from "@/lib/updates";
+import { interFeatures } from "./inter-features";
 
 /** Back link, title and the date / version / category row of a post. */
 export function PostHeader({ post }: { post: Update }) {
@@ -16,14 +17,14 @@ export function PostHeader({ post }: { post: Update }) {
         </h1>
       </div>
       <div className="flex items-center gap-4">
-        <time dateTime={post.date} className="text-[16px] leading-6 font-semibold whitespace-pre text-ink-3">
+        <time dateTime={post.date} className={`text-[16px] leading-6 font-semibold whitespace-pre text-ink-3 ${interFeatures}`}>
           {post.dateText}
         </time>
         {post.version && post.label === "Product Updates" && (
           // the version label carries 4px vertical padding on the live site, which makes the row 32px tall
           <span className="py-1 font-mono text-[16px] leading-6 font-medium whitespace-pre text-ink-3">{post.version}</span>
         )}
-        <p className="text-[16px] leading-6 font-semibold whitespace-pre text-blue-500">{post.label}</p>
+        <p className={`text-[16px] leading-6 font-semibold whitespace-pre text-blue-500 ${interFeatures}`}>{post.label}</p>
       </div>
     </header>
   );

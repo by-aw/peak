@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightMini } from "@/components/icons/updates-icons";
 import { UpdatesClouds } from "./clouds";
+import { interFeatures } from "./inter-features";
 
 const badgeShadow =
   "shadow-[0_1px_3px_0_rgba(133,0,122,0.08),0_5px_5px_0_rgba(133,0,122,0.07),0_11px_6px_0_rgba(133,0,122,0.04),0_19px_8px_0_rgba(133,0,122,0.01),0_29px_8px_0_rgba(133,0,122,0)]";
@@ -22,7 +23,7 @@ export function UpdatesHero() {
           </div>
           <Link
             href="/updates/voice-messages-convert-3x-better-mochi-scenes"
-            className={`relative flex items-center gap-4 rounded-[99px] bg-purple-50 px-3 py-1.5 text-[14px] leading-5 font-medium whitespace-pre text-purple-500 ${badgeShadow}`}
+            className={`relative flex items-center gap-4 rounded-[99px] bg-purple-50 px-3 py-1.5 text-[14px] leading-5 font-medium whitespace-pre text-purple-500 ${badgeShadow} ${interFeatures}`}
           >
             <span>We just launched Mochi!</span>
             <span className="flex items-center gap-2">

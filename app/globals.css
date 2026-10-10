@@ -160,11 +160,10 @@ img, video { max-width: 100%; height: auto; display: block; }
 }
 .prose-update ul,
 .prose-update ol {
-  margin: 8px 0 0;
+  margin: 0;
   padding: 0;
   list-style-position: outside;
 }
-.prose-update ol { margin-top: 0; }
 .prose-update ul { list-style-type: disc; }
 .prose-update ol { list-style-type: decimal; }
 .prose-update li { display: list-item; padding: 0 0 0 20.1875px; margin: 0; }
@@ -196,24 +195,42 @@ img, video { max-width: 100%; height: auto; display: block; }
   height: auto;
   margin: 0;
 }
+/* Framer table module: separate 1px #e4e4e7 outer border, inner cells draw only their left / top edge. */
 .prose-update table {
   width: 100%;
-  margin: 16px 0 0;
-  border-collapse: collapse;
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #e4e4e7;
+  table-layout: auto;
 }
 .prose-update td,
 .prose-update th {
-  padding: 8px 12px;
-  border: 1px solid #e4e4e7;
+  /* Framer sizes the cells' 16ch min-width against the table's own 12px font (= 106.8px); the copy inside stays 16px/24px. */
+  font-size: 12px;
+  line-height: normal;
+  min-width: 16ch;
+  padding: 8px 16px;
+  border: 0;
   vertical-align: top;
   text-align: left;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.prose-update td + td,
+.prose-update th + th { border-left: 1px solid #e4e4e7; }
+.prose-update tr + tr > td,
+.prose-update tr + tr > th { border-top: 1px solid #e4e4e7; }
+.prose-update td > p,
+.prose-update th > p { margin: 0; font-size: 16px; line-height: 24px; }
+/* Lists, images, tables and embeds that Framer spaces 8px from the previous block on phone only (`phone-mt-8` is set per element by the scraper). */
+@media (max-width: 809px) {
+  .prose-update .phone-mt-8 { margin-top: 8px; }
 }
 @media (min-width: 810px) {
   .prose-update h2 { font-size: 30px; line-height: 36px; letter-spacing: 0.6px; }
   .prose-update h3,
   .prose-update h4 { font-size: 19px; }
-  .prose-update ul,
-  .prose-update ol { margin-top: 0; }
 }
 @media (min-width: 1200px) {
   .prose-update h3,

@@ -19,6 +19,7 @@ const chipActive = "text-ink-3 shadow-[0_2px_6px_0_rgba(18,43,105,0.04),0_1px_2p
 /**
  * /updates list: category chips + search on top, then the post cards (3 at a time, "Load More"
  * reveals 3 more), 80px apart, inside the 1000px column. Posts arrive newest first.
+ * (The live site's "Search..." box is a static graphic; here it filters the list by title / excerpt.)
  */
 export function PostList({ posts }: { posts: UpdateSummary[] }) {
   const [category, setCategory] = useState<string | null>(null);
@@ -31,10 +32,9 @@ export function PostList({ posts }: { posts: UpdateSummary[] }) {
   }, [posts, category, query]);
   const visible = filtered.slice(0, shown);
 
-  const pick = (name: string) => {
-    setCategory((c) => (c === name ? null : name));
-    setShown(PAGE);
-  };
+  // As on the live site: a chip stays selected when clicked again (there is no way back to "all"), and the number of
+  // posts already revealed by "Load More" is kept when the category changes.
+  const pick = (name: string) => setCategory(name);
 
   return (
     <section className="flex w-full flex-col items-center px-6 md:px-8">
@@ -72,8 +72,7 @@ export function PostList({ posts }: { posts: UpdateSummary[] }) {
           {visible.map((post, i) => (
             <PostCard key={post.slug} post={post} preload={i === 0} />
           ))}
-          {visible.length === 0 && <p className="text-[16px] leading-6 font-normal text-gray-750">No updates found.</p>}
-          {shown < filtered.length && (
+          {shown < filtered.length ? (
             <button
               type="button"
               onClick={() => setShown((n) => n + PAGE)}
@@ -81,6 +80,9 @@ export function PostList({ posts }: { posts: UpdateSummary[] }) {
             >
               <span className="text-[14px] leading-[16.8px] font-semibold whitespace-pre">Load More</span>
             </button>
+          ) : (
+            // the live list keeps the (empty) "Load More" slot, and with it the 80px gap, once every post is shown
+            <div aria-hidden className="h-0 w-full" />
           )}
         </div>
       </div>

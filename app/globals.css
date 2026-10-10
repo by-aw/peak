@@ -203,12 +203,13 @@ img, video { max-width: 100%; height: auto; display: block; }
   border-spacing: 0;
   border: 1px solid #e4e4e7;
   table-layout: auto;
+  /* Framer's table module is set in the generic 12px sans-serif; the cells' 16ch min-width is measured against it. */
+  font-family: sans-serif;
+  font-size: 12px;
+  line-height: normal;
 }
 .prose-update td,
 .prose-update th {
-  /* Framer sizes the cells' 16ch min-width against the table's own 12px font (= 106.8px); the copy inside stays 16px/24px. */
-  font-size: 12px;
-  line-height: normal;
   min-width: 16ch;
   padding: 8px 16px;
   border: 0;
@@ -222,10 +223,11 @@ img, video { max-width: 100%; height: auto; display: block; }
 .prose-update tr + tr > td,
 .prose-update tr + tr > th { border-top: 1px solid #e4e4e7; }
 .prose-update td > p,
-.prose-update th > p { margin: 0; font-size: 16px; line-height: 24px; }
+.prose-update th > p { margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 24px; }
 /* Lists, images, tables and embeds that Framer spaces 8px from the previous block on phone only (`phone-mt-8` is set per element by the scraper). */
 @media (max-width: 809px) {
-  .prose-update .phone-mt-8 { margin-top: 8px; }
+  .prose-update .phone-mt-8,
+  .prose-update table:not(:first-child) { margin-top: 8px; }
 }
 @media (min-width: 810px) {
   .prose-update h2 { font-size: 30px; line-height: 36px; letter-spacing: 0.6px; }

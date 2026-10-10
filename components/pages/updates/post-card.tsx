@@ -22,8 +22,12 @@ export function PostCard({ post, preload = false }: { post: UpdateSummary; prelo
         <p className={`text-[16px] leading-6 font-semibold whitespace-pre-wrap text-blue-500 ${interFeatures}`}>{post.label}</p>
       </div>
       <Link href={`/updates/${post.slug}`} className="flex w-full min-w-0 flex-col gap-6 md:flex-1">
-        {/* Framer "Image" frame: 16:9, 12px radius, with a 3px #efefef inset ring (::after) over the picture */}
-        <div className={`relative aspect-[16/9] w-full overflow-hidden rounded-[12px] ${ring}`}>
+        {/* Framer "Image" frame: the cover's own aspect ratio (16:9 for most posts), 12px radius, with a 3px #efefef inset
+            ring (::after) over the picture; a post without a cover keeps an empty square frame, as on the live site. */}
+        <div
+          className={`relative w-full overflow-hidden rounded-[12px] ${ring} ${post.cover ? "" : "aspect-square"}`}
+          style={post.cover ? { aspectRatio: post.cover.width && post.cover.height ? `${post.cover.width} / ${post.cover.height}` : "16 / 9" } : undefined}
+        >
           {post.cover && (
             <Image
               src={post.cover.src}

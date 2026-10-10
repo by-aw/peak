@@ -7,4 +7,8 @@ export { FaqSection, type FaqEntry } from "./faq";
 export { AttributionFaqItem } from "./faq-item";
 export { AttributionCtaSection } from "./cta-section";
 export { RollingButton } from "./rolling-button";
+export { FormDetectionMockup } from "./form-detection-mockup";
+export { SessionStitchingMockup, SESSION_STITCHING_FRAME } from "./session-stitching-mockup";
+export { PixelTableMockup } from "./pixel-table-mockup";
+export { DomainsMockup, DOMAINS_FRAME } from "./domains-mockup";
 export { line, WRAPPER, CONTAINER, H3, LEAD } from "./grid";

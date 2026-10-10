@@ -8,7 +8,8 @@ type Props = {
   heading: ReactNode;
   description: string;
   button: { label: string; href: string };
-  note: string;
+  /** Small grey line under the button (omitted on /attribution/lead-profiles). */
+  note?: string;
   /** Width of the description box on desktop/tablet (Framer fixed-width text layer). */
   descriptionWidth?: number;
   /** Max-width classes of the heading box (e.g. `max-w-[240px] md:max-w-[312px] lg:max-w-[509px]`). */
@@ -44,7 +45,7 @@ export function AttributionCtaSection({ heading, description, button, note, desc
                 <RollingButton href={button.href} variant="black" className="w-[200px]">
                   {button.label}
                 </RollingButton>
-                <p className="w-full max-w-[242px] text-center text-[14px] font-normal leading-[16.8px] whitespace-pre-wrap text-gray-550 md:max-w-none">{note}</p>
+                {note ? <p className="w-full max-w-[242px] text-center text-[14px] font-normal leading-[16.8px] whitespace-pre-wrap text-gray-550 md:max-w-none">{note}</p> : null}
               </div>
             </div>
           </Reveal>

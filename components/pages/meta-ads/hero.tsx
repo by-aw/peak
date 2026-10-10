@@ -21,11 +21,11 @@ export function MetaAdsHero() {
                 Cut your Meta ad spend 30-50%. Same ads. Better targeting.
               </h1>
               <div className="flex w-full flex-col items-start gap-2.5 overflow-clip md:gap-3">
-                <p className="text-[16px] leading-[23.2px] font-normal tracking-[-0.16px] text-white/88">
+                <p className="text-[14px] leading-[20.3px] font-normal tracking-[-0.14px] text-white/88 md:text-[16px] md:leading-[23.2px] md:tracking-[-0.16px]">
                   Meta only sees who clicks your ads. Mochi feeds it who qualifies, who books calls, and who pays - so its algorithm hunts for
                   people who actually make you money, not random clickers.
                 </p>
-                <p className="text-[16px] leading-[23.2px] font-normal tracking-[-0.16px] text-white/88 md:max-w-[485px]">
+                <p className="text-[14px] leading-[20.3px] font-normal tracking-[-0.14px] text-white/88 md:max-w-[485px] md:text-[16px] md:leading-[23.2px] md:tracking-[-0.16px]">
                   Coaches running $20K+/mo in Meta ads typically save $6K-15K per month within their first three weeks.
                 </p>
               </div>
@@ -43,8 +43,8 @@ export function MetaAdsHero() {
               </RollingButton>
             </div>
           </div>
-          <div className="flex w-full flex-col items-center pt-4 md:pt-6 lg:relative lg:h-[649px] lg:w-[435px] lg:shrink-0 lg:pt-0">
-            <EventStreamCard className="scale-90 md:scale-100 lg:absolute lg:top-[451px] lg:left-0" />
+          <div className="flex w-full flex-col items-center pt-4 md:pt-6 lg:relative lg:h-[574px] lg:w-[435px] lg:shrink-0 lg:pt-0">
+            <EventStreamCard className="scale-90 md:scale-100 lg:absolute lg:top-[414px] lg:left-0" />
           </div>
           <div aria-hidden className="pointer-events-none absolute top-[-78px] left-[907.375px] z-[1] hidden w-[357px] lg:block">
             <Image src="/framer/1oCxmpf0yREPq6TKO2ofaCB994.png" alt="" width={1391} height={2664} preload className="h-auto w-full" />

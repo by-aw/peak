@@ -17,6 +17,8 @@ export type FeatureCard = {
   mobileMockup?: ReactNode;
   /** Set to false when the Framer phone variant has no 397px min height on the Image Frame. */
   phoneMinHeight?: boolean;
+  /** Extra classes for the description paragraph (e.g. a fixed-width text box on the full-width card). */
+  descriptionClassName?: string;
 };
 
 type Props = {
@@ -26,13 +28,15 @@ type Props = {
   /** Max width of the heading / description boxes on desktop (Framer fixed-width text layers). */
   headingWidth?: number;
   descriptionWidth?: number;
+  /** Per-row bottom hairline (Framer leaves it out on some rows, e.g. the second row of the tracking-pixel template). Defaults to true for every row. */
+  rowBorders?: boolean[];
 };
 
 /**
  * Attribution template "Features Section": centred header, then cards in rows of two separated by
  * the 1px grid (stacked on tablet and phone).
  */
-export function FeaturesSection({ heading, description, cards, headingWidth = 490, descriptionWidth = 504 }: Props) {
+export function FeaturesSection({ heading, description, cards, headingWidth = 490, descriptionWidth = 504, rowBorders }: Props) {
   const rows: FeatureCard[][] = [];
   for (let i = 0; i < cards.length; i += 2) rows.push(cards.slice(i, i + 2));
   return (
@@ -51,7 +55,7 @@ export function FeaturesSection({ heading, description, cards, headingWidth = 49
           </Reveal>
           <div className="flex w-full flex-col items-center">
             {rows.map((row, r) => (
-              <div key={r} className={`${line("after:border-b")} flex w-full flex-col items-start lg:flex-row`}>
+              <div key={r} className={`${line(rowBorders?.[r] === false ? "" : "after:border-b")} flex w-full flex-col items-start lg:flex-row`}>
                 {row.map((card, c) => (
                   <div
                     key={card.title}
@@ -77,7 +81,7 @@ export function FeaturesSection({ heading, description, cards, headingWidth = 49
                         {card.mobileDescription ? (
                           <p className="text-[15px] font-normal leading-[22.5px] tracking-[-0.2px] whitespace-pre-wrap text-gray-550 md:hidden">{card.mobileDescription}</p>
                         ) : null}
-                        <p className={`text-[15px] font-normal leading-[22.5px] tracking-[-0.2px] whitespace-pre-wrap text-gray-550 ${card.mobileDescription ? "hidden md:block" : ""}`}>{card.description}</p>
+                        <p className={`text-[15px] font-normal leading-[22.5px] tracking-[-0.2px] whitespace-pre-wrap text-gray-550 ${card.mobileDescription ? "hidden md:block" : ""} ${card.descriptionClassName ?? ""}`}>{card.description}</p>
                       </div>
                     </div>
                   </div>

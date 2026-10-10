@@ -14,6 +14,7 @@ export function FeatureSection({
   layout = "grid",
   tone = "white",
   label,
+  cardsAlign = "stretch",
 }: {
   heading: ReactNode;
   /** The Framer headings are centered except on pages where the text block is left-aligned (`text-left`); includes the colour. */
@@ -28,6 +29,8 @@ export function FeatureSection({
   /** Section background: white (default) or #fafafa (the Framer Efficiency Section variant with white cards). */
   tone?: "white" | "gray";
   label?: string;
+  /** Vertical alignment of the cards in a grid row: stretched (default) or top-aligned (the Priority Inbox / Personalization grids, whose shorter cards keep their own height). */
+  cardsAlign?: "stretch" | "start";
 }) {
   return (
     <section
@@ -49,7 +52,7 @@ export function FeatureSection({
           {layout === "row" ? (
             <div className="flex w-full flex-col gap-5 lg:flex-row lg:items-center">{children}</div>
           ) : (
-            <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-[540px_540px]">{children}</div>
+            <div className={`grid w-full grid-cols-1 gap-5 lg:grid-cols-[540px_540px] ${cardsAlign === "start" ? "items-start" : ""}`.trim()}>{children}</div>
           )}
           {after}
         </div>
@@ -105,12 +108,15 @@ export function BentoCopy({
   eyebrowMuted = false,
   title,
   description,
+  bodyClassName = "",
 }: {
   eyebrow?: string;
   /** Muted eyebrow (14px, #686a75) as on the Personalization page; default is 16px black (Priority Inbox). */
   eyebrowMuted?: boolean;
   title: string;
   description: string;
+  /** Width constraints of the body: on the title/description group (eyebrow variant) or the description (text variant), e.g. the 472px / 454px tablet widths of the Priority Inbox cards. */
+  bodyClassName?: string;
 }) {
   const titleEl = (
     <p className="text-[16px] leading-[19.2px] font-semibold tracking-[-0.48px] whitespace-pre-wrap text-ink-3 md:text-[18px] md:leading-[21.6px] md:tracking-[-0.54px] lg:text-[20px] lg:leading-[24px] lg:tracking-[-0.6px]">
@@ -118,7 +124,7 @@ export function BentoCopy({
     </p>
   );
   const descEl = (
-    <p className="text-[14px] leading-[20.3px] font-normal tracking-[-0.14px] whitespace-pre-wrap text-[#383840] md:text-[16px] md:leading-[23.2px] md:tracking-[-0.16px]">
+    <p className={`text-[14px] leading-[20.3px] font-normal tracking-[-0.14px] whitespace-pre-wrap text-[#383840] md:text-[16px] md:leading-[23.2px] md:tracking-[-0.16px] ${eyebrow ? "" : bodyClassName}`.trim()}>
       {description}
     </p>
   );
@@ -141,7 +147,7 @@ export function BentoCopy({
       >
         {eyebrow}
       </p>
-      <div className="flex w-full flex-col items-start gap-1.5">
+      <div className={`flex w-full flex-col items-start gap-1.5 ${bodyClassName}`.trim()}>
         {titleEl}
         {descEl}
       </div>

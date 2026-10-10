@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { animate } from "motion/react";
 
 const METRICS_URL = "https://moch-metrics.elufidipebenjamin.workers.dev/";
 
-/** Snapshot of the worker's numbers, rendered on the server until the live figures arrive. */
+/** Snapshot of the worker's numbers, used when the fetch fails. */
 const FALLBACK = { messages_total: 34574725, leads_total: 5481786 };
 
 type Metrics = typeof FALLBACK;
@@ -12,22 +13,36 @@ type Metrics = typeof FALLBACK;
 const fmt = (n: number) => n.toLocaleString("en-US");
 
 /**
- * The three "Figures" cells of the /mcp hero. Like the Framer page it fetches
- * `moch-metrics.elufidipebenjamin.workers.dev` ({messages_total, leads_total}) on the client.
+ * The three "Figures" cells of the /mcp hero. Like the Framer page it renders "0" first, fetches
+ * `moch-metrics.elufidipebenjamin.workers.dev` ({messages_total, leads_total}) on the client and then
+ * counts both figures up from 0 over ~0.8s (ease-out), the way the live counters do once the response lands.
  */
 export function MetricsFigures() {
-  const [m, setM] = useState<Metrics>(FALLBACK);
+  const [m, setM] = useState<Metrics>({ messages_total: 0, leads_total: 0 });
   useEffect(() => {
     const ctrl = new AbortController();
+    let controls: ReturnType<typeof animate> | undefined;
+    const run = (target: Metrics) => {
+      controls = animate(0, 1, {
+        duration: 0.8,
+        ease: "easeOut",
+        onUpdate: (p) => setM({ messages_total: Math.round(target.messages_total * p), leads_total: Math.round(target.leads_total * p) }),
+      });
+    };
     fetch(METRICS_URL, { signal: ctrl.signal })
       .then((r) => (r.ok ? r.json() : null))
       .then((d: Partial<Metrics> | null) => {
         if (d && typeof d.messages_total === "number" && typeof d.leads_total === "number") {
-          setM({ messages_total: d.messages_total, leads_total: d.leads_total });
-        }
+          run({ messages_total: d.messages_total, leads_total: d.leads_total });
+        } else run(FALLBACK);
       })
-      .catch(() => {});
-    return () => ctrl.abort();
+      .catch(() => {
+        if (!ctrl.signal.aborted) run(FALLBACK);
+      });
+    return () => {
+      ctrl.abort();
+      controls?.stop();
+    };
   }, []);
   const figures = [
     { value: fmt(m.messages_total), label: "Total Messages" },

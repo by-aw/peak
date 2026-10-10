@@ -28,9 +28,9 @@ export function CopyUrlBox() {
           onClick={copy}
           aria-live="polite"
           aria-label="Copy"
-          className="inline-flex w-full cursor-pointer items-center justify-center rounded-[10px] bg-purple-500 px-3 py-2.5 font-dm text-[14px] leading-4 font-medium whitespace-nowrap text-white md:w-auto md:py-1.5 md:text-[12px]"
+          className="inline-flex w-full cursor-pointer items-center justify-center rounded-[10px] bg-purple-500 px-3 py-2.5 text-white md:w-auto md:py-1.5"
         >
-          <span className="grid">
+          <span className="grid font-dm text-[14px] leading-4 font-medium whitespace-nowrap md:text-[12px]">
             <span aria-hidden={copied} className={`col-start-1 row-start-1 text-center ${copied ? "opacity-0" : ""}`}>
               Copy
             </span>

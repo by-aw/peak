@@ -42,7 +42,7 @@ const CARDS: FeatureCard[] = [
     description:
       "When setters share Calendly links in Instagram DMs, the link preview is blank or broken. Mochi links have custom titles, descriptions, and images — so they look professional and get more clicks.",
     mockup: <OgPreviewMockup />,
-    frameClassName: "h-[397px] pt-6 pb-40 px-4 md:px-6",
+    frameClassName: "h-[397px] px-4 pt-6 pb-40 md:px-6 md:pb-40",
     reveal: true,
   },
   {
@@ -75,6 +75,7 @@ export default function DmLinksPage() {
       <FaqSection heading="Frequently asked questions" items={FAQ} />
       <AttributionCtaSection
         heading="Know which links turn into calls."
+        headingClassName="max-w-[264px] md:max-w-[416px] lg:max-w-[509px]"
         description="Track every DM link your team sends. Know which ones close."
         button={{ label: "Book a Demo", href: "https://themochi.app/demo" }}
         note="No commitment. We'll pull your data live on the call."

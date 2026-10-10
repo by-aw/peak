@@ -52,7 +52,7 @@ function TechnicalNotes() {
                 </Chip>
               ))}
             </div>
-            <p className="text-[13px] leading-[19.5px] font-normal whitespace-pre-wrap text-gray-550">
+            <p className="text-[13px] leading-[19.5px] font-normal whitespace-pre-wrap text-gray-550 [&_code]:font-sans">
               Also accepts a single ISO date (<code>2026-04-15</code>) or an inclusive range (<code>2026-04-01:2026-04-15</code>).
             </p>
           </ParameterBlock>

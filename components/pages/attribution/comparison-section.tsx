@@ -33,7 +33,7 @@ function MochiWordmark() {
       <span className="h-[19px] w-5 shrink-0">
         <MochiLogoMarkIcon />
       </span>
-      <span className="font-display text-[20.22px] leading-5 font-semibold tracking-[-0.4px] whitespace-nowrap text-black">mochi</span>
+      <span className="font-display text-[20.22px] leading-5 font-medium tracking-[-0.4px] whitespace-nowrap text-black">mochi</span>
     </span>
   );
 }

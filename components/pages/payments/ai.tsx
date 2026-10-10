@@ -64,7 +64,7 @@ export function PaymentsAi() {
     <section className="relative flex w-full flex-col items-center px-5 py-12 md:px-12 md:py-16 lg:px-[100px] lg:py-20">
       <div className="flex w-full max-w-[1100px] flex-col items-start gap-8 md:flex-row md:items-center md:gap-12">
         <Reveal x={-80} y={0} delay={0.2} className="flex w-full flex-col items-start gap-6 overflow-clip md:flex-1 md:basis-0">
-          <div className="flex w-full flex-col gap-2">
+          <div className="flex w-full flex-col gap-3 md:gap-2">
             <h3 className="font-display text-[24px] leading-[28.8px] font-semibold whitespace-pre-wrap text-black md:text-[32px] md:leading-[38.4px] lg:text-[40px] lg:leading-[48px]">Ask your business anything</h3>
             <div className="opacity-80">
               <p className="text-[15px] leading-[22.5px] font-normal tracking-[-0.3px] whitespace-pre-wrap text-ink-3 md:text-[16px] md:leading-[24px] md:tracking-[-0.32px] lg:text-[18px] lg:leading-[27px] lg:tracking-[-0.36px]">

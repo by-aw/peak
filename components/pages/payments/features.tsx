@@ -23,7 +23,7 @@ export function CheckItem({ children }: { children: ReactNode }) {
   return (
     <div className="flex items-center gap-1">
       <TickIcon />
-      <p className="text-[14px] leading-[16.8px] font-normal whitespace-pre text-gray-550">{children}</p>
+      <p className="text-[14px] leading-[18.2px] font-normal whitespace-pre text-gray-550 md:leading-[16.8px]">{children}</p>
     </div>
   );
 }
@@ -169,7 +169,7 @@ function ReportStack() {
     <div className="relative flex w-[298px] flex-col items-center gap-2">
       <ReportCard data={SETTERS_CARD} size="sm" rows={2} />
       <ReportCard data={FEES_MINI} size="sm" />
-      <div className="h-36 w-full rounded-[6.7px] bg-[#fdfdfd]" />
+      <div className="h-[143px] w-full rounded-[6.7px] bg-[#fdfdfd]" />
       <div className="absolute top-[261px] left-[-4px] w-[305px] -rotate-3 overflow-hidden rounded-[6.7px] shadow-[0_4px_40px_0_rgba(0,0,0,0.08),0_1px_24px_0_rgba(0,0,0,0.06)]">
         <ReportCard data={CLOSERS_MINI} size="sm" />
       </div>
@@ -288,7 +288,7 @@ export function PaymentsFeatures() {
                   )}
                 </div>
               </div>
-              <div className={`w-full ${f.right}`}>
+              <div className={`w-full lg:self-stretch ${f.right}`}>
                 <div className={f.mockupWrap}>{f.mockup}</div>
               </div>
             </Reveal>

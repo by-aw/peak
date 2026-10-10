@@ -66,8 +66,12 @@ export function ReportCard({ data, size = "md", className = "", rows }: { data: 
   const s = sm ? "text-[7.82px] leading-[7.82px] tracking-[-0.11px]" : "text-[14px] leading-[14px] tracking-[-0.2px]";
   const list = rows ? data.rows.slice(0, rows) : data.rows;
   return (
-    <div className={`flex w-full flex-col overflow-hidden bg-white ${sm ? "rounded-[6.7px] shadow-[0_0_0_0.5px_rgba(0,0,0,0.06)]" : "rounded-[16px]"} ${className}`}>
-      <div className={`flex w-full items-center overflow-hidden bg-gray-25 ${sm ? "p-[8.93px]" : "p-4"}`}>
+    <div
+      className={`relative flex w-full flex-col overflow-hidden bg-white ${
+        sm ? "rounded-[6.7px] shadow-[0_0_0_0.5px_rgba(0,0,0,0.06)]" : "rounded-[16px] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:border after:border-[#e7e7e7]"
+      } ${className}`}
+    >
+      <div className={`flex w-full items-center overflow-hidden bg-gray-25 ${sm ? "h-[25px] p-[8.93px]" : "p-4"}`}>
         <p className={`${t} font-medium whitespace-pre text-[#6d6d6d]`}>{data.title}</p>
       </div>
       {data.stats && (
@@ -90,11 +94,11 @@ export function ReportCard({ data, size = "md", className = "", rows }: { data: 
             className={`shrink-0 object-cover ${sm ? "size-[18px]" : "size-8"} ${row.square ? (sm ? "rounded-[4.47px]" : "rounded-[8px]") : "rounded-full"}`}
           />
           <div className={`flex flex-1 flex-col ${sm ? "gap-[3.35px]" : "gap-1.5"}`}>
-            <div className="flex w-full items-center justify-between">
+            <div className={`flex w-full items-center justify-between ${sm ? "min-h-[9px]" : ""}`}>
               <p className={`${t} font-medium whitespace-pre text-black`}>{row.name}</p>
               <p className={`${t} font-medium whitespace-pre text-black`}>{row.value}</p>
             </div>
-            <div className="flex w-full items-center justify-between">
+            <div className={`flex w-full items-center justify-between ${sm ? "min-h-[9px]" : ""}`}>
               <div className={`flex items-center ${sm ? "gap-[5px]" : "gap-2"}`}>
                 <p className={`${s} font-normal whitespace-pre text-[#6d6d6d]`}>{row.sub}</p>
                 {row.sub2 && (
@@ -144,7 +148,7 @@ export function LeadsList({ variant }: { variant: "problem" | "setup" }) {
   const leads = variant === "problem" ? LEADS_PROBLEM : LEADS_SETUP;
   const setup = variant === "setup";
   return (
-    <div className={`flex flex-col overflow-hidden rounded-[12px] bg-white ${setup ? "w-[357px]" : "w-[400px]"}`}>
+    <div className={`relative flex flex-col overflow-hidden rounded-[12px] bg-white after:pointer-events-none after:absolute after:inset-0 after:rounded-[12px] after:border after:border-[#e7e7e7] ${setup ? "w-[357px]" : "w-[400px]"}`}>
       <div className="flex w-full items-center bg-gray-25 p-4">
         <p className="text-[14px] leading-[14.7px] font-medium tracking-[-0.2px] whitespace-pre text-[#6d6d6d]">Lead</p>
       </div>

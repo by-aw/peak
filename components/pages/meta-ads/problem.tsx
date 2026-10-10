@@ -16,7 +16,8 @@ function Stat({ label, value, width, from }: { label: string; value: string; wid
         </p>
       </div>
       <div className="flex w-full flex-col overflow-clip rounded-[12px] bg-[#e5e5e5]">
-        <Reveal x={from} y={0} delay={0.2} className={`h-[10px] rounded-[12px] ${width} ${BAR}`} />
+        {/* the bar starts mostly clipped by the track, so any visible pixel must trigger the slide-in */}
+        <Reveal x={from} y={0} delay={0.2} viewport={{ once: true, amount: "some" }} className={`h-[10px] rounded-[12px] ${width} ${BAR}`} />
       </div>
     </div>
   );
@@ -85,7 +86,8 @@ export function MetaAdsProblem() {
                 <InfoIcon className="hidden h-[21px] w-[14px] shrink-0 lg:block" />
                 <div className="flex w-full flex-1 flex-col gap-2 overflow-clip">
                   <p className="text-center text-[14px] leading-[15.4px] font-medium whitespace-pre-wrap text-purple-500 lg:text-left">The 2026 reality</p>
-                  <p className="text-center text-[14px] leading-[18.2px] font-normal whitespace-pre-wrap text-purple-500 md:leading-[16.8px] lg:text-left">
+                  {/* 2px right inset on phone: a line measures 305/306px locally and the live site wraps it one word earlier (5 lines) */}
+                  <p className="pr-0.5 text-center text-[14px] leading-[18.2px] font-normal whitespace-pre-wrap text-purple-500 md:pr-0 md:leading-[16.8px] lg:text-left">
                     Browser-pixel setups now miss 50%+ of actual conversions after iOS 14.5, ad blockers, and in-app browser restrictions. Your media buyer is optimizing on a half-blind signal.
                   </p>
                 </div>

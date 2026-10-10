@@ -44,9 +44,9 @@ export function McpConnect() {
       <div className="flex w-full flex-col items-center gap-8 md:gap-12 lg:gap-16">
         <div className="flex w-full flex-col items-center gap-3 md:w-[554px] lg:gap-4">
           <div className="flex flex-wrap items-center justify-center gap-2">
-            <p className="font-fraunces text-[28px] leading-[32.2px] font-semibold whitespace-pre text-[#0d0d12] lg:text-[36px] lg:leading-[41.4px]">How to connect</p>
+            <p className="font-fraunces text-[28px] leading-[32.2px] font-semibold whitespace-pre text-[#0d0d12] md:text-[32px] md:leading-[36.8px] lg:text-[36px] lg:leading-[41.4px]">How to connect</p>
             <MochiAppIcon className="size-14 shrink-0" />
-            <p className="font-fraunces text-[28px] leading-[32.2px] font-semibold whitespace-pre text-[#da7756] lg:text-[36px] lg:leading-[41.4px]">
+            <p className="font-fraunces text-[28px] leading-[32.2px] font-semibold whitespace-pre text-[#da7756] md:text-[32px] md:leading-[36.8px] lg:text-[36px] lg:leading-[41.4px]">
               <span className="text-[#0d0d12]">to</span> Claude
             </p>
           </div>

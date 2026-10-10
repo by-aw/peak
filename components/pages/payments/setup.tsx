@@ -25,43 +25,51 @@ const STEPS = [
   },
 ];
 
-/** Provider tiles on the 370px ring of Card#1 (left/top inside the ring; empty slots are #fcfcfc squares). */
-const ORBIT: { left: number; top: number; src?: string }[] = [
-  { left: 19, top: 112, src: "/framer/YvzCDUDYVF5lIVitk2XGTP0Xti8.jpeg" },
-  { left: 242, top: 48 },
+/**
+ * Provider tiles on the 320px ring of Card#1 (positions are the Framer insets, un-rotated). Empty slots are
+ * #fcfcfc squares with a dashed hairline; the ablefy tile has the hairline too (transparent artwork).
+ */
+const ORBIT: { left: number; top: number; src?: string; dashed?: boolean }[] = [
+  { left: 136, top: 0, src: "/framer/YvzCDUDYVF5lIVitk2XGTP0Xti8.jpeg" },
+  { left: 242, top: 48, dashed: true },
   { left: 30, top: 224, src: "/framer/TnybGzHTzcPlUTsxS9M9fWs.png" },
-  { left: 30, top: 48 },
-  { left: 136, top: 272, src: "/framer/cXKLpQFwYqeJV2oACXV6KP7Ae3Y.png" },
-  { left: 242, top: 224 },
+  { left: 30, top: 48, dashed: true },
+  { left: 136, top: 272, src: "/framer/cXKLpQFwYqeJV2oACXV6KP7Ae3Y.png", dashed: true },
+  { left: 242, top: 224, dashed: true },
   { left: 272, top: 136, src: "/framer/GaNJ0Uno2oBWMLZtbEUsS4Wq9U4.jpeg" },
-  { left: 0, top: 136 },
+  { left: 0, top: 136, dashed: true },
 ];
 
-/** Card#1: Mochi avatar inside a slowly spinning ring of provider tiles (one turn every ~13s). */
+const DASHED = "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:border after:border-dashed after:border-[#e7e7e7]";
+
+/**
+ * Card#1: Mochi avatar on a #fcfcfc disc inside a ring of provider tiles. On the live site the disc, the avatar
+ * and the ring (tiles are not counter-rotated) all spin together once every 10s, starting when scrolled into view.
+ */
 function OrbitCard() {
   return (
     <div className="relative size-full overflow-hidden rounded-[20px] bg-white">
-      <div className="absolute top-1/2 left-1/2 size-[190px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#fcfcfc]" />
       <motion.div
-        className="absolute top-[49px] left-[42px] size-[370px] rounded-full border border-dashed border-[#e7e7e7]"
-        animate={{ rotate: [80, 440] }}
-        transition={{ duration: 13.3, ease: "linear", repeat: Infinity }}
+        className="absolute top-[49px] left-[42px] size-[320px]"
+        initial={{ rotate: 0 }}
+        whileInView={{ rotate: 360 }}
+        viewport={{ once: true }}
+        transition={{ duration: 10, ease: "linear", repeat: Infinity }}
       >
+        <div className={`absolute top-1/2 left-1/2 size-[164px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#fcfcfc] ${DASHED}`} />
+        <div className="absolute top-1/2 left-1/2 size-16 -translate-x-1/2 -translate-y-1/2">
+          <Image src="/framer/A8F4Pouhg6N037Kt9gFrC98VHfI.png" alt="" width={148} height={148} className="size-full object-contain" />
+        </div>
         {ORBIT.map((tile, i) => (
-          <motion.div
+          <div
             key={i}
-            className={`absolute size-[55px] overflow-hidden rounded-[12px] ${tile.src ? "" : "bg-[#fcfcfc]"}`}
+            className={`absolute size-12 overflow-hidden rounded-[12px] ${tile.src ? "" : "bg-[#fcfcfc]"} ${tile.dashed ? DASHED : ""}`}
             style={{ left: tile.left, top: tile.top }}
-            animate={{ rotate: [-80, -440] }}
-            transition={{ duration: 13.3, ease: "linear", repeat: Infinity }}
           >
             {tile.src && <Image src={tile.src} alt="" width={96} height={96} className="size-full object-cover" />}
-          </motion.div>
+          </div>
         ))}
       </motion.div>
-      <div className="absolute top-1/2 left-1/2 size-[74px] -translate-x-1/2 -translate-y-1/2">
-        <Image src="/framer/A8F4Pouhg6N037Kt9gFrC98VHfI.png" alt="" width={148} height={148} className="size-full" />
-      </div>
     </div>
   );
 }
@@ -103,7 +111,7 @@ function StatsCard() {
             </span>
           </div>
         </div>
-        <div className="-mt-1 flex w-[362px] -rotate-[4deg] flex-col gap-5 self-center overflow-hidden rounded-[10px] bg-white p-4 shadow-[0_1px_32px_0_rgba(0,0,0,0.07),0_1px_20px_0_rgba(0,0,0,0.04)]">
+        <div className="relative -mt-1 flex w-[362px] -rotate-[4deg] flex-col gap-5 self-center overflow-hidden rounded-[10px] bg-white p-4 shadow-[0_1px_32px_0_rgba(0,0,0,0.07),0_1px_20px_0_rgba(0,0,0,0.04)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[10px] after:border after:border-[#e7e7e7]">
           <p className={LABEL}>Total costs</p>
           <div className="flex items-center justify-between">
             <p className={STAT}>$17.2K</p>
@@ -139,7 +147,7 @@ export function PaymentsSetup() {
     <section className="relative flex w-full flex-col items-center px-5 py-12 md:px-12 md:py-16 lg:px-[100px] lg:py-20">
       <div className="flex w-full max-w-[1100px] flex-col items-center gap-8 md:gap-12 lg:gap-16">
         <Reveal y={48} delay={0.2} className="w-full">
-          <h3 className="w-full text-left font-display text-[24px] leading-[28.8px] font-semibold whitespace-pre-wrap text-black md:text-center md:text-[32px] md:leading-[38.4px] lg:text-[40px] lg:leading-[48px]">
+          <h3 className="w-full text-left font-display md:max-w-[640px] text-[24px] leading-[28.8px] font-semibold whitespace-pre-wrap text-black md:text-center md:text-[32px] md:leading-[38.4px] lg:text-[40px] lg:leading-[48px]">
             Connect. Match. <span className="text-black/50">Done.</span>
           </h3>
         </Reveal>

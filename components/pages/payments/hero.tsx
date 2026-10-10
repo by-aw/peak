@@ -11,7 +11,7 @@ export function IncludedLabel() {
   return (
     <div className="flex items-center justify-center gap-1">
       <span className="size-1.5 shrink-0 rounded-full bg-[#f43f5e]" />
-      <p className="text-[14px] leading-[16.8px] font-normal whitespace-pre text-gray-550">Included in every Mochi plan. No extra cost.</p>
+      <p className="text-[14px] leading-[18.2px] font-normal whitespace-pre text-gray-550 md:leading-[16.8px]">Included in every Mochi plan. No extra cost.</p>
     </div>
   );
 }
@@ -99,7 +99,7 @@ export function PaymentsHero() {
             </div>
             <ReportCard data={CLOSERS_CARD} className="absolute top-[-16px] left-[693px] w-[368px] rounded-[12px]! scale-[0.6] lg:left-[896px] lg:scale-100" />
           </div>
-          <div className="relative z-[1] w-full -translate-y-5 overflow-hidden rounded-[12px] shadow-[0_4px_32px_0_rgba(0,0,0,0.16),0_-2px_8px_0_rgba(0,0,0,0.02)] md:-translate-y-16">
+          <div className="relative z-[1] w-full -translate-y-5 overflow-hidden rounded-[12px] shadow-[0_4px_32px_0_rgba(0,0,0,0.16),0_-2px_8px_0_rgba(0,0,0,0.02)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[12px] after:border-4 after:border-[#270835] md:-translate-y-16">
             <Image src="/framer/JInFSo2kLyIqOiCobyuDEcfiQ.png" alt="Mochi payments dashboard" width={3000} height={1872} preload sizes="(min-width: 1200px) 1200px, 100vw" className="h-auto w-full" />
           </div>
         </div>

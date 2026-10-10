@@ -25,7 +25,8 @@ export function MetaAdsHero() {
                   Meta only sees who clicks your ads. Mochi feeds it who qualifies, who books calls, and who pays - so its algorithm hunts for
                   people who actually make you money, not random clickers.
                 </p>
-                <p className="text-[14px] leading-[20.3px] font-normal tracking-[-0.14px] text-white/88 md:max-w-[485px] md:text-[16px] md:leading-[23.2px] md:tracking-[-0.16px]">
+                {/* 1px right inset on phone: the last line measures exactly 350px and the live site breaks "weeks." onto a third line */}
+                <p className="pr-px text-[14px] leading-[20.3px] font-normal tracking-[-0.14px] text-white/88 md:max-w-[485px] md:pr-0 md:text-[16px] md:leading-[23.2px] md:tracking-[-0.16px]">
                   Coaches running $20K+/mo in Meta ads typically save $6K-15K per month within their first three weeks.
                 </p>
               </div>

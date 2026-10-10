@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { motion } from "motion/react";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeader } from "@/components/shared/section-header";
-import { AblefyRowIcon, GrabCursorIcon, MochiPillIcon } from "@/components/icons/payments-icons";
+import { AblefyRowIcon, GrabCursorIcon, MochiPillIcon, WhopRowIcon } from "@/components/icons/payments-icons";
 import { CLOSERS_MINI, FEES_MINI, ReportCard, SETTERS_CARD } from "./mockups";
 
 /** 18px tick used by the check lists of the features / AI sections (Framer "tick-02"). */
@@ -101,22 +101,25 @@ function ProviderGraph() {
 
 /* ---------------------------------- card 2: match table ------------------------------------ */
 
-type MatchRow = { avatar: string; name: string; program: string; amount: string; date: string; provider: "FanBasis" | "Ablefy" | "Stripe" | "Whop" };
+type ProviderIconKind = "fanbasis" | "ablefy-svg" | "ablefy-img" | "stripe" | "whop";
+type MatchRow = { avatar: string; name: string; program: string; amount: string; date: string; provider: "FanBasis" | "Ablefy" | "Stripe" | "Whop"; icon: ProviderIconKind };
 
 const MATCHES: MatchRow[] = [
-  { avatar: "/framer/M7HLye6KGtwItjFpbV80bqB0p5U.jpg", name: "Emily Waltham", program: "Wedding Planning 101", amount: "$2,800.00", date: "Feb 14", provider: "FanBasis" },
-  { avatar: "/framer/bg0jlj2njPNNPoW0pXI0JSZvzq4.jpg", name: "Chandler Bing", program: "30-Day Challenge", amount: "$2,200.00", date: "Aug 22", provider: "FanBasis" },
-  { avatar: "/framer/NUDiLc4YLSlrx6kWpnp1b4UUGo.png", name: "Gunther", program: "Barista Skills", amount: "$3,102.00", date: "Nov 1", provider: "Ablefy" },
-  { avatar: "/framer/GcLd3k0GaTljvFpzSIS80HnDo4.jpg", name: "Mike Hannigan", program: "Guitar for Beginners", amount: "$1,300.00", date: "Dec 19", provider: "Stripe" },
-  { avatar: "/framer/GcLd3k0GaTljvFpzSIS80HnDo4.jpg", name: "Mike Hannigan", program: "Guitar for Beginners", amount: "$6,200.00", date: "Jan 19", provider: "Ablefy" },
-  { avatar: "/framer/s7cfnpkVGDnGmRTCSTtHuph9I.jpg", name: "Gunther", program: "Barista Skills", amount: "$500.00", date: "Jan 31", provider: "Whop" },
+  { avatar: "/framer/M7HLye6KGtwItjFpbV80bqB0p5U.jpg", name: "Emily Waltham", program: "Wedding Planning 101", amount: "$2,800.00", date: "Feb 14", provider: "FanBasis", icon: "fanbasis" },
+  { avatar: "/framer/bg0jlj2njPNNPoW0pXI0JSZvzq4.jpg", name: "Chandler Bing", program: "30-Day Challenge", amount: "$2,200.00", date: "Aug 22", provider: "FanBasis", icon: "fanbasis" },
+  { avatar: "/framer/NUDiLc4YLSlrx6kWpnp1b4UUGo.png", name: "Gunther", program: "Barista Skills", amount: "$3,102.00", date: "Nov 1", provider: "Ablefy", icon: "ablefy-svg" },
+  { avatar: "/framer/GcLd3k0GaTljvFpzSIS80HnDo4.jpg", name: "Mike Hannigan", program: "Guitar for Beginners", amount: "$1,300.00", date: "Dec 19", provider: "Stripe", icon: "stripe" },
+  { avatar: "/framer/GcLd3k0GaTljvFpzSIS80HnDo4.jpg", name: "Mike Hannigan", program: "Guitar for Beginners", amount: "$6,200.00", date: "Jan 19", provider: "Ablefy", icon: "ablefy-img" },
+  { avatar: "/framer/s7cfnpkVGDnGmRTCSTtHuph9I.jpg", name: "Gunther", program: "Barista Skills", amount: "$500.00", date: "Jan 31", provider: "Whop", icon: "whop" },
 ];
 
-function ProviderIcon({ provider }: { provider: MatchRow["provider"] }) {
-  if (provider === "FanBasis") return <Image src="/framer/GZGpjeygCJl5dCzEeV0E1de7Tg.png" alt="" width={40} height={40} className="size-5 shrink-0 rounded-[5px] object-cover" />;
-  if (provider === "Ablefy") return <AblefyRowIcon className="size-5 shrink-0" />;
-  if (provider === "Stripe") return <Image src="/framer/LCA991fmJM3Cg2Mo4lTPmmkGqWQ.png" alt="" width={32} height={32} className="size-5 shrink-0 rounded-[5px]" />;
-  return <Image src="/framer/cXKLpQFwYqeJV2oACXV6KP7Ae3Y.png" alt="" width={24} height={24} className="size-5 shrink-0 rounded-[5px]" />;
+/** Live rows mix artwork: FanBasis/Stripe PNGs, the Ablefy rows use an svg then a PNG, Whop an orange svg. */
+function ProviderIcon({ icon }: { icon: ProviderIconKind }) {
+  if (icon === "fanbasis") return <Image src="/framer/GZGpjeygCJl5dCzEeV0E1de7Tg.png" alt="" width={40} height={40} className="size-5 shrink-0 rounded-[5px] object-cover" />;
+  if (icon === "ablefy-svg") return <AblefyRowIcon className="size-5 shrink-0" />;
+  if (icon === "ablefy-img") return <Image src="/framer/cXKLpQFwYqeJV2oACXV6KP7Ae3Y.png" alt="" width={24} height={24} className="size-5 shrink-0 rounded-[5px]" />;
+  if (icon === "stripe") return <Image src="/framer/LCA991fmJM3Cg2Mo4lTPmmkGqWQ.png" alt="" width={32} height={32} className="size-5 shrink-0 rounded-[5px]" />;
+  return <WhopRowIcon className="size-5 shrink-0" />;
 }
 
 const TH = "text-[11px] leading-[11.55px] font-medium tracking-[-0.11px] whitespace-pre text-[#6d6d6d]";
@@ -151,7 +154,7 @@ function MatchTable() {
               <p className="text-[9px] leading-[9px] font-normal tracking-[-0.1px] whitespace-pre text-[#6d6d6d]">{row.date}</p>
             </div>
             <div className="flex flex-1 items-center gap-2.5 px-5 py-3.5">
-              <ProviderIcon provider={row.provider} />
+              <ProviderIcon icon={row.icon} />
               <p className="text-[11px] leading-[11.55px] font-medium tracking-[-0.2px] whitespace-pre text-black">{row.provider}</p>
             </div>
           </div>

@@ -3,7 +3,10 @@ import Link from "next/link";
 import { ArrowRightMini } from "@/components/icons/updates-icons";
 import type { UpdateSummary } from "@/lib/updates";
 
-/** One "Other Updates" card: cover at its own aspect ratio, title, 2-line excerpt, date + version, "Read more". */
+/**
+ * One "Other Updates" card: cover at its own aspect ratio, title (20/24px black; the tablet variant uses 20/28px #1d1d20),
+ * 2-line excerpt, date + version, "Read more".
+ */
 function OtherCard({ post }: { post: UpdateSummary }) {
   const ratio = post.cover?.width && post.cover.height ? `${post.cover.width} / ${post.cover.height}` : "16 / 9";
   return (
@@ -12,7 +15,7 @@ function OtherCard({ post }: { post: UpdateSummary }) {
         {post.cover && <Image src={post.cover.src} alt={post.cover.alt} fill sizes="(min-width: 810px) 320px, calc(100vw - 32px)" className="rounded-[12px] object-cover" />}
       </div>
       <div className="flex flex-col gap-4 overflow-clip">
-        <p className="text-[20px] leading-6 font-semibold tracking-[-0.8px] whitespace-pre-wrap text-black">{post.title}</p>
+        <p className="text-[20px] leading-6 font-semibold tracking-[-0.8px] whitespace-pre-wrap text-black md:leading-7 md:text-ink-3 lg:leading-6 lg:text-black">{post.title}</p>
         <p className="line-clamp-2 text-[16px] leading-6 font-normal whitespace-pre-line text-gray-750">{post.excerpt}</p>
       </div>
       <div className="flex items-center justify-between">

@@ -9,8 +9,9 @@ import { PostCard } from "./post-card";
 const CATEGORIES = ["Product Updates", "How-to Guides", "Testimonials", "Company"] as const;
 const PAGE = 3;
 
-const chipBase =
-  "flex items-center gap-1 overflow-hidden rounded-[10px] bg-white px-3 py-2.5 text-[14px] leading-5 font-normal whitespace-pre transition-[color,box-shadow] duration-200";
+// `button { font: inherit }` in globals.css beats utilities on the <button> itself, so the type is set on an inner <span>.
+const chipBase = "flex items-center gap-1 overflow-hidden rounded-[10px] bg-white px-3 py-2.5 transition-[color,box-shadow] duration-200";
+const chipText = "text-[14px] leading-5 font-normal whitespace-pre";
 const chipIdle = "text-gray-550 shadow-[0_0_0_1px_rgba(18,43,105,0.08),0_1px_2px_0_rgba(18,43,105,0.08),0_2px_6px_0_rgba(18,43,105,0.04)]";
 const chipActive = "text-ink-3 shadow-[0_2px_6px_0_rgba(18,43,105,0.04),0_1px_2px_0_rgba(18,43,105,0.08),0_0_0_1px_rgb(59,130,245)]";
 
@@ -21,7 +22,6 @@ const chipActive = "text-ink-3 shadow-[0_2px_6px_0_rgba(18,43,105,0.04),0_1px_2p
 export function PostList({ posts }: { posts: UpdateSummary[] }) {
   const [category, setCategory] = useState<string | null>(null);
   const [query, setQuery] = useState("");
-  const [searching, setSearching] = useState(false);
   const [shown, setShown] = useState(PAGE);
 
   const filtered = useMemo(() => {
@@ -48,7 +48,7 @@ export function PostList({ posts }: { posts: UpdateSummary[] }) {
                 onClick={() => pick(name)}
                 className={`${chipBase} ${category === name ? chipActive : chipIdle}`}
               >
-                {name}
+                <span className={chipText}>{name}</span>
               </button>
             ))}
           </div>
@@ -59,13 +59,11 @@ export function PostList({ posts }: { posts: UpdateSummary[] }) {
               aria-label="Search updates"
               placeholder="Search..."
               value={query}
-              onFocus={() => setSearching(true)}
-              onBlur={() => setSearching(false)}
               onChange={(e) => {
                 setQuery(e.target.value);
                 setShown(PAGE);
               }}
-              className={`min-w-0 flex-1 bg-transparent text-[14px] leading-[18px] font-medium text-ink-3 outline-none placeholder:text-gray-500 ${searching ? "" : ""}`}
+              className="h-[18px] min-w-0 flex-1 bg-transparent text-[14px] leading-[18px] font-medium text-ink-3 outline-none placeholder:text-gray-500"
             />
           </label>
         </div>
@@ -78,9 +76,9 @@ export function PostList({ posts }: { posts: UpdateSummary[] }) {
             <button
               type="button"
               onClick={() => setShown((n) => n + PAGE)}
-              className="flex h-10 w-[100px] items-center justify-center rounded-[10px] bg-[#444] text-[14px] leading-[16.8px] font-semibold whitespace-pre text-white"
+              className="flex h-10 w-[100px] items-center justify-center rounded-[10px] bg-[#444] text-white"
             >
-              Load More
+              <span className="text-[14px] leading-[16.8px] font-semibold whitespace-pre">Load More</span>
             </button>
           )}
         </div>

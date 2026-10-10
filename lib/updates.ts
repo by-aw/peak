@@ -42,9 +42,9 @@ const DIR = path.join(process.cwd(), "content", "updates");
 
 let indexCache: UpdateSummary[] | null = null;
 
-/** Every post in the collection's own order. */
+/** Every post in the collection's own order (re-read on every call in development so new JSON shows up without a restart). */
 export function getAllUpdates(): UpdateSummary[] {
-  if (!indexCache) indexCache = JSON.parse(fs.readFileSync(path.join(DIR, "index.json"), "utf8")) as UpdateSummary[];
+  if (!indexCache || process.env.NODE_ENV === "development") indexCache = JSON.parse(fs.readFileSync(path.join(DIR, "index.json"), "utf8")) as UpdateSummary[];
   return indexCache;
 }
 

@@ -164,6 +164,7 @@ img, video { max-width: 100%; height: auto; display: block; }
   padding: 0;
   list-style-position: outside;
 }
+.prose-update ol { margin-top: 0; }
 .prose-update ul { list-style-type: disc; }
 .prose-update ol { list-style-type: decimal; }
 .prose-update li { display: list-item; padding: 0 0 0 20.1875px; margin: 0; }

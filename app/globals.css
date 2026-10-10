@@ -138,7 +138,7 @@ img, video { max-width: 100%; height: auto; display: block; }
   letter-spacing: 0.48px;
   font-weight: 600;
   color: #1d1d20;
-  margin: 0;
+  margin: 40px 0 0;
 }
 .prose-update h3,
 .prose-update h4 {

@@ -20,7 +20,8 @@ export function PostHeader({ post }: { post: Update }) {
           {post.dateText}
         </time>
         {post.version && post.label === "Product Updates" && (
-          <span className="font-mono text-[16px] leading-6 font-medium whitespace-pre text-ink-3">{post.version}</span>
+          // the version label carries 4px vertical padding on the live site, which makes the row 32px tall
+          <span className="py-1 font-mono text-[16px] leading-6 font-medium whitespace-pre text-ink-3">{post.version}</span>
         )}
         <p className="text-[16px] leading-6 font-semibold whitespace-pre text-blue-500">{post.label}</p>
       </div>

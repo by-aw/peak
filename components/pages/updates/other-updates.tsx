@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightMini } from "@/components/icons/updates-icons";
 import type { UpdateSummary } from "@/lib/updates";
+import { ring } from "./post-card";
 
 /**
  * One "Other Updates" card: cover at its own aspect ratio, title (20/24px black; the tablet variant uses 20/28px #1d1d20),
@@ -12,7 +13,7 @@ function OtherCard({ post }: { post: UpdateSummary }) {
   const ratio = post.cover?.width && post.cover.height ? `${post.cover.width} / ${post.cover.height}` : undefined;
   return (
     <Link href={`/updates/${post.slug}`} className="flex w-full flex-col gap-6 md:w-[320px]">
-      <div className={`relative w-full overflow-hidden rounded-[12px] ${post.cover ? "" : "aspect-square md:aspect-[16/9]"}`} style={ratio ? { aspectRatio: ratio } : undefined}>
+      <div className={`relative w-full overflow-hidden rounded-[12px] ${ring} ${post.cover ? "" : "aspect-square md:aspect-[16/9]"}`} style={ratio ? { aspectRatio: ratio } : undefined}>
         {post.cover && <Image src={post.cover.src} alt={post.cover.alt} fill sizes="(min-width: 810px) 320px, calc(100vw - 32px)" className="rounded-[12px] object-cover" />}
       </div>
       <div className="flex flex-col gap-4 overflow-clip">

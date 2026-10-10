@@ -3,6 +3,9 @@ import Link from "next/link";
 import { ArrowRightMini } from "@/components/icons/updates-icons";
 import type { UpdateSummary } from "@/lib/updates";
 
+/** 3px #efefef inset ring the Framer image frames draw over the picture (::after). */
+export const ring = "after:pointer-events-none after:absolute after:inset-0 after:rounded-[12px] after:border-[3px] after:border-[#efefef] after:content-['']";
+
 /**
  * /updates list card. Tablet/desktop ("Desktop" variant): 180px info column (date, category) +
  * the linked content (16:9 cover, title, 2-line excerpt, "Read more"). Phone variant: cover, title,
@@ -18,7 +21,8 @@ export function PostCard({ post, preload = false }: { post: UpdateSummary; prelo
         <p className="text-[16px] leading-6 font-semibold whitespace-pre-wrap text-blue-500">{post.label}</p>
       </div>
       <Link href={`/updates/${post.slug}`} className="flex w-full min-w-0 flex-col gap-6 md:flex-1">
-        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[12px]">
+        {/* Framer "Image" frame: 16:9, 12px radius, with a 3px #efefef inset ring (::after) over the picture */}
+        <div className={`relative aspect-[16/9] w-full overflow-hidden rounded-[12px] ${ring}`}>
           {post.cover && (
             <Image
               src={post.cover.src}

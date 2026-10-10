@@ -1,0 +1,837 @@
+[
+  {
+    "slug": "team-chat",
+    "title": "Your team's context. Finally in one place.",
+    "excerpt": "Team Chat puts your team's notes, updates, and context directly on the lead. One thread. One source of truth. No more scattered conversations.",
+    "date": "2026-01-16T00:00:00.000Z",
+    "dateText": "Jan 16, 2026",
+    "label": "Product Updates",
+    "version": "v 1.0.5",
+    "cover": {
+      "src": "/framer/UtXuviHLeHmYkWpXjrHGeBwusk.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": ""
+    }
+  },
+  {
+    "slug": "mochi-adds-an-ai-intelligence-layer-to-your-dms-this-changes-everything",
+    "title": "Mochi Adds an AI Intelligence Layer to Your DMs. This Changes Everything.",
+    "excerpt": "Your inbox can now tell you who to focus on, what's junk, and which leads are about to close. This is the first step toward a self-learning inbox.",
+    "date": "2025-12-03T00:00:00.000Z",
+    "dateText": "Dec 3, 2025",
+    "label": "Product Updates",
+    "version": "v 1.0.4",
+    "cover": {
+      "src": "/framer/F3639OZoNPyXljPjpnzSVeALxOI.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": ""
+    }
+  },
+  {
+    "slug": "your-team-is-using-your-worst-scripts-6x-more-than-your-best-ones",
+    "title": "Your Team Is Using Your Worst Scripts 6x More Than Your Best Ones",
+    "excerpt": "We analyzed 90 days of a coach's DMs and found their team was using their worst-converting script 6x more than their best one - because without an intelligence layer tracking every message, nobody knew.",
+    "date": "2025-12-01T00:00:00.000Z",
+    "dateText": "Dec 1, 2025",
+    "label": "Company",
+    "version": null,
+    "cover": {
+      "src": "/framer/95eTcupDYD7bOM9QUPWAmUhvXxw.jpg",
+      "width": 1280,
+      "height": 852,
+      "alt": ""
+    }
+  },
+  {
+    "slug": "we-just-built-the-control-center-for-your-dms",
+    "title": "We Just Built the Control Center for Your DMs",
+    "excerpt": "Your setters say they're 'working all day' but you have zero proof. When one quits, 183 leads vanish into chaos. Here's how the first client reassigned every lead in 8 minutes instead of losing...",
+    "date": "2025-11-12T00:00:00.000Z",
+    "dateText": "Nov 12, 2025",
+    "label": "Product Updates",
+    "version": "v 1.0.3",
+    "cover": {
+      "src": "/framer/eJn9bYqTq3NuP0kYVOWS35hI4QY.png",
+      "width": 1576,
+      "height": 1138,
+      "alt": ""
+    }
+  },
+  {
+    "slug": "voice-messages-convert-3x-better-mochi-scenes",
+    "title": "Why Voice Messages Convert 3x Better Than Text (And How Mochi Made Them Actually Work at Scale)",
+    "excerpt": "Voice messages convert at 3x the rate of text in high-ticket DM sales. But there's a problem: cloned voices sound robotic, and your leads notice. Here's how we made AI voice messages finally sound authentic at scale—using something we call Scenes.",
+    "date": "2025-11-01T00:00:00.000Z",
+    "dateText": "Nov 1, 2025",
+    "label": "Product Updates",
+    "version": "v 1.0.1",
+    "cover": {
+      "src": "/framer/G4pLXmgj1Q6YT3d05gcU92Q9jQ.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": ""
+    }
+  },
+  {
+    "slug": "mochi-is-born",
+    "title": "Why I Built Mochi (And Why You’re Probably Leaving $500K in Your DMs)",
+    "excerpt": "One of our first clients found a $50K deal rotting in his DMs. The lead had been trying to buy for three weeks—just ...",
+    "date": "2025-11-01T00:00:00.000Z",
+    "dateText": "Nov 1, 2025",
+    "label": "Company",
+    "version": "v 1.0.0",
+    "cover": {
+      "src": "/framer/wQg4ZSosz8OR1mGnrXaklNiX1hc.jpeg",
+      "width": 1280,
+      "height": 713,
+      "alt": ""
+    }
+  },
+  {
+    "slug": "dm-automation-stop-paying-for-tools-that-should-already-be-in-your-crm",
+    "title": "DM Automation: Stop Paying for Tools That Should Already Be in Your CRM",
+    "excerpt": "Mochi handles keyword-triggered DM automation natively. Every comment, story reply, and DM trigger flows directly into your inbox, already tagged and ready for your setters.",
+    "date": "2026-01-16T00:00:00.000Z",
+    "dateText": "Jan 16, 2026",
+    "label": "Product Updates",
+    "version": "v 1.0.5",
+    "cover": null
+  },
+  {
+    "slug": "how-to-organize-instagram-dms-for-sales-teams",
+    "title": "How to Organize Instagram DMs for Sales Teams",
+    "excerpt": "A practical system for helping Instagram sales teams prioritize qualified leads, assign every conversation, preserve context, and follow up without losing people in the inbox.",
+    "date": "2026-08-25T00:00:00.000Z",
+    "dateText": "Aug 25, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/jO7bDprxs49F1kpLgbFiybKws8s.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots organizing a shared Instagram DM sales inbox"
+    }
+  },
+  {
+    "slug": "facebook-ads-instagram-stories",
+    "title": "Facebook Ads to Instagram Stories: How to Turn Story Views into Booked Calls",
+    "excerpt": "This guide explains how Facebook ads can appear as Instagram Stories, why the DM follow-up matters more than the click, and how coaches and creators can turn story views into qualified booked calls instead of losing leads in a messy inbox.",
+    "date": "2026-08-25T00:00:00.000Z",
+    "dateText": "Aug 25, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/NTlbaszOkn327BWmbtXVhXVUp0.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "A split-screen visual: one side shows a Meta Ads Manager dashboard with a Stories placement selected, the other side shows a phone with an Instagram Story ad and a DM notification. The contrast should suggest that the story ad is only the beginning of the sales conversation."
+    }
+  },
+  {
+    "slug": "instagram-marketing-tools",
+    "title": "The Instagram Marketing Tools Guide: Turn Your DMs Into a Sales Channel",
+    "excerpt": "Most Instagram marketing tools focus on reach and automation, but the real sales happen in the DMs. This guide explains what an Instagram CRM actually does, why most businesses lose qualified leads between the comment and the call, and how Mochi turns your existing inbox into a real sales channel.",
+    "date": "2026-08-25T00:00:00.000Z",
+    "dateText": "Aug 25, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/1ChpJcMRhfvbb7zH7G0EHVamb4U.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Illustration of an Instagram inbox with a sales pipeline overlay, representing the Mochi Instagram DM sales system."
+    }
+  },
+  {
+    "slug": "instagram-ads-to-dm-qualified-booked-calls",
+    "title": "Instagram Ads to DM: How to Turn Clicks into Qualified Booked Calls",
+    "excerpt": "Instagram ads can drive DMs, but most businesses lose leads after the click. This article explains how to fix the missing step between ad and sale.",
+    "date": "2026-08-25T00:00:00.000Z",
+    "dateText": "Aug 25, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/nwfA12nCRHhX72TuiCspiqlXKc.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Instagram ad with a message button leading to a DM conversation"
+    }
+  },
+  {
+    "slug": "instagram-stories-ads-examples",
+    "title": "Instagram Stories Ads Examples: 7 Swipe-Worthy Story Ad Ideas That Convert",
+    "excerpt": "Most brands think a good Instagram Story ad is just a pretty visual. But the real reason some Story ads make money while others just get views is the path they create after the tap. This article breaks down 7 Story ad examples, the psychology behind each, and why the smartest brands treat Story ads as the start of a DM conversation, not a dead-end link.",
+    "date": "2026-08-25T00:00:00.000Z",
+    "dateText": "Aug 25, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/6XYUxb1gsUHnbERrcMEvAKcly6I.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "A vertical 9:16 mockup of a smartphone showing a split-screen Instagram Story ad: on the left, a visually stunning but static product shot with a generic 'Learn More' button; on the right, the same brand using a 'Reply with the word START' prompt with a small chat bubble icon. The contrast should be obvious."
+    }
+  },
+  {
+    "slug": "instagram-ads-cost",
+    "title": "How Much Do Instagram Ads Actually Cost?",
+    "excerpt": "Instagram ads can cost less than a coffee, but the real expense is what happens after the click. This article breaks down actual ad costs and shows why the biggest loss happens in the DMs.",
+    "date": "2026-08-26T00:00:00.000Z",
+    "dateText": "Aug 26, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/aju2jPwL0OLqZaBodk0NKepwOuY.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "A clean, modern flat-lay of a smartphone showing an Instagram ad, a calculator, and a small coffee cup. The mood is honest and practical, not flashy."
+    }
+  },
+  {
+    "slug": "instagram-marketing-is-broken-dm-leaks",
+    "title": "Instagram Marketing Is Broken: Why Your DMs Leak Sales and How to Fix It",
+    "excerpt": "Most Instagram marketing advice stops at content, followers, and views. But for coaches, creators, and info businesses, the real money moves through DMs. The problem is that the Instagram inbox was built for chatting, not for sales. This article shows why your current Instagram marketing leaks leads between the first message and the booked call, and how a dedicated DM sales system helps you keep more of the people your content already brings in.",
+    "date": "2026-08-26T00:00:00.000Z",
+    "dateText": "Aug 26, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/JpzHQeh4YxHcRzOBuBHpW5BRcM.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Comparison between a cluttered Instagram inbox and an organized sales pipeline"
+    }
+  },
+  {
+    "slug": "instagram-ads-manager-crm",
+    "title": "Instagram Ads Manager: Turn Clicks and Comments Into Booked Calls",
+    "excerpt": "Instagram ads drive engagement, but without a proper system, those leads get lost in the DMs. This article explains why an Instagram ads manager needs a CRM to track leads from comment to customer and how Mochi helps close the gap.",
+    "date": "2026-08-27T00:00:00.000Z",
+    "dateText": "Aug 27, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/3lMTxQ28XRNRqOAh8fqoX3gCjw.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Instagram ads manager dashboard with DM lead notifications"
+    }
+  },
+  {
+    "slug": "how-to-advertise-on-instagram",
+    "title": "How to Advertise on Instagram and Turn Attention Into Sales",
+    "excerpt": "A practical guide to planning, launching and improving Instagram ads, with a focus on turning clicks and DM conversations into qualified leads, booked calls and customers.",
+    "date": "2026-08-31T00:00:00.000Z",
+    "dateText": "Aug 31, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/EQxLYLMuNw74NjcLyGjGhoTvJWo.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Creator planning how to advertise on Instagram and move leads from ads into DM conversations"
+    }
+  },
+  {
+    "slug": "affiliate-marketing-with-instagram",
+    "title": "Affiliate Marketing With Instagram: How to Turn Content and DMs Into Sales",
+    "excerpt": "A practical guide to affiliate marketing with Instagram for creators who want to turn relevant content and DM conversations into measurable affiliate sales without relying on follower count alone.",
+    "date": "2026-08-31T00:00:00.000Z",
+    "dateText": "Aug 31, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/b9jmvmAWbc0qIqPWISNsYOJ0Kzw.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Creator planning an Instagram affiliate marketing campaign from content to DMs and sales"
+    }
+  },
+  {
+    "slug": "instagram-growth-service",
+    "title": "How to Choose an Instagram Growth Service That Helps Your Business Grow",
+    "excerpt": "A practical guide for coaches, creators and digital-product businesses choosing an Instagram growth service. Learn what to measure, which warning signs to avoid and how to turn new attention into qualified conversations, booked calls and customers.",
+    "date": "2026-08-31T00:00:00.000Z",
+    "dateText": "Aug 31, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/TG1N4n5oHqFOpE0kuF2OLCDEIT4.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Creator evaluating an Instagram growth service based on DMs, qualified leads and sales"
+    }
+  },
+  {
+    "slug": "instagram-business-account-sales-system",
+    "title": "How to Use an Instagram Business Account as a Sales System",
+    "excerpt": "An Instagram business account can attract leads, start conversations and support sales. This guide explains how to organize the journey from content to DM to customer, including when a dedicated Instagram DM sales system becomes useful.",
+    "date": "2026-08-31T00:00:00.000Z",
+    "dateText": "Aug 31, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/adJGP6hyzA0Nk8DGyvcPmssyLM.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Creator managing leads and sales conversations from an Instagram business account"
+    }
+  },
+  {
+    "slug": "instagram-for-business-dm-sales-system",
+    "title": "How to Use Instagram for Business Without Losing Sales in Your DMs",
+    "excerpt": "Instagram can create attention and start valuable conversations, but a busy inbox is not a sales system. This guide explains how coaches, creators and digital-product businesses can connect content to DMs, qualify leads, prioritize follow-ups and measure the path to booked calls or customers.",
+    "date": "2026-09-01T00:00:00.000Z",
+    "dateText": "Sep 1, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/Clq6bP631m4IoHG3B6gDOlmYo.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Creator reviewing an Instagram for business sales journey from content to DMs and booked calls"
+    }
+  },
+  {
+    "slug": "manychat-alternatives-instagram-dm-sales",
+    "title": "Looking for a ManyChat Alternative? Start With What Happens After the First DM",
+    "excerpt": "ManyChat is useful for starting and automating conversations, but an Instagram DM sales team may need more than a first-message flow. This guide explains how to choose an alternative based on the full journey from comment or Story reply to qualified lead, booked call and customer.",
+    "date": "2026-09-02T00:00:00.000Z",
+    "dateText": "Sep 2, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/7Jq55lXVXU0ZdjAPtWGuRGKYIQ.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Instagram DM automation compared with a structured DM sales process from first message to booked call"
+    }
+  },
+  {
+    "slug": "zendesk-chatbot-instagram-dm-sales",
+    "title": "Is a Zendesk Chatbot the Right Fit for Instagram DM Sales?",
+    "excerpt": "A practical guide for coaches, creators and digital-product businesses evaluating a Zendesk chatbot or another conversational tool for Instagram DM sales. It explains how to assess the complete journey from first message to qualified lead, booked call and customer.",
+    "date": "2026-09-02T00:00:00.000Z",
+    "dateText": "Sep 2, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/2YJU0acfutI96lr6i2Zz7ip2cWc.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Founder comparing a chatbot flow with an Instagram DM sales pipeline"
+    }
+  },
+  {
+    "slug": "manychat-alternatives",
+    "title": "The Best ManyChat Alternatives for Your Actual Use Case",
+    "excerpt": "The best ManyChat alternative depends on what must happen after a conversation starts. This guide compares six options by use case and explains what Instagram-led sales teams should evaluate before switching.",
+    "date": "2026-09-03T00:00:00.000Z",
+    "dateText": "Sep 3, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/Y57UxblYh5txD34nFYj5RgnZEms.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Comparison of ManyChat alternatives organized by business use case"
+    }
+  },
+  {
+    "slug": "live-chat-alternatives-instagram-dm-sales",
+    "title": "Live Chat Alternatives: How to Choose the Right System for Instagram DM Sales",
+    "excerpt": "A practical guide to choosing among website chat, shared inbox, automation and Instagram DM sales tools based on where conversations begin and what must happen next.",
+    "date": "2026-09-03T00:00:00.000Z",
+    "dateText": "Sep 3, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/hH4S38VdrclW7oMtrMz0Jq8Ow0.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Founder comparing live chat alternatives for managing Instagram DM sales conversations"
+    }
+  },
+  {
+    "slug": "manychat-competitors",
+    "title": "ManyChat Competitors: Choose the Right Tool for Your Instagram DMs",
+    "excerpt": "The best ManyChat competitor depends on what needs to happen after someone enters your DMs. This guide compares the main tool categories and explains how to choose between simple automation, multichannel support and a dedicated Instagram DM sales system.",
+    "date": "2026-09-04T00:00:00.000Z",
+    "dateText": "Sep 4, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/nGho9qQTgLDH2WEqlUVjNdbvCg.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Comparison of ManyChat competitors for automation, customer support and Instagram DM sales"
+    }
+  },
+  {
+    "slug": "chatbase-alternatives",
+    "title": "Chatbase Alternatives: How to Choose the Right Tool for the Job",
+    "excerpt": "The best Chatbase alternative depends on where conversations happen and what should happen next. This guide gives you a practical framework for comparing tools, with a closer look at Instagram DM sales for coaches, creators and digital-product businesses.",
+    "date": "2026-09-04T00:00:00.000Z",
+    "dateText": "Sep 4, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/nvQwQRKOLF3NeDQD4XNqkT0BHKc.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "A conversation branching into website support, multi-channel service and Instagram DM sales workflows."
+    }
+  },
+  {
+    "slug": "manychat-example-instagram-dm-sales",
+    "title": "A ManyChat Example for Instagram: What Happens After the First DM?",
+    "excerpt": "This practical ManyChat example shows how a comment-to-DM automation starts an Instagram conversation, why the first message is only one part of the sales journey and how to manage the lead through qualification, follow-up and booking.",
+    "date": "2026-09-05T00:00:00.000Z",
+    "dateText": "Sep 5, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/DOzsycmj8YbFqUaWSW8y1xbU0c.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Flow from an Instagram keyword comment to an automated direct message, sales conversation and booked call"
+    }
+  },
+  {
+    "slug": "chatib-alternatives",
+    "title": "Chatib Alternatives: What to Choose for Your Actual Goal",
+    "excerpt": "The right Chatib alternative depends on what you want conversations to accomplish. This guide explains how to compare casual chat, customer support, automation and Instagram DM sales tools, including when Mochi is the more relevant choice.",
+    "date": "2026-09-05T00:00:00.000Z",
+    "dateText": "Sep 5, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/dzgVXDJY84P8LSdEuVn4yfQkrQc.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "A conversation branching into casual chat, customer support, automation and Instagram sales paths."
+    }
+  },
+  {
+    "slug": "chatrandom-alternatives",
+    "title": "Chatrandom alternatives: how to choose the right kind of chat platform",
+    "excerpt": "The best Chatrandom alternative depends on the conversation you want to have. This guide explains how to evaluate random video chat services, community platforms, and business messaging systems without treating fundamentally different tools as interchangeable.",
+    "date": "2026-09-06T00:00:00.000Z",
+    "dateText": "Sep 6, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/ryZUerGrQXPNzdgNbMMo1zZCGlI.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Three paths representing random video chat, online communities, and organized business messaging"
+    }
+  },
+  {
+    "slug": "chatfuel-pricing",
+    "title": "Chatfuel Pricing: What You Need to Know Before You Pay",
+    "excerpt": "Chatfuel pricing research points to plans starting at $69 per month, but the right decision depends on more than the headline fee. This guide explains how to assess total cost, channel fit and what happens after an automated conversation begins.",
+    "date": "2026-09-06T00:00:00.000Z",
+    "dateText": "Sep 6, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/FU5mpG9XQoaJlaD3ZMMM4xlDFLY.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "A cream Mochi weighs a coin beside a piggy bank as other mascots illustrate messages and booked calls in a sunlit workspace."
+    }
+  },
+  {
+    "slug": "chatwoot-alternative-instagram-dm-sales",
+    "title": "Looking for a Chatwoot alternative? Choose based on what happens after the DM",
+    "excerpt": "The right Chatwoot alternative depends on the job you need it to do. For coaches, creators and digital-product businesses selling through Instagram DMs, the important question is whether the system can help the team find qualified leads, continue conversations with context and see what produces booked calls or customers.",
+    "date": "2026-09-07T00:00:00.000Z",
+    "dateText": "Sep 7, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/zNPlt4gTzOQ7PIsBGiJe8svbA.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Mochi mascots sort an overflowing pile of Instagram conversations into organized stages in a warm workspace."
+    }
+  },
+  {
+    "slug": "manychat-vs-chatfuel",
+    "title": "ManyChat vs Chatfuel: Which Is Better for Your Messaging Workflow?",
+    "excerpt": "ManyChat and Chatfuel both help businesses automate messaging, but the better choice depends on the channels you use and the job you need the tool to perform. This guide also explains why Instagram sellers should evaluate the sales process after the first automated message.",
+    "date": "2026-09-07T00:00:00.000Z",
+    "dateText": "Sep 7, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/sDof9rgELQ2uWePfmNpeVOUfMg.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Blue and coral Mochi mascots guide message streams into a shared inbox above a city, with a path toward conversations and booked calls."
+    }
+  },
+  {
+    "slug": "instagram-account-qr-code",
+    "title": "How to Find and Use Your Instagram Account QR Code",
+    "excerpt": "An Instagram account QR code gives people a quick way to open your profile without searching for your username. This guide explains how to find, share, print and scan your code, then shows businesses how to turn the resulting profile visits and DMs into a clear lead-management process.",
+    "date": "2026-09-08T00:00:00.000Z",
+    "dateText": "Sep 8, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/37ews8EscWDGShf2WtaUMtJ5w.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Mint Mochi scans a QR-code card while a coral Mochi welcomes them at a sunlit café."
+    }
+  },
+  {
+    "slug": "instagram-logo-business-sales-system",
+    "title": "The Instagram logo is not your sales system",
+    "excerpt": "A practical guide for coaches and creators who want to move beyond simply being visible on Instagram and build a clear process for managing the conversations their content creates.",
+    "date": "2026-09-08T00:00:00.000Z",
+    "dateText": "Sep 8, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/GDPAd9VStqMZznKGOgxkUzOmkbg.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "A visual path from Instagram content and direct messages to qualified leads and booked calls"
+    }
+  },
+  {
+    "slug": "schedule-instagram-posts",
+    "title": "How to Schedule Instagram Posts Without Losing the Leads They Create",
+    "excerpt": "A practical guide to scheduling Instagram posts with a repeatable content plan, clear calls to action and a system for handling the DM conversations that follow.",
+    "date": "2026-09-09T00:00:00.000Z",
+    "dateText": "Sep 9, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/amcwjt7SrspDTIpNQhz5eYrjck.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots schedule Instagram post cards on a calendar conveyor and sort the resulting DM leads into follow-up and booked-call baskets."
+    }
+  },
+  {
+    "slug": "instagram-qr-code",
+    "title": "How to Use an Instagram QR Code to Start More Valuable Conversations",
+    "excerpt": "An Instagram QR code gives people a quick route from a physical location, presentation or screen to your profile. This guide explains how to access and test your code, where to place it and how to turn scans into DM conversations your team can manage.",
+    "date": "2026-09-09T00:00:00.000Z",
+    "dateText": "Sep 9, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/6fg1cgVYEdBoozLsZCzYR5FJsX4.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots use an Instagram QR code at a busy conference, creating a bright path from offline attention to a DM conversation."
+    }
+  },
+  {
+    "slug": "instagram-creator-studio-dm-sales-system",
+    "title": "Instagram Creator Studio Is Only Part of the System Creators Need",
+    "excerpt": "Instagram Creator Studio searches often begin with content planning, publishing and performance. But creators who sell through Instagram also need a clear system for handling the conversations that content creates. This guide explains how to connect content operations with lead priority, follow-up, attribution and booked-call tracking.",
+    "date": "2026-09-10T00:00:00.000Z",
+    "dateText": "Sep 10, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/xzjD3DbJ2Lpvhnpkk5X5Ht67Xk.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots turn published content and a flood of Instagram messages into organized lead stages inside a busy creator workshop."
+    }
+  },
+  {
+    "slug": "can-you-schedule-instagram-posts",
+    "title": "Can You Schedule Instagram Posts? Yes. Here’s How to Build a Better System",
+    "excerpt": "Instagram posts can be scheduled, but publishing on time is only half the job. This guide explains how to build a practical content schedule and prepare for the comments, DMs and sales conversations that follow.",
+    "date": "2026-09-10T00:00:00.000Z",
+    "dateText": "Sep 10, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/pJiKN4Quv2dMl2lZVyx4MO5g37Y.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots schedule Instagram post cards on a calendar railway and organize the incoming DM envelopes created by the published content."
+    }
+  },
+  {
+    "slug": "instagram-logo-transparent",
+    "title": "Instagram Logo Transparent: How to Find and Use the Right File",
+    "excerpt": "A practical guide to finding an official Instagram logo with a transparent background, checking the file before use and placing it cleanly across websites, presentations and social media graphics.",
+    "date": "2026-09-11T00:00:00.000Z",
+    "dateText": "Sep 11, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/jxTuWXEP0rJGM2x8WPvAQefW00.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots prepare a transparent Instagram-style logo for use across website, presentation and social media layouts."
+    }
+  },
+  {
+    "slug": "how-to-make-money-on-instagram",
+    "title": "How to Make Money on Instagram: Build a System That Turns Attention Into Sales",
+    "excerpt": "Making money on Instagram is less about collecting views and more about connecting the right audience to a clear offer. This guide explains the main income models, how to build a simple content-to-DM sales system and how to stop interested people from disappearing before they buy.",
+    "date": "2026-09-11T00:00:00.000Z",
+    "dateText": "Sep 11, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/AwJNNggXjoCvPwlayg61BUH9U.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Three Mochi mascots turn Instagram content and incoming messages into organized paths leading to booked calls and sales."
+    }
+  },
+  {
+    "slug": "instagram-sponsored-posts",
+    "title": "Instagram Sponsored Posts: How to Turn Paid Reach Into Real Sales",
+    "excerpt": "Instagram sponsored posts can put proven content in front of more potential customers, but reach alone does not create revenue. This guide explains how to choose the right post, give people a clear next step and manage the DM conversations that follow.",
+    "date": "2026-10-01T00:00:00.000Z",
+    "dateText": "Oct 1, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/iLVMMuj4eOa8Xtwh9vvSnUCGnM.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots launch an Instagram sponsored post and sort the resulting DM conversations into organized lead stages."
+    }
+  },
+  {
+    "slug": "instagram-crm",
+    "title": "Instagram CRM: How to Turn DMs Into a Real Sales System",
+    "excerpt": "An Instagram CRM organizes DM conversations around leads, follow-ups and sales outcomes. This guide explains what a useful system should track, how to improve your process manually and where Mochi creates a stronger workflow for coaches, creators and digital-product businesses.",
+    "date": "2026-10-01T00:00:00.000Z",
+    "dateText": "Oct 1, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/DIGUcaDj7WtkD5DP6jbN6qopQ4.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Three Mochi mascots rescue qualified leads and follow-ups from a rushing stream of Instagram messages and organize them on a path toward a booked call."
+    }
+  },
+  {
+    "slug": "crm-for-instagram",
+    "title": "CRM for Instagram: How to Turn DMs Into a Real Sales System",
+    "excerpt": "A practical guide to choosing and using a CRM for Instagram DMs, with a clear checklist for managing leads, follow-ups, conversations, booked calls, attribution, and team performance.",
+    "date": "2026-10-01T00:00:00.000Z",
+    "dateText": "Oct 1, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/h7hr5jziYhDxxsklkimmhRCXbg4.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Three Mochi mascots organize rushing Instagram messages into sales stages, rescue a missed follow-up, and guide a qualified lead toward a booked call."
+    }
+  },
+  {
+    "slug": "manychat-examples-instagram-dm-campaigns",
+    "title": "7 ManyChat Examples for Better Instagram DM Campaigns",
+    "excerpt": "ManyChat can help coaches and creators start Instagram DM conversations from comments, Stories and other triggers. These seven examples show what to automate, what should stay human and how to manage the sales work that begins after the first message.",
+    "date": "2026-10-01T00:00:00.000Z",
+    "dateText": "Oct 1, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/XIyrQoTQHFH3bkPVWSOr6SPCQ1M.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots guide Instagram message envelopes from an automated trigger into organized paths for new leads, qualified conversations and follow-ups."
+    }
+  },
+  {
+    "slug": "instagram-ad-size",
+    "title": "Instagram Ad Sizes: A Practical Guide for Every Placement",
+    "excerpt": "A practical guide to Instagram ad dimensions, aspect ratios and safe design choices, plus a simple workflow for turning ad-driven DMs into qualified conversations.",
+    "date": "2026-10-02T00:00:00.000Z",
+    "dateText": "Oct 2, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/P3rxfFW08WyUoDru56hDclQ43ec.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots adapt one Instagram ad design for Feed, Stories and Reels while keeping the main message inside a safe central area."
+    }
+  },
+  {
+    "slug": "instagram-messages-black-screen",
+    "title": "Instagram Messages Black Screen? Try These Fixes",
+    "excerpt": "A practical guide to fixing a black screen in Instagram messages, from checking for an outage and restarting the app to clearing local app data and reporting the problem. It also explains how businesses can reduce the sales disruption caused by relying on a crowded Instagram inbox.",
+    "date": "2026-10-03T00:00:00.000Z",
+    "dateText": "Oct 3, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/aO98rX6twJ9gDHRnbcuhfyBypo.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots rescue a glowing Instagram conversation from a phone with a black screen and move it onto an organized message pathway."
+    }
+  },
+  {
+    "slug": "instagram-unsend-message",
+    "title": "How to Unsend a Message on Instagram",
+    "excerpt": "Instagram lets you remove a message from a conversation, but unsending cannot guarantee that nobody saw it. This guide explains the basic process, the difference between unsending and deleting a chat, and a safer DM workflow for businesses.",
+    "date": "2026-10-03T00:00:00.000Z",
+    "dateText": "Oct 3, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/kKmbL6lyWYqSqWmY1kosHvjes.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "A Mochi mascot catches an outgoing message envelope while another organizes Instagram conversations into labeled trays."
+    }
+  },
+  {
+    "slug": "sms-instagram-dm-automation",
+    "title": "SMS Instagram: What It Means and How to Manage Instagram Messages for Sales",
+    "excerpt": "“SMS Instagram” usually refers to messaging someone through Instagram, but Instagram Direct Messages are different from phone-based SMS. This guide explains that difference, shows where Instagram DM automation helps and outlines a practical system for moving conversations from the first message to a booked call or sale.",
+    "date": "2026-10-04T00:00:00.000Z",
+    "dateText": "Oct 4, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/7EfiokcAGKQ6oXPg1UwyDoZQODE.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots sorting SMS and Instagram DM envelopes before guiding an Instagram message through qualification, follow-up and booking checkpoints."
+    }
+  },
+  {
+    "slug": "how-to-check-instagram-direct-messages",
+    "title": "How to Check Instagram Direct Messages Without Missing Important Conversations",
+    "excerpt": "A practical guide to opening Instagram DMs, finding message requests, fixing common loading problems and building a better process when your inbox becomes a sales channel.",
+    "date": "2026-10-04T00:00:00.000Z",
+    "dateText": "Oct 4, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/3bTh5E8BmEA5W0H18XsJLTAEzz8.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots sorting Instagram direct messages in a busy mailroom while rescuing an important conversation from a pile of newer messages."
+    }
+  },
+  {
+    "slug": "instagram-copyright-violation-whatsapp",
+    "title": "Got an Instagram copyright violation WhatsApp message? Do this first",
+    "excerpt": "An urgent copyright warning that moves you from Instagram to WhatsApp may be a phishing attempt. This guide explains the warning signs, the safest way to verify a notice and the steps to take if you already clicked or shared information.",
+    "date": "2026-10-05T00:00:00.000Z",
+    "dateText": "Oct 5, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/DsmloyKxKUWuanT1qQyatHpeLQ.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots stop before a trapdoor disguised as an urgent Instagram copyright appeal, then turn toward an official verification desk."
+    }
+  },
+  {
+    "slug": "how-to-delete-dms-on-instagram",
+    "title": "How to Delete DMs on Instagram",
+    "excerpt": "A practical guide to deleting Instagram DM conversations, unsending individual messages and cleaning up a business inbox without accidentally losing useful lead context.",
+    "date": "2026-10-05T00:00:00.000Z",
+    "dateText": "Oct 5, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/4IdFevszr0qTeZycepE4Er1czI.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots sorting Instagram message cards while one retracts a sent message and another clears an overflowing inbox."
+    }
+  },
+  {
+    "slug": "how-to-delete-instagram-dms",
+    "title": "How to Delete Instagram DMs Without Removing the Wrong Thing",
+    "excerpt": "Deleting a chat removes it from your inbox, while unsending removes a message you sent from the conversation. This guide explains both options and shows businesses a safer way to clean up busy Instagram DMs.",
+    "date": "2026-10-06T00:00:00.000Z",
+    "dateText": "Oct 6, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/JqTuNBHF4ZxFh0vtDkjhCybLrlQ.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots sorting Instagram message envelopes while saving an important lead from a rolling trash bin."
+    }
+  },
+  {
+    "slug": "how-to-reply-to-a-dm-on-instagram",
+    "title": "How to Reply to a DM on Instagram Without Losing the Conversation",
+    "excerpt": "A practical guide to replying to Instagram DMs, with a simple response framework, ready-to-adapt examples and a better system for managing leads as message volume grows.",
+    "date": "2026-10-06T00:00:00.000Z",
+    "dateText": "Oct 6, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/ZTNTc03GZ7M22Ans2jPW7nbysBg.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots rescue an important Instagram conversation from a rush of new messages and guide it toward a calendar using a reply checklist."
+    }
+  },
+  {
+    "slug": "chatfuel-instagram-dm-sales",
+    "title": "Chatfuel for Instagram DM Sales: Is Automation Enough?",
+    "excerpt": "Chatfuel can help businesses automate the beginning of social conversations, but coaches and creators should also examine what happens after the first message. This guide explains how to assess Chatfuel against the complete Instagram DM sales journey.",
+    "date": "2026-10-07T00:00:00.000Z",
+    "dateText": "Oct 7, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/M5VfgaOiRWLAWdGnLzssGx6VcU.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Two Mochi mascots guide Instagram message bubbles through automation, follow-up and booked-call checkpoints in a fast-moving canyon."
+    }
+  },
+  {
+    "slug": "how-to-delete-instagram-message",
+    "title": "How to Delete an Instagram Message: Delete vs. Unsend Explained",
+    "excerpt": "To remove a full Instagram conversation from your own inbox, delete the chat. To remove one message you sent from the conversation for everyone, use Unsend. This guide explains both options, their limits and a safer way for businesses to manage a crowded sales inbox.",
+    "date": "2026-10-07T00:00:00.000Z",
+    "dateText": "Oct 7, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/RIINApIZPX9bxJmnCtqS3XSAgs.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "A Mochi mascot removes one message from a shared conversation conveyor belt while protecting valuable lead messages from a shredder."
+    }
+  },
+  {
+    "slug": "qr-code-for-instagram-account",
+    "title": "How to Create a QR Code for Your Instagram Account",
+    "excerpt": "An Instagram QR code gives people a quick route from a physical or digital touchpoint to your profile. This guide explains how to find and share yours, where to place it, and how to build a clear path from the scan to a DM conversation your team can manage.",
+    "date": "2026-10-08T00:00:00.000Z",
+    "dateText": "Oct 8, 2026",
+    "label": "Blog",
+    "version": "1.0",
+    "cover": {
+      "src": "/framer/nWYjtmu7cWEYGOAIy6meIUbpiSg.png",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Mochi mascots guide people from a QR-code sign through an Instagram profile doorway and organize the resulting DM conversations into priority lanes."
+    }
+  }
+]

@@ -42,7 +42,7 @@ export function McpHero() {
         <div className="flex w-full flex-col items-center gap-12 md:gap-16 lg:gap-20">
           <div className="flex w-full max-w-[756px] flex-col items-center gap-10 lg:gap-16">
             <div className="flex w-full flex-col items-center gap-8 lg:gap-10">
-              <div className="flex w-full flex-col items-center gap-3 md:gap-4">
+              <div className="flex w-full flex-col items-center gap-3 lg:gap-4">
                 <Reveal y={32} delay={0} className="flex items-center justify-center gap-2 rounded-[179px] bg-[rgba(218,119,85,0.12)] px-2.5 py-2">
                   <div className="flex items-center gap-1 overflow-clip rounded-[179px] px-3 py-px">
                     <p className="text-center font-dm text-[13px] leading-[15.6px] font-medium whitespace-pre text-[#da7755] md:text-[14px] md:leading-[16.8px]">

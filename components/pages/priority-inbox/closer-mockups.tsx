@@ -39,7 +39,7 @@ const LOOP = 7;
 const FILTER_ROWS = [FilterRow0, FilterRow1, FilterRow2, FilterRow3, FilterRow4, FilterRow5, FilterRow6, FilterRow7, FilterRow8];
 
 function OverlayRow({ avatar, tags, delay }: { avatar: string; tags: ReactNode; delay: number }) {
-  const times = [0, 0.28, 0.42, 0.82, 0.95, 1];
+  const times = [0, 0.56, 0.66, 0.86, 0.96, 1];
   const t = { duration: LOOP, repeat: Infinity, times, delay, ease: "easeOut" as const };
   return (
     <div className="flex w-full gap-5 px-4 py-3">
@@ -104,7 +104,7 @@ export function LeadFiltersMockup() {
       <motion.div
         className="absolute top-16 right-4 -bottom-[210px] left-4 z-[2] overflow-hidden rounded-[16px] bg-white md:right-auto md:left-1/2 md:w-[426px] md:-translate-x-1/2"
         animate={{ opacity: [0, 0, 0.87, 0.87, 0, 0] }}
-        transition={{ duration: LOOP, repeat: Infinity, times: [0, 0.25, 0.4, 0.84, 0.96, 1], ease: "easeOut" }}
+        transition={{ duration: LOOP, repeat: Infinity, times: [0, 0.54, 0.64, 0.88, 0.97, 1], ease: "easeOut" }}
       >
         <OverlayRow
           avatar="/framer/pdhs4zeRa4LdxXCRsTzE7NB9Wo.png"
@@ -215,11 +215,10 @@ function Tag({ icon, label, runde = false }: { icon: ReactNode; label: string; r
   );
 }
 
-function Avatar({ src, size, ring }: { src: string; size: 48 | 60; ring?: { src: string; className: string } }) {
+function Avatar({ src, size }: { src: string; size: 48 | 60 }) {
   return (
     <div className={`relative shrink-0 ${size === 60 ? "size-[60px]" : "size-12"}`}>
       <Image src={src} alt="" width={size * 2} height={size * 2} className="size-full rounded-full object-cover" />
-      {ring && <Image src={ring.src} alt="" width={144} height={144} className={`absolute object-cover ${ring.className}`} />}
     </div>
   );
 }
@@ -256,7 +255,7 @@ function MobileMockup() {
   return (
     <div className="pointer-events-none absolute -top-[157px] right-3 left-3 flex flex-col opacity-25 md:right-auto md:left-1/2 md:w-[440px] md:-translate-x-1/2">
       <div className="flex gap-4 px-5 py-3">
-        <Avatar src="/framer/LEQICsPlLp8B8KuSsCGIOgpbOBE.png" size={60} ring={{ src: "/framer/kk32QUr0TV480dYbLW0a5xbZU.png", className: "-top-[3px] -right-1.5 -bottom-[3px] left-0 size-[66px]" }} />
+        <Avatar src="/framer/LEQICsPlLp8B8KuSsCGIOgpbOBE.png" size={60} />
         <div className="flex min-w-0 flex-1 flex-col gap-2">
           <div className="flex flex-col gap-2 py-1.5">
             <div className="flex items-center gap-2">
@@ -284,7 +283,7 @@ function MobileMockup() {
         </div>
       </div>
       <div className="flex gap-4 px-5 py-3">
-        <Avatar src="/framer/zY7nSlSkqcpPHQHeEv53WnFNW0.png" size={48} ring={{ src: "/framer/tXdC8FP13s39zQLuVYjYlx0M0Ng.png", className: "-top-1.5 -left-1.5 size-[72px]" }} />
+        <Avatar src="/framer/zY7nSlSkqcpPHQHeEv53WnFNW0.png" size={48} />
         <div className="flex min-w-0 flex-1 flex-col gap-2">
           <Pills title={330} width={84} pills={[76, 100]} />
           <div className="flex gap-2">
@@ -303,7 +302,7 @@ function MobileMockup() {
         </div>
       </div>
       <div className="flex gap-4 px-5 py-3">
-        <Avatar src="/framer/LEQICsPlLp8B8KuSsCGIOgpbOBE.png" size={48} ring={{ src: "/framer/DQTeZOuFlpYKYF9xtNq2A03Pdw.png", className: "-top-[3px] -left-[3px] size-[66px]" }} />
+        <Avatar src="/framer/LEQICsPlLp8B8KuSsCGIOgpbOBE.png" size={48} />
         <div className="flex min-w-0 flex-1 flex-col gap-2">
           <Pills title={330} width={162} pills={[154, 100]} />
           <div className="flex gap-2">
@@ -312,7 +311,7 @@ function MobileMockup() {
         </div>
       </div>
       <div className="flex gap-4 px-5 py-3">
-        <Avatar src="/framer/PX5O4FL0uQwrxh654mQB40wOOCc.jpg" size={48} ring={{ src: "/framer/r5NBdVz28pWZGBLjcVFD4RlOu4.png", className: "top-px -left-[9px] size-[67px]" }} />
+        <Avatar src="/framer/PX5O4FL0uQwrxh654mQB40wOOCc.jpg" size={48} />
         <div className="flex min-w-0 flex-1 flex-col gap-2">
           <Pills title={218} width={120} pills={[112, 100]} />
           <div className="flex gap-2">

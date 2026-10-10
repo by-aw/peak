@@ -47,7 +47,7 @@ function TechnicalNotes() {
           <ParameterBlock label="PARAMETER TYPE A" title="Standard time periods">
             <div className="flex w-full flex-wrap items-center gap-2">
               {PERIODS.map((p) => (
-                <Chip key={p} className="leading-normal text-[#1a1a1a]">
+                <Chip key={p} className="leading-[15px] text-[#1a1a1a]">
                   {p}
                 </Chip>
               ))}
@@ -59,7 +59,7 @@ function TechnicalNotes() {
           <ParameterBlock label="PARAMETER TYPE B" title="Rolling intervals — Link Analytics">
             <div className="flex w-full flex-wrap items-center gap-1.5">
               {INTERVALS.map((p) => (
-                <Chip key={p} className="leading-normal font-medium text-[#0d1117]">
+                <Chip key={p} className="leading-[15px] font-medium text-[#0d1117]">
                   {p}
                 </Chip>
               ))}

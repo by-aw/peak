@@ -46,7 +46,7 @@ export function PersonalChatCard() {
               <div className="w-full rounded-[12px_12px_6px_12px] bg-[#3b82f6] px-3 py-3.5">
                 <p className="text-[14px] leading-6 font-normal tracking-[-0.2px] text-white">Hey! Thanks for reaching out. Our program covers fitness and mindset. Would you like to learn more? 😊</p>
               </div>
-              <div className="flex items-center gap-2 rounded-[12px_6px_12px_12px] bg-[#3b82f6] p-3">
+              <div className="flex h-[38px] items-center gap-2 rounded-[12px_6px_12px_12px] bg-[#3b82f6] px-3">
                 <span className="flex items-center gap-1.5">
                   <span className="flex size-4 items-center justify-center">
                     <PlayMicro width={10} height={12} />

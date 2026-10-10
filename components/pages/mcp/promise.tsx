@@ -24,7 +24,7 @@ export function McpPromise() {
     <McpSection label="The Mochi Promise" innerClassName="px-5 py-16 lg:px-10 lg:py-20">
       <div className="flex w-full flex-col items-center gap-8 md:gap-12 lg:gap-14">
         <p className="w-full text-center font-fraunces text-[28px] leading-10 font-semibold tracking-[-0.72px] whitespace-pre-wrap text-[#1a1612] md:text-[36px]">The Mochi Promise</p>
-        <div className="flex w-full flex-col items-start gap-4 md:flex-row">
+        <div className="flex w-full flex-col gap-4 md:flex-row">
           {BLOCKS.map((b) => (
             <div
               key={b.title}

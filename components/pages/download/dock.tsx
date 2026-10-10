@@ -14,15 +14,25 @@ const APPS = [
 
 const SPRING = { type: "spring", stiffness: 300, damping: 26, mass: 0.8 } as const;
 
+/** Icon sizes of the Framer variants D-1..D-5 (index = hovered icon), measured on the live site. */
+const SIZES: number[][] = [
+  [110, 90, 70, 70, 70],
+  [90, 110, 70, 70, 70],
+  [70, 90, 110, 90, 70],
+  [70, 70, 70, 110, 90],
+  [70, 70, 70, 90, 110],
+];
+
 /**
- * macOS-style dock from the Download page. Framer variants: the hovered icon grows to 110px, its neighbours to
- * 90px, the rest stay 70px (D-1..D-5); with nothing hovered every icon is 70px (D-Default). The page loads with
- * the Mochi icon magnified (D-3) until the pointer first leaves the dock. The Mochi icon carries the "running"
- * dot. `variant="static"` renders the flat D-Default state used inside the desktop wallpaper mockup.
+ * macOS-style dock from the Download page. Framer variants: the hovered icon grows to 110px and a neighbour to
+ * 90px (the Mochi icon in the middle only grows when it is hovered itself), the rest stay 70px (D-1..D-5); with
+ * nothing hovered every icon is 70px (D-Default). The page loads with the Mochi icon magnified (D-3) until the
+ * pointer first leaves the dock. The Mochi icon carries the "running" dot. `variant="static"` renders the flat
+ * D-Default state used inside the desktop wallpaper mockup.
  */
 export function Dock({ variant = "interactive" }: { variant?: "interactive" | "static" }) {
   const [active, setActive] = useState<number | null>(variant === "interactive" ? 2 : null);
-  const sizeOf = (i: number) => (active === null ? 70 : i === active ? 110 : Math.abs(i - active) === 1 ? 90 : 70);
+  const sizeOf = (i: number) => (active === null ? 70 : SIZES[active][i]);
   const interactive = variant === "interactive";
   return (
     <div

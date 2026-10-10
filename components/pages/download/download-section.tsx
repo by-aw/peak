@@ -4,6 +4,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { FeatureHeading } from "@/components/shared/feature-heading";
 import { ComputerIcon, SmartphoneIcon, TabletIcon } from "@/components/icons/download-icons";
 import { Dock } from "./dock";
+import { PhoneParallax } from "./phone-parallax";
 
 const PLATFORMS: { icon: ReactNode; title: string; description: string }[] = [
   { icon: <ComputerIcon />, title: "Web App", description: "Open your Mochi workspace in your browser. No download required." },
@@ -48,9 +49,9 @@ export function DownloadSection() {
               </div>
               {/* phone: lone iPhone; tablet/desktop: Safari window + iPhone */}
               <div className="pointer-events-none absolute inset-x-4 top-[-80px] bottom-[-137px] z-[7] md:hidden">
-                <div className="absolute inset-x-[-9px] top-[78px] bottom-[-1px] translate-y-[88px]">
+                <PhoneParallax className="absolute inset-x-[-9px] top-[78px] bottom-[-1px]">
                   <Image src="/framer/ptuGZSs7ykoGQIc8JwBBeTfW9Y.png" alt="" width={1344} height={2560} sizes="336px" className="absolute inset-0 h-full! w-full object-contain" />
-                </div>
+                </PhoneParallax>
               </div>
               <div className="pointer-events-none absolute top-[104px] right-[-336px] z-[7] hidden h-[717px] w-[1197px] md:block">
                 <div className="absolute top-0 bottom-[26px] left-[278px] z-[1] w-[919px] overflow-hidden rounded-[17.23px] shadow-[0_41.6422px_48.1039px_0_rgba(0,0,0,0.09),0_2.87187px_20.1031px_0_rgba(0,0,0,0.25),0_2.87187px_14.3594px_0_rgba(0,0,0,0.16)] inset-ring-1 inset-ring-[rgba(0,0,0,0.08)]">

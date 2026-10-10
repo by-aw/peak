@@ -16,14 +16,10 @@ export function UpdatesHero() {
       <UpdatesClouds />
       <div className="relative z-[1] flex w-full flex-col items-center gap-6">
         <div className="relative">
-          <Image
-            src="/framer/eaXKUQtDvTme5sDm01ylMYQGrFA.png"
-            alt=""
-            width={832}
-            height={1019}
-            sizes="70px"
-            className="absolute top-[-74px] left-1/2 z-[1] hidden h-[86px] w-[70px] -translate-x-1/2 md:block"
-          />
+          {/* wrapper div: the unlayered `img { display: block }` in globals.css would beat `hidden` on the image itself */}
+          <div aria-hidden className="absolute top-[-74px] left-1/2 z-[1] hidden h-[86px] w-[70px] -translate-x-1/2 md:block">
+            <Image src="/framer/eaXKUQtDvTme5sDm01ylMYQGrFA.png" alt="" width={832} height={1019} sizes="70px" className="h-[86px] w-[70px]" />
+          </div>
           <Link
             href="/updates/voice-messages-convert-3x-better-mochi-scenes"
             className={`relative flex items-center gap-4 rounded-[99px] bg-purple-50 px-3 py-1.5 text-[14px] leading-5 font-medium whitespace-pre text-purple-500 ${badgeShadow}`}

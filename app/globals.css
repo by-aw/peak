@@ -189,6 +189,7 @@ img, video { max-width: 100%; height: auto; display: block; }
   color: #1d1d20;
   font-style: italic;
 }
+.prose-update blockquote p + p { margin-top: 20px; }
 .prose-update img {
   display: block;
   max-width: 100%;

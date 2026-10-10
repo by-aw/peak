@@ -29,7 +29,7 @@ export function DownloadHero() {
                     href={TESTFLIGHT_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-center gap-[6px] overflow-hidden rounded-[70px] bg-purple-500 px-[14px] py-3 transition-colors duration-200 hover:bg-purple-600"
+                    className="flex items-center justify-center gap-[6px] overflow-hidden rounded-[70px] bg-purple-500 px-[14px] py-3"
                   >
                     <AppGridIcon className="shrink-0" />
                     <span className="text-[14px] leading-[15.4px] font-medium whitespace-pre text-white">Download for iOS</span>
@@ -38,7 +38,7 @@ export function DownloadHero() {
                     href={WEB_APP_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-center gap-[6px] overflow-hidden px-[14px] py-3 text-[rgba(255,255,255,0.75)] transition-colors duration-200 hover:text-white"
+                    className="flex items-center justify-center gap-[6px] overflow-hidden px-[14px] py-3 text-[rgba(255,255,255,0.75)]"
                   >
                     <span className="flex size-[19px] flex-col items-center justify-start">
                       <GlobeIcon className="shrink-0" />

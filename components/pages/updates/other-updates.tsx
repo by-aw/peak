@@ -8,10 +8,11 @@ import type { UpdateSummary } from "@/lib/updates";
  * 2-line excerpt, date + version, "Read more".
  */
 function OtherCard({ post }: { post: UpdateSummary }) {
-  const ratio = post.cover?.width && post.cover.height ? `${post.cover.width} / ${post.cover.height}` : "16 / 9";
+  // A post without a cover keeps an empty frame: square on phone, 16:9 on tablet/desktop (as on the live site).
+  const ratio = post.cover?.width && post.cover.height ? `${post.cover.width} / ${post.cover.height}` : undefined;
   return (
     <Link href={`/updates/${post.slug}`} className="flex w-full flex-col gap-6 md:w-[320px]">
-      <div className="relative w-full overflow-hidden rounded-[12px]" style={{ aspectRatio: ratio }}>
+      <div className={`relative w-full overflow-hidden rounded-[12px] ${post.cover ? "" : "aspect-square md:aspect-[16/9]"}`} style={ratio ? { aspectRatio: ratio } : undefined}>
         {post.cover && <Image src={post.cover.src} alt={post.cover.alt} fill sizes="(min-width: 810px) 320px, calc(100vw - 32px)" className="rounded-[12px] object-cover" />}
       </div>
       <div className="flex flex-col gap-4 overflow-clip">

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { FaqToggleIcon } from "@/components/icons/feature-icons";
+import { Reveal } from "@/components/ui/reveal";
 
 export type FaqEntry = { question: string; answer: string };
 
@@ -48,33 +49,47 @@ export function FeatureFaqItem({ question, answer, defaultOpen = false }: FaqEnt
 
 /**
  * Framer "FAQ Section" of the feature-page template: "Frequently Asked / Questions" heading, a 700px
- * column of accordion items and a cloud strip fading in at the bottom of the section.
+ * column of accordion items and a cloud strip fading in at the bottom of the section. The heading and the
+ * list each fade/slide in (y 48) when scrolled into view, like the Framer template.
  */
 export function FeatureFaq({
   items,
   clouds = true,
   className = "",
+  animate = true,
 }: {
   items: FaqEntry[];
+  /** Appear animation (fade + slide up) of the heading and the list; the live template has it on every feature page. */
+  animate?: boolean;
   /** The cloud strip at the bottom of the section (the integration pages /meta-ads, /payments have none). */
   clouds?: boolean;
   /** Extra classes for the padded wrapper (e.g. `pt-0` on pages whose phone layout has no top padding). */
   className?: string;
 }) {
+  const heading = (
+    <h2 className="text-center font-display text-[32px] leading-[32px] font-semibold text-black md:text-[40px] md:leading-[40px] lg:text-[48px] lg:leading-[48px]">
+      Frequently Asked <span className="text-gray-550">Questions</span>
+    </h2>
+  );
+  const list = items.map((item) => <FeatureFaqItem key={item.question} {...item} />);
   return (
     <section className="relative flex w-full flex-col items-center overflow-clip" aria-label="Frequently asked questions">
       <div className={`flex w-full flex-col items-center overflow-clip px-5 py-12 md:px-12 md:py-16 lg:px-[100px] lg:py-20 ${className}`.trim()}>
         <div className="relative z-[1] flex w-full max-w-[1000px] flex-col items-center gap-10 overflow-clip md:gap-16">
-          <div className="flex w-full flex-col gap-2 md:w-[468px]">
-            <h2 className="text-center font-display text-[32px] leading-[32px] font-semibold text-black md:text-[40px] md:leading-[40px] lg:text-[48px] lg:leading-[48px]">
-              Frequently Asked <span className="text-gray-550">Questions</span>
-            </h2>
-          </div>
-          <div className="flex w-full max-w-[700px] flex-col items-center gap-2 overflow-clip">
-            {items.map((item) => (
-              <FeatureFaqItem key={item.question} {...item} />
-            ))}
-          </div>
+          {animate ? (
+            <Reveal y={48} delay={0.2} className="flex w-full flex-col gap-2 md:w-[468px]">
+              {heading}
+            </Reveal>
+          ) : (
+            <div className="flex w-full flex-col gap-2 md:w-[468px]">{heading}</div>
+          )}
+          {animate ? (
+            <Reveal y={48} delay={0.2} className="flex w-full max-w-[700px] flex-col items-center gap-2 overflow-clip">
+              {list}
+            </Reveal>
+          ) : (
+            <div className="flex w-full max-w-[700px] flex-col items-center gap-2 overflow-clip">{list}</div>
+          )}
         </div>
       </div>
       {clouds && (

@@ -41,8 +41,12 @@ export default async function UpdatePage({ params }: Props) {
           <article className="flex w-full max-w-[720px] flex-col gap-12">
             <PostHeader post={post} />
             {post.cover && (
-              <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[12px]">
-                <Image src={post.cover.src} alt={post.cover.alt} fill preload sizes="(min-width: 810px) 720px, calc(100vw - 32px)" className="rounded-[12px] object-contain" />
+              // The cover frame takes the image's own aspect ratio (1920x1080 for most posts, 1576x1138 / 1280x713 for some).
+              <div
+                className="relative w-full overflow-hidden rounded-[12px]"
+                style={{ aspectRatio: post.cover.width && post.cover.height ? `${post.cover.width} / ${post.cover.height}` : "16 / 9" }}
+              >
+                <Image src={post.cover.src} alt={post.cover.alt} fill preload sizes="(min-width: 810px) 720px, calc(100vw - 32px)" className="rounded-[12px] object-cover" />
               </div>
             )}
             <PostBody blocks={post.blocks} />

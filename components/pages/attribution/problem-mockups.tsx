@@ -54,14 +54,14 @@ const cardLine = "after:pointer-events-none after:absolute after:inset-0 after:r
  */
 export function LeadTicker() {
   return (
-    <div className="relative flex w-full items-start p-6 [mask-image:linear-gradient(rgb(0,0,0)_83%,rgba(0,0,0,0)_100%)]">
+    <div className="relative flex w-full items-start p-4 md:p-6 [mask-image:linear-gradient(rgb(0,0,0)_83%,rgba(0,0,0,0)_100%)]">
       <div className="pointer-events-none absolute top-1/2 left-1/2 z-[2] w-[312px] -translate-x-1/2 -translate-y-1/2">
         <LeadCard
           lead={{ avatar: "/framer/HoMs1ZaqfaLWHV8xjmnPTyoFk.jpg", avatarSize: 1024, name: "mike.coach", url: "calendly.com/coach/discovery", time: "4hrs", clicked: false }}
           className="shadow-[0_0_0_0.5px_#e0e0e0,0_1px_2px_0_rgba(0,0,0,0.05),0_2px_16px_0_rgba(0,0,0,0.08),0_2px_40px_0_rgba(0,0,0,0.08)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[12px] after:border-b after:border-gray-150"
         />
       </div>
-      <div className="relative h-[374px] w-full overflow-clip [mask-image:linear-gradient(rgb(0,0,0)_83%,rgba(0,0,0,0)_100%)]">
+      <div className="relative h-[366px] w-full overflow-clip md:h-[350px] [mask-image:linear-gradient(rgb(0,0,0)_83%,rgba(0,0,0,0)_100%)]">
         <div className="absolute top-1/2 left-1/2 h-[1260px] w-[286px] -translate-x-1/2 -translate-y-1/2 overflow-hidden">
           <motion.ul
             className="flex w-full flex-col gap-2 will-change-transform"
@@ -85,7 +85,7 @@ export function LeadTicker() {
 /** "Which setter actually drives results?" mockup: the stacked setter-card illustration, faded on both sides. */
 export function SetterStack() {
   return (
-    <div className="flex w-full items-start p-6 [mask-image:linear-gradient(270deg,rgba(0,0,0,0)_3%,rgb(0,0,0)_25%)] md:min-h-[398px]">
+    <div className="flex min-h-[378px] w-full items-center p-4 md:min-h-[398px] md:p-6 [mask-image:linear-gradient(270deg,rgba(0,0,0,0)_3%,rgb(0,0,0)_25%)]">
       <div className="relative h-[328px] w-full overflow-hidden [mask-image:linear-gradient(90deg,rgba(0,0,0,0)_-7%,rgb(0,0,0)_24%)] md:h-[350px] md:[mask-image:linear-gradient(90deg,rgba(0,0,0,0)_17%,rgb(0,0,0)_29%)] lg:[mask-image:linear-gradient(90deg,rgba(0,0,0,0)_0%,rgb(0,0,0)_17%)]">
         <Image
           src="/framer/IvCQj44oClmYjqjx2X0GeLolk7I.png"
@@ -109,7 +109,7 @@ const ROWS: [string, boolean][] = [
 /** "What content actually converts?" mockup: unknown booking sources, dashed line and the "Call Booked" pill. */
 export function CallBookedMockup() {
   return (
-    <div className="flex w-full flex-col items-center justify-center p-4 md:min-h-[398px] md:p-6">
+    <div className="flex min-h-[398px] w-full flex-col items-center justify-center p-4 md:p-6">
       <div className="relative flex w-full max-w-[316px] flex-col items-start gap-3.5 overflow-hidden rounded-[12px] p-2 after:pointer-events-none after:absolute after:inset-0 after:rounded-[12px] after:border after:border-dashed after:border-gray-150 md:max-w-[285px]">
         <div className="flex w-full flex-col items-start gap-1">
           {ROWS.map(([label, labelGrows]) => (

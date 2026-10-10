@@ -134,8 +134,8 @@ export function PaymentsProblem() {
             <Reveal key={card.title} y={64} delay={0.2 + i * 0.1} className="flex w-full flex-col gap-6 lg:flex-1 lg:basis-0">
               <div className={`relative w-full overflow-hidden rounded-[16px] bg-gray-25 ${card.height}`}>{card.mockup}</div>
               <div className="flex w-full flex-col gap-1.5">
-                <p className="text-[18px] leading-[27px] font-medium tracking-[-0.36px] whitespace-pre-wrap text-ink-3">{card.title}</p>
-                <p className="text-[15px] leading-[21.75px] font-normal tracking-[-0.15px] whitespace-pre-wrap text-[rgba(82,82,82,0.8)]">{card.description}</p>
+                <p className="text-[15px] leading-[22.5px] font-medium tracking-[-0.3px] whitespace-pre-wrap text-ink-3 md:text-[16px] md:leading-[24px] md:tracking-[-0.32px] lg:text-[18px] lg:leading-[27px] lg:tracking-[-0.36px]">{card.title}</p>
+                <p className="text-[14px] leading-[20.3px] font-normal tracking-[-0.14px] whitespace-pre-wrap text-[rgba(82,82,82,0.8)] md:max-w-[558px] md:text-[15px] md:leading-[21.75px] md:tracking-[-0.15px]">{card.description}</p>
               </div>
             </Reveal>
           ))}

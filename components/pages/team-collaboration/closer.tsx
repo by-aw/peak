@@ -12,7 +12,7 @@ export function TeamCloserSection() {
   return (
     <FeatureSection
       label="Everything your team needs around every lead"
-      headingClassName="text-center text-black"
+      headingClassName="text-left text-black"
       heading="Everything your team needs around every lead"
       description={
         <>

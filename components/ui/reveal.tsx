@@ -9,6 +9,8 @@ type RevealProps = HTMLMotionProps<"div"> & {
   x?: number;
   /** Delay in seconds before the spring starts (Framer used 0.2-0.35). */
   delay?: number;
+  /** Initial scale the element grows from (Framer scale appears use 0.8-0.98). */
+  scale?: number;
 };
 
 /**
@@ -16,11 +18,11 @@ type RevealProps = HTMLMotionProps<"div"> & {
  * Matches the published site's animator config:
  * initial {opacity: 0.001, y} -> animate {opacity: 1, y: 0}, spring stiffness 150 / damping 30 / mass 1.
  */
-export function Reveal({ y = 48, x = 0, delay = 0.2, children, ...rest }: RevealProps) {
+export function Reveal({ y = 48, x = 0, delay = 0.2, scale = 1, children, ...rest }: RevealProps) {
   return (
     <motion.div
-      initial={{ opacity: 0.001, x, y }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      initial={{ opacity: 0.001, x, y, scale }}
+      whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ type: "spring", stiffness: 150, damping: 30, mass: 1, delay }}
       {...rest}

@@ -17,7 +17,7 @@ export function SalesCloserSection() {
   return (
     <FeatureSection
       label="Your pipeline, measured"
-      headingClassName="text-center text-black"
+      headingClassName="text-left text-black"
       heading={
         <>
           Your pipeline, <HeadingAccent>measured</HeadingAccent>, not remembered.
@@ -82,7 +82,7 @@ export function SalesEfficiencySection() {
   return (
     <FeatureSection
       label="Where deals are won and lost"
-      headingClassName="text-center text-black"
+      headingClassName="text-left text-black"
       heading={
         <>
           <HeadingAccent>Where deals</HeadingAccent> are won and lost
@@ -166,7 +166,7 @@ export function SalesAfterCallSection() {
       label="What happens after the call"
       tone="gray"
       layout="row"
-      headingClassName="text-center text-gray-550"
+      headingClassName="text-left text-gray-550"
       heading={
         <>
           <span className="text-black">What happens </span>after the call

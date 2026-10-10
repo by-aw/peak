@@ -51,7 +51,7 @@ export function TeamChatMockup() {
           <p className="text-[14px] leading-[14px] font-semibold whitespace-pre text-gray-400">1/3</p>
         </div>
         <div className="min-w-0 flex-1 overflow-clip">
-          <p className="text-[14px] leading-[14.7px] font-medium tracking-[-0.2px] whitespace-nowrap text-black">
+          <p className="truncate text-[14px] leading-[14.7px] font-medium tracking-[-0.2px] text-black">
             morning guys big push this week — want at least 15 booked calls by friday. who’s on follow-ups today?
           </p>
         </div>

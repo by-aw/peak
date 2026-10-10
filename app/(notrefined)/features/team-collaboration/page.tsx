@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { FeatureBackground } from "@/components/shared/feature-background";
 import { FeatureFaq, type FaqEntry } from "@/components/shared/feature-faq";
-import { TeamCollaborationHero } from "@/components/pages/team-collaboration/hero";
+import { MidCta } from "@/components/shared/mid-cta";
+import { TEAM_COLLABORATION_CTA, TeamCollaborationHero } from "@/components/pages/team-collaboration/hero";
 import { TeamCloserSection } from "@/components/pages/team-collaboration/closer";
 
 const TITLE = "Team Collaboration for Instagram DM Teams | Mochi";
@@ -46,6 +47,7 @@ export default function TeamCollaborationPage() {
       <div aria-hidden className="h-[68px] w-full md:h-[82px]" />
       <TeamCollaborationHero />
       <TeamCloserSection />
+      <MidCta href={TEAM_COLLABORATION_CTA} />
       <FeatureFaq items={FAQ} />
     </>
   );

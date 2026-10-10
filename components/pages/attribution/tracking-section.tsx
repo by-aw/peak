@@ -27,7 +27,7 @@ export function TrackingSection() {
           <div className={`${line("after:border-b")} flex w-full flex-col items-center gap-4 px-4 py-12 md:px-0 md:pt-0 md:pb-16`}>
             <h3 className={`${H3} w-full max-w-[486px] whitespace-pre-wrap`}>From DM to purchase. Every step.</h3>
           </div>
-          <div className={`${line("after:border-b")} grid w-full grid-cols-1 overflow-hidden md:grid-cols-2 lg:grid-cols-4`}>
+          <div className={`${line("after:border-b")} grid w-full grid-cols-1 overflow-hidden md:auto-rows-fr md:grid-cols-2 lg:grid-cols-4`}>
             {STEPS.map((step, i) => (
               <div key={step.title} className={`${cardLines(i)} flex w-full flex-col items-start gap-4 overflow-hidden p-6 md:p-8`}>
                 <div className="relative size-5 shrink-0">{step.icon}</div>

@@ -38,11 +38,11 @@ export function SetterDashboardMockup() {
 
 /** "Reply Rate by Message Type" mockup: reply-rate header and four message-type rows (428x288). */
 export function ReplyRateMockup() {
-  const rows: { label: string; bar: string; strong?: boolean; tall?: boolean }[] = [
-    { label: "Voice note", bar: "w-[291px]" },
-    { label: "Video", bar: "w-[249px]" },
-    { label: "Image", bar: "w-[197px]" },
-    { label: "Text only", bar: "w-[102px]", strong: true, tall: true },
+  const rows: { label: string; bar: string; rate: string; strong?: boolean; tall?: boolean }[] = [
+    { label: "Voice note", bar: "w-[291px]", rate: "88%" },
+    { label: "Video", bar: "w-[249px]", rate: "72%" },
+    { label: "Image", bar: "w-[197px]", rate: "61%" },
+    { label: "Text only", bar: "w-[102px]", rate: "27%", strong: true, tall: true },
   ];
   return (
     <MockupFrame className={`flex flex-col overflow-hidden rounded-[16px] bg-gray-25 ${HAIRLINE}`}>
@@ -63,7 +63,10 @@ export function ReplyRateMockup() {
               )}
               <Skeleton className={`max-w-full ${row.bar}`} />
             </div>
-            <div className="h-0 w-[66px] shrink-0 overflow-hidden" />
+            {/* Framer collapses this 66px rate column to 0px height on tablet/desktop; it is only visible on phones. */}
+            <div className="flex h-full w-[66px] shrink-0 items-center justify-center overflow-hidden md:h-0">
+              <p className="text-[12px] leading-[12.6px] font-normal tracking-[-0.2px] whitespace-pre text-[#aaa]">{row.rate}</p>
+            </div>
           </div>
         ))}
       </div>

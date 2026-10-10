@@ -44,6 +44,18 @@ export const CLOSERS_CARD: ReportCardData = {
   ],
 };
 
+/** Data of the small "Desktop/1" stack in the features section (Whop/Stripe/FanBasis with volumes; Bella + John). */
+export const FEES_MINI: ReportCardData = {
+  title: "Processing Fees by provider",
+  rows: [
+    { avatar: "/framer/SXRvjjK82GbGGGs4oZPWqCjqSs.png", name: "Whop", value: "$1,499.10", sub: "4 transactions", sub2: "$20K volume", right: "Total fees", square: true },
+    { avatar: "/framer/nelubE7l2ZzJ9Tg3l0IDknQmETk.jpg", name: "Stripe", value: "$988.90", sub: "13 transactions", sub2: "$20K volume", right: "Total fees", square: true },
+    { avatar: "/framer/U4R8Nb7s2UqfrxMslOxB1HLT7b0.png", name: "FanBasis", value: "$82.31", sub: "6 transactions", sub2: "$3K volume", right: "Total fees", square: true },
+  ],
+};
+
+export const CLOSERS_MINI: ReportCardData = { ...CLOSERS_CARD, rows: [CLOSERS_CARD.rows[0], CLOSERS_CARD.rows[2]] };
+
 /**
  * White report card: grey 44px header, optional two stat cells, then 70px rows (avatar, name/value, sub/right).
  * `size="sm"` is the 0.558x variant of the features-section stack (7.82px text, 39px rows).
@@ -54,7 +66,7 @@ export function ReportCard({ data, size = "md", className = "", rows }: { data: 
   const s = sm ? "text-[7.82px] leading-[7.82px] tracking-[-0.11px]" : "text-[14px] leading-[14px] tracking-[-0.2px]";
   const list = rows ? data.rows.slice(0, rows) : data.rows;
   return (
-    <div className={`flex w-full flex-col overflow-hidden bg-white ${sm ? "rounded-[6.7px]" : "rounded-[16px]"} ${className}`}>
+    <div className={`flex w-full flex-col overflow-hidden bg-white ${sm ? "rounded-[6.7px] shadow-[0_0_0_0.5px_rgba(0,0,0,0.06)]" : "rounded-[16px]"} ${className}`}>
       <div className={`flex w-full items-center overflow-hidden bg-gray-25 ${sm ? "p-[8.93px]" : "p-4"}`}>
         <p className={`${t} font-medium whitespace-pre text-[#6d6d6d]`}>{data.title}</p>
       </div>

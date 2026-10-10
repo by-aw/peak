@@ -54,7 +54,7 @@ export function McpHero() {
                 <div className="flex w-full flex-col items-center gap-4 lg:gap-5">
                   <Reveal y={32} delay={0.1} className="flex w-full justify-center">
                     <p className="text-center font-fraunces text-[40px] leading-[46px] font-semibold whitespace-pre-wrap text-black md:max-w-[572px] md:text-[48px] md:leading-[60px] lg:max-w-none lg:text-[56px] lg:leading-[70px]">
-                      Your sales data, inside Claude
+                      Your sales data,&nbsp;inside Claude
                     </p>
                   </Reveal>
                   <Reveal y={32} delay={0.2} className="flex w-full justify-center">

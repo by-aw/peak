@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { FeatureBackground } from "@/components/shared/feature-background";
 import { CreatorCarousel } from "@/components/shared/creator-carousel";
 import { FeatureFaq, type FaqEntry } from "@/components/shared/feature-faq";
-import { SalesPerformanceHero } from "@/components/pages/sales-performance/hero";
+import { MidCta } from "@/components/shared/mid-cta";
+import { SALES_PERFORMANCE_CTA, SalesPerformanceHero } from "@/components/pages/sales-performance/hero";
 import { SalesAfterCallSection, SalesCloserSection, SalesEfficiencySection } from "@/components/pages/sales-performance/sections";
 
 const TITLE = "DM Sales Performance Dashboard | Mochi";
@@ -61,6 +62,7 @@ export default function SalesPerformancePage() {
       <SalesPerformanceHero />
       <CreatorCarousel />
       <SalesCloserSection />
+      <MidCta href={SALES_PERFORMANCE_CTA} />
       <SalesEfficiencySection />
       <SalesAfterCallSection />
       <FeatureFaq items={FAQ} />

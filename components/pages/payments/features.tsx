@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { motion } from "motion/react";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeader } from "@/components/shared/section-header";
-import { AblefyRowIcon, FanBasisRowIcon, GrabCursorIcon, MochiPillIcon } from "@/components/icons/payments-icons";
+import { AblefyRowIcon, GrabCursorIcon, MochiPillIcon } from "@/components/icons/payments-icons";
 import { CLOSERS_MINI, FEES_MINI, ReportCard, SETTERS_CARD } from "./mockups";
 
 /** 18px tick used by the check lists of the features / AI sections (Framer "tick-02"). */
@@ -113,7 +113,7 @@ const MATCHES: MatchRow[] = [
 ];
 
 function ProviderIcon({ provider }: { provider: MatchRow["provider"] }) {
-  if (provider === "FanBasis") return <FanBasisRowIcon className="size-5 shrink-0" />;
+  if (provider === "FanBasis") return <Image src="/framer/GZGpjeygCJl5dCzEeV0E1de7Tg.png" alt="" width={40} height={40} className="size-5 shrink-0 rounded-[5px] object-cover" />;
   if (provider === "Ablefy") return <AblefyRowIcon className="size-5 shrink-0" />;
   if (provider === "Stripe") return <Image src="/framer/LCA991fmJM3Cg2Mo4lTPmmkGqWQ.png" alt="" width={32} height={32} className="size-5 shrink-0 rounded-[5px]" />;
   return <Image src="/framer/cXKLpQFwYqeJV2oACXV6KP7Ae3Y.png" alt="" width={24} height={24} className="size-5 shrink-0 rounded-[5px]" />;

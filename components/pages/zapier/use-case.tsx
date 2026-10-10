@@ -80,7 +80,7 @@ export function ZapierUseCase() {
             </motion.div>
           </div>
         </div>
-        <div className="flex w-full min-w-0 flex-col items-start gap-3 md:order-1 md:flex-1">
+        <div className="flex w-full min-w-0 flex-col items-start gap-3 md:order-1 md:w-[402px] md:shrink-0">
           {USE_CASES.map((u, i) => {
             const on = i === active;
             return (

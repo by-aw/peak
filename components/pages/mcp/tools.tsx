@@ -83,8 +83,8 @@ export function McpTools() {
   return (
     <section className="relative flex w-full flex-col items-center overflow-hidden bg-white px-4 py-12 md:px-10 md:py-16 lg:px-[100px] lg:py-20" aria-label="Every tool, one connection">
       <div className="relative z-[2] flex w-full max-w-[1200px] flex-col items-center gap-8 md:gap-12 lg:gap-16">
-        <div className="flex w-full max-w-[408px] flex-col items-center gap-3 lg:gap-4">
-          <p className="w-full text-center font-fraunces text-[28px] leading-10 font-semibold tracking-[-0.72px] whitespace-pre-wrap text-[#1a1612] lg:text-[36px]">
+        <div className="flex w-full max-w-[408px] flex-col items-center gap-3 md:gap-4">
+          <p className="w-full text-center font-fraunces text-[28px] leading-10 font-semibold tracking-[-0.72px] whitespace-pre-wrap text-[#1a1612] md:text-[32px] lg:text-[36px]">
             Every tool, one connection
           </p>
           <p className="max-w-[248px] text-center font-dm text-[16px] leading-6 font-normal whitespace-pre-wrap text-[#37394a] md:max-w-[290px] lg:text-[18px] lg:leading-[27px]">

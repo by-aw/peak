@@ -32,7 +32,7 @@ export function ZapierTriggers() {
       </Reveal>
       <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {TRIGGERS.map((t) => (
-          <Reveal key={t.title} y={48} delay={0.2} className="flex w-full flex-col items-start gap-[5px] overflow-hidden rounded-[24px] bg-gray-25">
+          <Reveal key={t.title} y={48} delay={0.2} className="flex w-full flex-col items-start gap-[5px] overflow-hidden rounded-[24px] bg-gray-25 shadow-[inset_0_0_0_1px_#f2f2f2]">
             {t.icon === null ? (
               <NewLeadFrameIcon className="h-12 w-[320px] max-w-full" />
             ) : (
@@ -47,12 +47,12 @@ export function ZapierTriggers() {
                     {t.title}
                   </p>
                   {t.pill && (
-                    <span className="flex items-center justify-center rounded-[24px] bg-[#faf5ff] px-3 py-1.5">
+                    <span className="flex items-center justify-center rounded-[24px] bg-[#faf5ff] px-3 py-1.5 shadow-[inset_0_0_0_1px_#e9d5ff]">
                       <p className="text-[13px] leading-[16.9px] font-medium tracking-[-0.2px] whitespace-pre text-purple-500">{t.pill}</p>
                     </span>
                   )}
                 </div>
-                <p className="w-full text-[14px] leading-[20.3px] font-normal tracking-[-0.14px] whitespace-pre-wrap text-[#383840] md:text-[16px] md:leading-[23.2px] md:tracking-[-0.16px]">
+                <p className="w-full max-w-[272px] text-[14px] leading-[20.3px] font-normal tracking-[-0.14px] whitespace-pre-wrap text-[#383840] md:text-[16px] md:leading-[23.2px] md:tracking-[-0.16px]">
                   {t.description}
                 </p>
               </div>

@@ -21,7 +21,7 @@ import {
 
 function Tag({ label }: { label: string }) {
   return (
-    <div className="flex items-center justify-center gap-1 rounded-t-[12px] bg-white px-2 py-[7px]">
+    <div className="flex items-center justify-center gap-1 rounded-t-[12px] bg-white px-2 py-[7px] shadow-[inset_0_0_0_1px_#efefef]">
       <CircleDashedIcon className="size-[18px] shrink-0" />
       <p className="text-[14px] leading-[14.7px] font-medium tracking-[-0.2px] whitespace-pre text-[#6d6d6d]">{label}</p>
     </div>
@@ -30,7 +30,7 @@ function Tag({ label }: { label: string }) {
 
 function Badge({ className = "" }: { className?: string }) {
   return (
-    <div className={`flex items-center gap-1 rounded-[8px] bg-[rgba(67,196,150,0.1)] px-2 py-1.5 ${className}`.trim()}>
+    <div className={`flex items-center gap-1 rounded-[8px] bg-[rgba(67,196,150,0.1)] px-2 py-1.5 shadow-[inset_0_0_0_1px_rgba(67,196,150,0.4)] ${className}`.trim()}>
       <CheckIcon className="size-3 shrink-0" />
       <p className="text-[12px] leading-[12.6px] font-semibold tracking-[-0.2px] whitespace-pre text-[#43c496]">Successful</p>
     </div>
@@ -39,9 +39,9 @@ function Badge({ className = "" }: { className?: string }) {
 
 function FlowCard({ icon, app, caption, tinted = false }: { icon: ReactNode; app: string; caption: string; tinted?: boolean }) {
   return (
-    <div className={`flex w-[328px] flex-col items-start gap-3 rounded-[0_10px_10px_10px] p-3.5 shadow-[0_1px_14px_0_rgba(0,0,0,0.06)] ${tinted ? "bg-[#fefefe]" : "bg-white"}`}>
+    <div className={`relative flex w-[328px] flex-col items-start gap-3 rounded-[0_10px_10px_10px] p-3.5 shadow-[0_1px_14px_0_rgba(0,0,0,0.06)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[0_10px_10px_10px] after:border after:border-[#efefef] ${tinted ? "bg-[#fefefe] after:border-dashed" : "bg-white"}`}>
       <div className="flex w-full items-center justify-between">
-        <div className="flex items-center gap-1.5 rounded-[6px] bg-white p-1.5">
+        <div className="flex items-center gap-1.5 rounded-[6px] bg-white p-1.5 shadow-[inset_0_0_0_1px_#f2f2f2]">
           {icon}
           <p className="text-[14px] leading-[14.7px] font-medium tracking-[-0.2px] whitespace-pre text-black">{app}</p>
         </div>
@@ -84,7 +84,7 @@ export function SpreadsheetMockup() {
         </div>
       </div>
       <div className="absolute top-[15px] left-[238px] z-[2] flex w-[291px] flex-col items-center gap-5">
-        <div className="h-[270px] w-[291px] overflow-hidden rounded-[16px] shadow-[0_0.87px_8.68px_0_rgba(0,0,0,0.03),0_2px_24px_0_rgba(0,0,0,0.06),2px_2px_24px_0_rgba(0,0,0,0.04)]">
+        <div className="h-[270px] w-[291px] overflow-hidden rounded-[16px] shadow-[0_0.87px_8.68px_0_rgba(0,0,0,0.03),0_2px_24px_0_rgba(0,0,0,0.06),2px_2px_24px_0_rgba(0,0,0,0.04),inset_0_0_0_0.87px_#e9e9e9]">
           <Image src="/framer/8EVieT9Wjgud4LBrworbBZnYLT0.png" alt="" width={1164} height={1080} sizes="291px" className="h-full w-full rounded-[16px]" />
         </div>
         <SyncPill>Auto-synced via Zapier</SyncPill>
@@ -142,7 +142,7 @@ export function SlackMockup() {
   return (
     <div className="absolute left-[97px] flex w-[380px] flex-col items-center gap-2">
       {NOTIFICATIONS.map((n, i) => (
-        <div key={i} className="flex w-full flex-col items-start gap-3 rounded-[16px] bg-white p-5">
+        <div key={i} className="flex w-full flex-col items-start gap-3 rounded-[16px] bg-white p-5 shadow-[inset_0_0_0_1px_#f2f2f2]">
           <div className="flex w-full flex-col items-start gap-1.5">
             <div className="flex w-full items-center gap-[13.18px]">
               <div className="flex items-center justify-center gap-1.5">
@@ -171,7 +171,7 @@ const PIPELINE = [
 export function CrmMockup() {
   return (
     <div className="absolute left-[18px] h-[397px] w-[538px] overflow-hidden rounded-[12px] bg-[#f7f7f7] shadow-[0_0_0_0.5px_#e0e0e0]">
-      <div className="absolute inset-x-0 top-0 h-[34px] overflow-hidden bg-white">
+      <div className="absolute inset-x-0 top-0 h-[34px] overflow-hidden border-b border-[#f5f5f5] bg-white">
         <div className="absolute top-[13px] left-2.5 flex items-center gap-0.5">
           <span className="size-2 rounded-full bg-[#f06e57]" />
           <span className="size-2 rounded-full bg-[#ffc33a]" />

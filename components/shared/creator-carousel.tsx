@@ -27,14 +27,24 @@ const START_ANGLE = 31;
  * perspective, slowly spinning (3.6deg/s, i.e. one turn per 100s) after a 1s pause. The ring box is
  * 400px tall, masked at the left/right edges and scaled 1.2x on desktop.
  */
-export function CreatorCarousel({ creators = FEATURE_CREATORS }: { creators?: CarouselCreator[] }) {
+export function CreatorCarousel({
+  creators = FEATURE_CREATORS,
+  ringClassName = "h-[200px] md:h-[327px] lg:h-[520px]",
+  gapClassName = "gap-2 md:gap-12 lg:gap-0",
+}: {
+  creators?: CarouselCreator[];
+  /** Height of the ring box per breakpoint (the integration pages use a shorter 256/356px ring). */
+  ringClassName?: string;
+  /** Gap between the empty 107px header and the ring per breakpoint. */
+  gapClassName?: string;
+}) {
   const cards = [...creators, ...creators];
   return (
     <section className="relative flex w-full items-center justify-center" aria-label="Creators using Mochi">
       <div className="flex w-full flex-1 items-center justify-center px-5 pt-12 pb-4 md:px-12 md:py-16 lg:px-0 lg:pt-20 lg:pb-0">
-        <div className="flex w-full max-w-[1360px] flex-1 flex-col items-center gap-2 md:gap-12 lg:gap-0">
+        <div className={`flex w-full max-w-[1360px] flex-1 flex-col items-center ${gapClassName}`}>
           <div aria-hidden className="min-h-[107px] w-full" />
-          <div className="relative flex h-[200px] w-full flex-col items-center justify-center md:h-[327px] lg:h-[520px]">
+          <div className={`relative flex w-full flex-col items-center justify-center ${ringClassName}`}>
             <div className="absolute top-1/2 left-0 z-[2] h-[400px] w-full -translate-y-1/2 lg:scale-[1.2]">
               <div className="absolute inset-0 overflow-hidden [mask-image:linear-gradient(to_right,rgba(0,0,0,0)_2%,#000_9%,#000_91%,rgba(0,0,0,0)_98%)]">
                 <div className="absolute inset-0 [perspective:500px] md:[perspective:800px] lg:[perspective:1200px]">

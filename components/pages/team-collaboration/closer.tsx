@@ -40,7 +40,7 @@ export function TeamCloserSection() {
           description="Choose what percentage of new leads goes to each team member. Adjust the split when someone is unavailable or when you want your strongest performer to handle more opportunities."
         />
       </BentoCard>
-      <BentoCard>
+      <BentoCard className="lg:self-start">
         <BentoCopy
           eyebrow="Conversation Summaries"
           eyebrowMuted

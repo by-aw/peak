@@ -11,7 +11,7 @@ const BOTTOM_LINE = "after:pointer-events-none after:absolute after:inset-x-0 af
 /** Chat header shared by the "Team Chat" and "Ghost Mode" mockups: avatar, title, pin and members icons. */
 function ChatHeader({ title }: { title: string }) {
   return (
-    <div className={`relative flex w-full items-center gap-2 overflow-hidden bg-white px-6 py-4 ${BOTTOM_LINE}`}>
+    <div className={`relative flex w-full shrink-0 items-center gap-2 overflow-hidden bg-white px-6 py-4 ${BOTTOM_LINE}`}>
       <div className="flex min-w-0 flex-1 items-center gap-4">
         <Image
           src="/framer/5sU1EyQxyIQjxMZY4lWYab8BPU0.png"

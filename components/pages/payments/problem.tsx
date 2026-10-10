@@ -93,11 +93,12 @@ const CARDS = [
         <Centered top="top-[61px]">
           <CostSlots />
         </Centered>
+        {/* Framer "image 754": 80px wax seal, color-burn blended onto the card, one turn every ~3.9s */}
         <motion.div
           aria-hidden
-          className="absolute top-[19px] right-1 size-[101px]"
-          animate={{ rotate: [-108, 252] }}
-          transition={{ duration: 8, ease: "linear", repeat: Infinity }}
+          className="absolute top-[19px] right-1 size-20 mix-blend-color-burn"
+          animate={{ rotate: [0, 360] }}
+          transition={{ duration: 3.9, ease: "linear", repeat: Infinity }}
         >
           <Image src="/framer/91zZeCFr5kJ5b8Pu91hUEVcgy8.png" alt="" width={640} height={640} className="size-full" />
         </motion.div>

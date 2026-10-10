@@ -7,6 +7,7 @@ import type { ComponentProps } from "react";
  * where every character rolls up and its duplicate rolls in from below with a small stagger.
  *
  * - size "sm": 48px tall (46px on phone), 14px/18.2px text, 12px side padding (hero button pairs)
+ * - size "sm48": the same pair at 48px on every breakpoint (/zapier hero)
  * - size "md": 48px tall, 16px/24px text, 16px side padding (the purple "Connect Mochi to Claude" of /mcp)
  * - size "lg": 48px tall, 18px/19.8px text, 20px side padding ("Book a Demo", "Check Claude MCP")
  * - variant "purple": the Framer "MCP" button, #d471ff with a 4% dark gradient overlay and a layered purple shadow
@@ -24,6 +25,10 @@ const variants = {
 const sizes = {
   sm: {
     link: "h-[46px] px-3 py-3.5 md:h-12 md:py-2.5",
+    text: "h-[18.2px] text-[14px] leading-[18.2px] tracking-[-0.1px]",
+  },
+  sm48: {
+    link: "h-12 px-3 py-2.5",
     text: "h-[18.2px] text-[14px] leading-[18.2px] tracking-[-0.1px]",
   },
   md: {

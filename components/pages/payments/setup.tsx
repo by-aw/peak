@@ -173,7 +173,7 @@ export function PaymentsSetup() {
               })}
             </div>
             <div className="relative h-[352px] w-full overflow-hidden rounded-[24px] bg-[#f2f2f2] md:h-[482px] md:flex-1 md:basis-0">
-              <div className="absolute top-[-33px] left-[-27px] h-[418px] w-[404px] origin-top-left scale-[0.7] md:top-5 md:left-5 lg:top-8 lg:left-8 lg:scale-100">
+              <div className="absolute top-[-33px] left-[-27px] h-[418px] w-[404px] scale-[0.7] md:top-8 md:left-5 lg:left-8 lg:scale-100">
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div key={active} className="size-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3, ease: EASE }}>
                     <Card />

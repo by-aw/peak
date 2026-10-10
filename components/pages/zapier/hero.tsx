@@ -32,10 +32,10 @@ export function ZapierHero() {
             </div>
             <Reveal y={48} delay={0.4} className="flex w-full flex-col items-center gap-4">
               <div className="flex w-full flex-col items-center justify-center gap-2.5 md:w-[379px] md:flex-row">
-                <RollingButton href={`${APP_URL}/login?landing_page=zapier`} variant="black" size="sm" className="w-full md:w-auto md:flex-1">
+                <RollingButton href={`${APP_URL}/login?landing_page=zapier`} variant="black" size="sm48" className="w-full md:w-auto md:flex-1">
                   Start Free Trial
                 </RollingButton>
-                <RollingButton href={DOCS_URL} target="_blank" rel="noopener" variant="white" size="sm" className="w-full md:w-auto md:flex-1">
+                <RollingButton href={DOCS_URL} target="_blank" rel="noopener" variant="white" size="sm48" className="w-full md:w-auto md:flex-1">
                   View Documentation
                 </RollingButton>
               </div>
@@ -55,7 +55,7 @@ export function ZapierHero() {
               </div>
               <Image src="/framer/IQzeAj05LI3vDNpkBG8wR4aVw.png" alt="" width={244} height={227} className="h-[227px] w-[244px] shrink-0 object-contain" />
             </div>
-            <div className="absolute bottom-6 left-1/2 z-[1] flex -translate-x-1/2 items-center justify-center gap-1">
+            <div className="absolute -bottom-4 left-1/2 z-[1] flex -translate-x-1/2 items-center justify-center gap-1 lg:bottom-6">
               <PulsingDot />
               <p className="text-[14px] leading-[16.8px] font-normal whitespace-pre text-[#686a75]">Real-time webhook triggers — zero delay</p>
             </div>

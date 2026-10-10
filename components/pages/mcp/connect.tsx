@@ -42,7 +42,7 @@ export function McpConnect() {
   return (
     <McpSection label="How to connect Mochi to Claude">
       <div className="flex w-full flex-col items-center gap-8 md:gap-12 lg:gap-16">
-        <div className="flex w-full flex-col items-center gap-3 md:w-[554px] lg:gap-4">
+        <div className="flex w-full flex-col items-center gap-3 md:w-[554px] md:gap-4">
           <div className="flex flex-wrap items-center justify-center gap-2">
             <p className="font-fraunces text-[28px] leading-[32.2px] font-semibold whitespace-pre text-[#0d0d12] md:text-[32px] md:leading-[36.8px] lg:text-[36px] lg:leading-[41.4px]">How to connect</p>
             <MochiAppIcon className="size-14 shrink-0" />

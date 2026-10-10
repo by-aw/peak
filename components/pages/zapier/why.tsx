@@ -8,7 +8,7 @@ import { LogoStrips } from "./why-strips";
 /** Framer "Container" bento card: #fafafa 24px-radius card, a 332px masked asset area and a 24px-padded text block. */
 function Card({ title, description, children }: { title: string; description: string; children: ReactNode }) {
   return (
-    <Reveal y={48} delay={0.2} className="flex w-full flex-col items-center overflow-hidden rounded-[24px] bg-gray-25">
+    <Reveal y={48} delay={0.2} className="flex w-full flex-col items-center overflow-hidden rounded-[24px] bg-gray-25 shadow-[inset_0_0_0_1px_#f2f2f2]">
       <div className="relative h-[332px] w-full overflow-hidden [mask-image:linear-gradient(#000_86%,rgba(0,0,0,0)_100%)]">{children}</div>
       <div className="flex w-full flex-col items-start p-6">
         <div className="flex w-full flex-col items-start gap-1.5">

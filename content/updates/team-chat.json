@@ -1,0 +1,38 @@
+{
+  "slug": "team-chat",
+  "title": "Your team's context. Finally in one place.",
+  "metaTitle": "Your team's context. Finally in one place. - Mochi",
+  "description": "Product Updates: Team Chat puts your team's notes, updates, and context directly on the lead. One thread. One source of truth. No more scattered conversations.",
+  "ogImage": "/framer/UtXuviHLeHmYkWpXjrHGeBwusk.png",
+  "ogImageUrl": "https://framerusercontent.com/images/UtXuviHLeHmYkWpXjrHGeBwusk.png",
+  "date": "2026-01-16T00:00:00.000Z",
+  "dateText": "Jan 16, 2026",
+  "label": "Product Updates",
+  "version": "v 1.0.5",
+  "cover": {
+    "src": "/framer/UtXuviHLeHmYkWpXjrHGeBwusk.png",
+    "width": 1920,
+    "height": 1080,
+    "alt": "",
+    "fit": "contain"
+  },
+  "blocks": [
+    {
+      "type": "html",
+      "name": "Content 1",
+      "html": "<p>Team Chat is here. And it's going to change how your team works together.</p><p>No more Slack threads you can't find. No more WhatsApp messages asking \"who's this lead again?\" No more scrambling before calls trying to piece together context from four different places.</p><p>Team Chat lives directly on the lead. Every note. Every update. Every piece of context—one thread, one source of truth.</p>"
+    },
+    {
+      "type": "html",
+      "name": "Content 2",
+      "html": "<h2>How it works</h2><p><strong>1. One place for everything</strong></p><p>Open any lead and you'll see a new <strong>Team</strong> tab in the right panel. That's where your team's conversation lives. Tag a teammate, leave a note, share an update. Everyone on your team sees the full picture on every lead.</p><img src=\"/framer/WYjC5tBl9LazICJegRbZ9CvvV7U.gif\" width=\"212\" height=\"276\" alt=\"\"><p><br><br><strong>2. @mention to notify</strong></p><p>Need someone's attention? Just @mention them. They'll see it in their Priority inbox immediately. No more \"did you see my message?\" No more context lost in a sea of notifications.</p><img src=\"/framer/YG07o2kkzoqhy82M033XaoU0Ns.gif\" width=\"213\" height=\"273\" alt=\"\"><p> </p>"
+    },
+    {
+      "type": "html",
+      "name": "Content 3",
+      "html": "<h2>Your team's space</h2><p>This isn't a replacement for how you talk to your leads. It's a space just for your team—setters, closers, managers—to coordinate without the noise.</p><p>Think of it as the conversation that happens <em>around</em> the lead, not with them.<br><br></p><blockquote><p>Team Chat is available now for all Mochi users. Open any lead, click the Team tab, and start collaborating.</p></blockquote>"
+    }
+  ],
+  "body": "<p>Team Chat is here. And it's going to change how your team works together.</p><p>No more Slack threads you can't find. No more WhatsApp messages asking \"who's this lead again?\" No more scrambling before calls trying to piece together context from four different places.</p><p>Team Chat lives directly on the lead. Every note. Every update. Every piece of context—one thread, one source of truth.</p>\n<h2>How it works</h2><p><strong>1. One place for everything</strong></p><p>Open any lead and you'll see a new <strong>Team</strong> tab in the right panel. That's where your team's conversation lives. Tag a teammate, leave a note, share an update. Everyone on your team sees the full picture on every lead.</p><img src=\"/framer/WYjC5tBl9LazICJegRbZ9CvvV7U.gif\" width=\"212\" height=\"276\" alt=\"\"><p><br><br><strong>2. @mention to notify</strong></p><p>Need someone's attention? Just @mention them. They'll see it in their Priority inbox immediately. No more \"did you see my message?\" No more context lost in a sea of notifications.</p><img src=\"/framer/YG07o2kkzoqhy82M033XaoU0Ns.gif\" width=\"213\" height=\"273\" alt=\"\"><p> </p>\n<h2>Your team's space</h2><p>This isn't a replacement for how you talk to your leads. It's a space just for your team—setters, closers, managers—to coordinate without the noise.</p><p>Think of it as the conversation that happens <em>around</em> the lead, not with them.<br><br></p><blockquote><p>Team Chat is available now for all Mochi users. Open any lead, click the Team tab, and start collaborating.</p></blockquote>",
+  "excerpt": "Team Chat puts your team's notes, updates, and context directly on the lead. One thread. One source of truth. No more scattered conversations."
+}

@@ -54,4 +54,32 @@ export const geistMono = localFont({
   ],
 });
 
-export const fontVariables = [inter.variable, clashDisplay.variable, openRunde.variable, geistMono.variable].join(" ");
+/* Fonts used only by the Claude MCP landing page (Framer "Fraunces" / "DM Sans" / "DM Mono", from Google Fonts).
+   Fraunces is the Google Fonts latin build Framer serves (all axes: opsz, wght, SOFT, WONK), so optical sizing and widths match the live site. */
+export const fraunces = localFont({
+  variable: "--font-fraunces-var",
+  display: "swap",
+  src: [{ path: "../public/fonts/Fraunces-variable-opsz-normal.woff2", weight: "100 900", style: "normal" }],
+});
+
+export const dmSans = localFont({
+  variable: "--font-dm-sans-var",
+  display: "swap",
+  src: [{ path: "../public/fonts/DMSans-variable-normal.woff2", weight: "100 1000", style: "normal" }],
+});
+
+export const dmMono = localFont({
+  variable: "--font-dm-mono-var",
+  display: "swap",
+  src: [{ path: "../public/fonts/DMMono-400-normal.woff2", weight: "400", style: "normal" }],
+});
+
+export const fontVariables = [
+  inter.variable,
+  clashDisplay.variable,
+  openRunde.variable,
+  geistMono.variable,
+  fraunces.variable,
+  dmSans.variable,
+  dmMono.variable,
+].join(" ");

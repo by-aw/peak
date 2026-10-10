@@ -126,8 +126,10 @@ function MobileAccordion({ section }: { section: MenuSection }) {
  * - after scrolling ~64px the pill becomes solid white and shrinks to its content (Framer "Desktop/Expand")
  * - on phones a hamburger expands the pill into the full menu (Framer "Phone/Open")
  */
-export function Nav() {
-  const [scrolled, setScrolled] = useState(false);
+export function Nav({ compact = false }: { compact?: boolean }) {
+  // `compact` forces the scrolled/solid state from the start (Framer "Desktop/Expand" / "Phone/Scroll"
+  // variants used on the attribution pages). Tablet keeps its default translucent variant on those pages.
+  const [scrolled, setScrolled] = useState(compact);
   const [menuOpen, setMenuOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -138,7 +140,8 @@ export function Nav() {
   const buttonsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 64);
+    const tabletMq = window.matchMedia("(min-width: 810px) and (max-width: 1199px)");
+    const onScroll = () => setScrolled(window.scrollY > 64 || (compact && !tabletMq.matches));
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     const mq = window.matchMedia("(min-width: 810px)");
@@ -148,11 +151,13 @@ export function Nav() {
     };
     onMq();
     mq.addEventListener("change", onMq);
+    tabletMq.addEventListener("change", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);
       mq.removeEventListener("change", onMq);
+      tabletMq.removeEventListener("change", onScroll);
     };
-  }, []);
+  }, [compact]);
 
   // Width of the collapsed ("Expand") pill: logo + menu + buttons + 2x40 gap + 2x8 padding.
   useEffect(() => {

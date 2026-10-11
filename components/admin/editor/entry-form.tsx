@@ -1,11 +1,22 @@
 "use client";
 
+import { ArrowLeft, CalendarClock, CircleAlert, Eye, Info, Save, Send, Trash2, TriangleAlert, Undo2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "sonner";
 import { createEntry, deleteEntry, isSlugAvailable, publish, saveDraft, schedule, unpublish, type ActionResult, type EntryInput, type SavedEntry } from "@/lib/cms/admin-mutations";
 import type { CollectionId } from "@/lib/cms/types";
-import { Card, Count, Field, ImageField, inputClass } from "./fields";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/admin/ui/alert-dialog";
+import { Alert, AlertDescription, AlertTitle } from "@/components/admin/ui/alert";
+import { Badge } from "@/components/admin/ui/badge";
+import { Button } from "@/components/admin/ui/button";
+import { Calendar } from "@/components/admin/ui/calendar";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/admin/ui/dialog";
+import { Input } from "@/components/admin/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/admin/ui/select";
+import { Textarea } from "@/components/admin/ui/textarea";
+import { Count, DatePicker, Field, formatDay, ImageField, parseDay, Section } from "./fields";
 import { slugify, type EntryMeta, type FormValues } from "./form-values";
 import { RichEditor } from "./rich-editor";
 
@@ -32,9 +43,12 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
   const [slugTaken, setSlugTaken] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [message, setMessage] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
+  const [message, setMessage] = useState<{ text: string } | null>(null);
   const [scheduleOpen, setScheduleOpen] = useState(false);
-  const [scheduleAt, setScheduleAt] = useState("");
+  const [scheduleDay, setScheduleDay] = useState("");
+  const [scheduleTime, setScheduleTime] = useState("09:00");
+  const [offlineOpen, setOfflineOpen] = useState(false);
+  const [leaveTo, setLeaveTo] = useState<string | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [typedTitle, setTypedTitle] = useState("");
   const [mountedAt] = useState(() => Date.now());
@@ -42,6 +56,9 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
   useEffect(() => {
     valuesRef.current = values;
   }, [values]);
+
+  /** "YYYY-MM-DDTHH:mm" in the editor's local time, like a datetime-local input; "" until both parts are chosen. */
+  const scheduleAt = scheduleDay && scheduleTime ? `${scheduleDay}T${scheduleTime}` : "";
 
   const set = <K extends keyof FormValues>(key: K, value: FormValues[K]) => setValues((v) => ({ ...v, [key]: value }));
   const dirty = useMemo(() => JSON.stringify(values) !== JSON.stringify(baseline), [values, baseline]);
@@ -91,6 +108,11 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
     setErrors({});
   }
 
+  function fail(text: string) {
+    setMessage({ text });
+    toast.error(text);
+  }
+
   /** Runs one server action with the current form, shows the outcome, and returns the saved entry on success. */
   async function run(name: string, doneText: string, call: (input: EntryInput) => Promise<ActionResult>): Promise<SavedEntry | null> {
     setBusy(name);
@@ -100,16 +122,16 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
       const res = await call({ ...toInput(), ...snapshot, collection });
       if (!res.ok) {
         setErrors(res.fieldErrors ?? {});
-        setMessage({ kind: "error", text: res.error });
+        fail(res.error);
         return null;
       }
       applySaved(res.value, snapshot);
       const notes = res.value.notes.length ? ` ${res.value.notes.join(" ")}` : "";
-      setMessage({ kind: "ok", text: doneText + notes });
+      toast.success(doneText + notes);
       if (!meta) router.replace(`/admin/${collection}/${res.value.id}`);
       return res.value;
     } catch (e) {
-      setMessage({ kind: "error", text: e instanceof Error && /redirect/i.test(e.message) ? "Please sign in again." : "Couldn't save. Check your connection and try again." });
+      fail(e instanceof Error && /redirect/i.test(e.message) ? "Please sign in again." : "Couldn't save. Check your connection and try again.");
       return null;
     } finally {
       setBusy(null);
@@ -121,7 +143,7 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
   const publishNow = () => run("publish", "Published. It's live now.", (input) => publish(meta?.id ?? null, input));
   const scheduleIt = async () => {
     const when = new Date(scheduleAt);
-    if (!scheduleAt || Number.isNaN(when.getTime())) return setErrors({ schedule: "Pick a date and time." });
+    if (!scheduleAt || Number.isNaN(when.getTime())) return setErrors((e) => ({ ...e, schedule: "Pick a date and time." }));
     const s = await run("schedule", `Scheduled for ${fmt.format(when)}.`, (input) => schedule(meta?.id ?? null, input, when.toISOString()));
     if (s) setScheduleOpen(false);
   };
@@ -131,9 +153,10 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
     setMessage(null);
     const res = await unpublish(meta.id);
     setBusy(null);
-    if (!res.ok) return setMessage({ kind: "error", text: res.error });
+    if (!res.ok) return fail(res.error);
+    setOfflineOpen(false);
     setMeta({ id: res.value.id, status: res.value.status, publishAt: res.value.publishAt, updatedAt: res.value.updatedAt, updatedBy: res.value.updatedBy });
-    setMessage({ kind: "ok", text: "Taken offline. It's a draft again." });
+    toast.success("Taken offline. It's a draft again.");
   };
 
   async function preview() {
@@ -151,22 +174,27 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
     setBusy("delete");
     const res = await deleteEntry(meta.id, typedTitle);
     setBusy(null);
-    if (!res.ok) return setMessage({ kind: "error", text: res.error });
+    if (!res.ok) {
+      setDeleteOpen(false);
+      return fail(res.error);
+    }
     setBaseline(valuesRef.current); // nothing left to lose
     router.push(`/admin/${collection}`);
     router.refresh();
   }
 
+
   const statusChip =
     state === "live" ? (
-      <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">Live</span>
+      <Badge className="border-transparent bg-green-100 text-green-800">Live</Badge>
     ) : state === "scheduled" ? (
-      <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">Scheduled for {fmt.format(new Date(meta!.publishAt!))}</span>
+      <Badge className="border-transparent bg-blue-100 text-blue-800">Scheduled for {fmt.format(new Date(meta!.publishAt!))}</Badge>
     ) : (
-      <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-700">{state === "new" ? "New" : "Draft"}</span>
+      <Badge variant="secondary">{state === "new" ? "New" : "Draft"}</Badge>
     );
 
   const ogFallback = values.coverSrc;
+  const noun = isUpdates ? "post" : "page";
 
   return (
     <form
@@ -176,73 +204,73 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
       }}
       className="space-y-6"
     >
-      <div className="sticky top-0 z-20 -mx-4 border-b border-gray-200 bg-white/95 px-4 py-3 backdrop-blur">
+      <div className="sticky top-0 z-20 -mx-4 border-b bg-background/95 px-4 py-3 backdrop-blur">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <Link
-            href={`/admin/${collection}`}
-            onClick={(e) => {
-              if (dirty && !window.confirm("You have unsaved changes. Leave without saving?")) e.preventDefault();
-            }}
-            className="text-sm text-gray-600 hover:text-gray-900"
-          >
-            ← {collectionLabel}
-          </Link>
+          <Button asChild variant="ghost" size="sm" className="-ml-2 text-muted-foreground">
+            <Link
+              href={`/admin/${collection}`}
+              onClick={(e) => {
+                if (dirty) {
+                  e.preventDefault();
+                  setLeaveTo(`/admin/${collection}`);
+                }
+              }}
+            >
+              <ArrowLeft /> {collectionLabel}
+            </Link>
+          </Button>
           {statusChip}
-          <span aria-live="polite" className="text-sm text-gray-600">
+          <span aria-live="polite" className="text-sm text-muted-foreground">
             {dirty ? "Unsaved changes" : meta ? `Saved${meta.updatedBy ? ` by ${meta.updatedBy}` : ""}` : ""}
           </span>
-          <div className="ml-auto flex flex-wrap items-center gap-2">
-            <button type="button" onClick={preview} disabled={busy !== null || !values.title.trim() || !SLUG_OK.test(values.slug)} className="rounded-lg border border-gray-300 bg-white px-3.5 py-2 text-sm font-medium hover:bg-gray-100 disabled:opacity-50">
-              {busy === "preview" ? "Saving…" : state === "live" ? "Save & view" : "Save & preview"}
-            </button>
-            <button type="submit" disabled={busy !== null || !dirty && state !== "new"} className="rounded-lg border border-gray-300 bg-white px-3.5 py-2 text-sm font-medium hover:bg-gray-100 disabled:opacity-50">
-              {busy === "save" ? "Saving…" : state === "live" ? "Save changes" : "Save draft"}
-            </button>
+          <div className="flex flex-wrap items-center gap-2 md:ml-auto">
+            <Button type="button" variant="outline" onClick={preview} disabled={busy !== null || !values.title.trim() || !SLUG_OK.test(values.slug)}>
+              <Eye /> {busy === "preview" ? "Saving…" : state === "live" ? "Save & view" : "Save & preview"}
+            </Button>
+            <Button type="submit" variant="outline" disabled={busy !== null || (!dirty && state !== "new")}>
+              <Save /> {busy === "save" ? "Saving…" : state === "live" ? "Save changes" : "Save draft"}
+            </Button>
             {state !== "live" && (
-              <button type="button" onClick={publishNow} disabled={busy !== null} className="rounded-lg bg-purple-600 px-3.5 py-2 text-sm font-medium text-white hover:bg-purple-700 disabled:opacity-50">
-                {busy === "publish" ? "Publishing…" : "Publish now"}
-              </button>
+              <Button type="button" onClick={publishNow} disabled={busy !== null}>
+                <Send /> {busy === "publish" ? "Publishing…" : "Publish now"}
+              </Button>
             )}
             {state !== "live" && (
-              <button type="button" onClick={() => setScheduleOpen((o) => !o)} aria-expanded={scheduleOpen} className="rounded-lg border border-gray-300 bg-white px-3.5 py-2 text-sm font-medium hover:bg-gray-100">
-                Schedule…
-              </button>
+              <Button type="button" variant="outline" onClick={() => { setErrors((e) => ({ ...e, schedule: "" })); setMessage(null); setScheduleOpen(true); }}>
+                <CalendarClock /> Schedule…
+              </Button>
             )}
             {(state === "live" || state === "scheduled") && (
-              <button type="button" onClick={takeOffline} disabled={busy !== null} className="rounded-lg border border-gray-300 bg-white px-3.5 py-2 text-sm font-medium hover:bg-gray-100 disabled:opacity-50">
-                {busy === "unpublish" ? "Working…" : "Take offline"}
-              </button>
+              <Button type="button" variant="outline" onClick={() => setOfflineOpen(true)} disabled={busy !== null}>
+                <Undo2 /> {busy === "unpublish" ? "Working…" : "Take offline"}
+              </Button>
             )}
           </div>
         </div>
-        {state === "live" && <p className="mt-2 text-xs text-gray-600">This page is live. Changes you save go out to the website straight away.</p>}
-        {scheduleOpen && (
-          <div className="mt-3 flex flex-wrap items-end gap-3 rounded-xl border border-gray-200 bg-gray-50 p-3">
-            <Field label="Go live on" hint="In your local time." error={errors.schedule} htmlFor="schedule-at">
-              <input id="schedule-at" type="datetime-local" value={scheduleAt} onChange={(e) => setScheduleAt(e.target.value)} className={inputClass} />
-            </Field>
-            <button type="button" onClick={scheduleIt} disabled={busy !== null} className="rounded-lg bg-purple-600 px-3.5 py-2 text-sm font-medium text-white hover:bg-purple-700 disabled:opacity-50">
-              {busy === "schedule" ? "Scheduling…" : "Schedule"}
-            </button>
-          </div>
+        {state === "live" && (
+          <Alert className="mt-3 border-green-200 bg-green-50 text-green-900">
+            <Info />
+            <AlertDescription className="text-green-900/90">This page is live. Changes you save go out to the website straight away.</AlertDescription>
+          </Alert>
         )}
-        {message && (
-          <p role={message.kind === "error" ? "alert" : "status"} className={`mt-3 rounded-lg px-3 py-2 text-sm ${message.kind === "error" ? "bg-red-50 text-red-800" : "bg-green-50 text-green-800"}`}>
-            {message.text}
-          </p>
+        {message && !scheduleOpen && (
+          <Alert variant="destructive" className="mt-3 border-destructive/30 bg-destructive/5">
+            <CircleAlert />
+            <AlertDescription>{message.text}</AlertDescription>
+          </Alert>
         )}
       </div>
 
-      <Card title="Basics">
+      <Section title="Basics">
         <Field label="Title" error={errors.title} htmlFor="title">
-          <input
+          <Input
             id="title"
             value={values.title}
+            aria-invalid={Boolean(errors.title) || undefined}
             onChange={(e) => {
               const title = e.target.value;
               setValues((v) => ({ ...v, title, slug: slugTouched ? v.slug : slugify(title) }));
             }}
-            className={inputClass}
             placeholder={isUpdates ? "What is this post about?" : "For example: Terms of Service"}
             autoFocus={!meta}
           />
@@ -253,57 +281,66 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
           error={slugError}
           hint={<>themochi.app{livePath}/<strong>{values.slug || "…"}</strong></>}
         >
-          <input
+          <Input
             id="slug"
             value={values.slug}
+            aria-invalid={Boolean(slugError) || undefined}
             onChange={(e) => {
               setSlugTouched(true);
               set("slug", e.target.value.toLowerCase().replace(/\s+/g, "-"));
             }}
-            className={inputClass}
             spellCheck={false}
           />
         </Field>
         {slugChangedWhileLive && (
-          <p role="alert" className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900">
-            This page is live at <strong>{livePath}/{savedSlug}</strong>. If you change the address, links to the old one (from Google, social posts, emails) will stop working. Only change it if you have to.
-          </p>
+          <Alert className="border-amber-300 bg-amber-50 text-amber-900">
+            <TriangleAlert />
+            <AlertTitle>You&apos;re changing the address of a live {noun}</AlertTitle>
+            <AlertDescription className="text-amber-900/90">
+              This page is live at <strong>{livePath}/{savedSlug}</strong>. If you change the address, links to the old one (from Google, social posts, emails) will stop working. Only change it if you have to.
+            </AlertDescription>
+          </Alert>
         )}
 
         {isUpdates ? (
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-3">
             <Field label="Category" error={errors.label} htmlFor="label">
-              <select id="label" value={values.label} onChange={(e) => set("label", e.target.value)} className={inputClass}>
-                {LABELS.map((l) => <option key={l}>{l}</option>)}
-              </select>
+              <Select value={values.label} onValueChange={(v) => set("label", v)}>
+                <SelectTrigger id="label" className="w-full" aria-invalid={Boolean(errors.label) || undefined}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {LABELS.map((l) => <SelectItem key={l} value={l}>{l}</SelectItem>)}
+                </SelectContent>
+              </Select>
             </Field>
             <Field label="Date shown on the post" error={errors.date} htmlFor="date">
-              <input id="date" type="date" value={values.date} onChange={(e) => set("date", e.target.value)} className={inputClass} />
+              <DatePicker id="date" value={values.date} onChange={(v) => set("date", v)} invalid={Boolean(errors.date)} />
             </Field>
             <Field label="Version (optional)" hint="For product updates, e.g. v 1.0.5" htmlFor="version">
-              <input id="version" value={values.version} onChange={(e) => set("version", e.target.value)} className={inputClass} placeholder="v 1.0.5" />
+              <Input id="version" value={values.version} onChange={(e) => set("version", e.target.value)} placeholder="v 1.0.5" />
             </Field>
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-2">
             <Field label="Takes effect on" error={errors.effectiveDate} htmlFor="effective">
-              <input id="effective" type="date" value={values.effectiveDate} onChange={(e) => set("effectiveDate", e.target.value)} className={inputClass} />
+              <DatePicker id="effective" value={values.effectiveDate} onChange={(v) => set("effectiveDate", v)} invalid={Boolean(errors.effectiveDate)} />
             </Field>
             <Field label="Last updated on" error={errors.lastUpdated} htmlFor="updated">
-              <input id="updated" type="date" value={values.lastUpdated} onChange={(e) => set("lastUpdated", e.target.value)} className={inputClass} />
+              <DatePicker id="updated" value={values.lastUpdated} onChange={(v) => set("lastUpdated", v)} invalid={Boolean(errors.lastUpdated)} />
             </Field>
           </div>
         )}
 
         {isUpdates && (
           <Field label="Short summary" hint="Shown on the updates page and in other posts' suggestions." error={errors.excerpt} htmlFor="excerpt">
-            <textarea id="excerpt" value={values.excerpt} onChange={(e) => set("excerpt", e.target.value)} rows={3} className={inputClass} />
+            <Textarea id="excerpt" value={values.excerpt} onChange={(e) => set("excerpt", e.target.value)} rows={3} />
           </Field>
         )}
-      </Card>
+      </Section>
 
       {isUpdates && (
-        <Card title="Cover picture" description="Shown at the top of the post and on the updates page. Wide pictures (16:9) look best.">
+        <Section title="Cover picture" description="Shown at the top of the post and on the updates page. Wide pictures (16:9) look best.">
           <ImageField
             label="cover"
             src={values.coverSrc}
@@ -311,17 +348,17 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
               setValues((v) => ({ ...v, coverSrc: img?.src ?? "", coverWidth: img?.width ?? null, coverHeight: img?.height ?? null, ...(img ? {} : { coverAlt: "" }) }))
             }
           />
-          {errors.cover && <p role="alert" className="text-xs font-medium text-red-700">{errors.cover}</p>}
+          {errors.cover && <p role="alert" className="text-xs font-medium text-destructive">{errors.cover}</p>}
           {values.coverSrc && (
             <Field label="Describe the cover picture" hint="For people who can't see it, and for search engines." htmlFor="cover-alt">
-              <input id="cover-alt" value={values.coverAlt} onChange={(e) => set("coverAlt", e.target.value)} className={inputClass} />
+              <Input id="cover-alt" value={values.coverAlt} onChange={(e) => set("coverAlt", e.target.value)} />
             </Field>
           )}
-        </Card>
+        </Section>
       )}
 
       {!isUpdates && (
-        <Card title="Introduction" description="The short paragraph under the title.">
+        <Section title="Introduction" description="The short paragraph under the title.">
           <RichEditor
             variant="intro"
             label="Introduction"
@@ -332,10 +369,10 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
             }}
             onChange={(html) => set("intro", html)}
           />
-        </Card>
+        </Section>
       )}
 
-      <Card title={isUpdates ? "Post" : "Document"}>
+      <Section title={isUpdates ? "Post" : "Document"}>
         <RichEditor
           variant={isUpdates ? "post" : "legal"}
           label={isUpdates ? "Post content" : "Document content"}
@@ -347,15 +384,15 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
           }}
           onChange={(html) => set("content", html)}
         />
-        {errors.content && <p role="alert" className="text-xs font-medium text-red-700">{errors.content}</p>}
-      </Card>
+        {errors.content && <p role="alert" className="text-xs font-medium text-destructive">{errors.content}</p>}
+      </Section>
 
-      <Card title="Search & sharing" description="How this page looks in Google and when someone shares the link. Leave blank to use the defaults.">
+      <Section title="Search & sharing" description="How this page looks in Google and when someone shares the link. Leave blank to use the defaults.">
         <Field label="Search title" htmlFor="meta-title" hint={<Count value={values.metaTitle || values.title} limit={60} />}>
-          <input id="meta-title" value={values.metaTitle} onChange={(e) => set("metaTitle", e.target.value)} placeholder={values.title ? `${values.title} - ${isUpdates ? "Mochi" : "The Mochi App"}` : ""} className={inputClass} />
+          <Input id="meta-title" value={values.metaTitle} onChange={(e) => set("metaTitle", e.target.value)} placeholder={values.title ? `${values.title} - ${isUpdates ? "Mochi" : "The Mochi App"}` : ""} />
         </Field>
         <Field label="Search description" htmlFor="description" hint={<Count value={values.description} limit={160} />}>
-          <textarea id="description" value={values.description} onChange={(e) => set("description", e.target.value)} rows={3} className={inputClass} />
+          <Textarea id="description" value={values.description} onChange={(e) => set("description", e.target.value)} rows={3} />
         </Field>
         {isUpdates && (
           <Field label="Sharing picture" hint={ogFallback ? "Uses the cover picture unless you choose another." : "Shown when the link is shared (for example on social media)."} error={errors.ogImage}>
@@ -366,30 +403,117 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
             />
           </Field>
         )}
-      </Card>
+      </Section>
 
       {meta && (
-        <Card title="Delete" description="Deleting removes this page for good. Take it offline instead if you might want it back.">
-          <button type="button" onClick={() => { setTypedTitle(""); setDeleteOpen(true); }} className="rounded-lg border border-red-300 bg-white px-3.5 py-2 text-sm font-medium text-red-700 hover:bg-red-50">
-            Delete this {isUpdates ? "post" : "page"}…
-          </button>
-        </Card>
+        <Section title="Delete" description="Deleting removes this page for good. Take it offline instead if you might want it back.">
+          <Button type="button" variant="outline" className="border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => { setTypedTitle(""); setDeleteOpen(true); }}>
+            <Trash2 /> Delete this {noun}…
+          </Button>
+        </Section>
       )}
 
-      {deleteOpen && meta && (
-        <div role="dialog" aria-modal="true" aria-labelledby="delete-title" className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
-            <h2 id="delete-title" className="text-lg font-semibold">Delete “{initial.title}”?</h2>
-            <p className="mt-2 text-sm text-gray-600">This can&apos;t be undone. {state === "live" && "The page will disappear from the website straight away. "}To confirm, type the title below.</p>
-            <input autoFocus value={typedTitle} onChange={(e) => setTypedTitle(e.target.value)} aria-label="Type the title to confirm" className={`${inputClass} mt-4`} placeholder={initial.title} />
-            <div className="mt-5 flex justify-end gap-2">
-              <button type="button" onClick={() => setDeleteOpen(false)} className="rounded-lg px-3.5 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Cancel</button>
-              <button type="button" onClick={remove} disabled={busy === "delete" || typedTitle.trim() !== initial.title.trim()} className="rounded-lg bg-red-600 px-3.5 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-40">
-                {busy === "delete" ? "Deleting…" : "Delete for good"}
-              </button>
+      {/* Schedule */}
+      <Dialog open={scheduleOpen} onOpenChange={setScheduleOpen}>
+        <DialogContent className="max-w-fit">
+          <DialogHeader>
+            <DialogTitle>Schedule publishing</DialogTitle>
+            <DialogDescription>Pick the day and time it should go live, in your local time.</DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col items-center gap-4">
+            <Calendar
+              mode="single"
+              className="rounded-md border"
+              selected={parseDay(scheduleDay)}
+              defaultMonth={parseDay(scheduleDay)}
+              disabled={{ before: new Date(mountedAt) }}
+              onSelect={(d) => setScheduleDay(d ? formatDay(d) : "")}
+            />
+            <div className="w-full">
+              <Field label="Time" htmlFor="schedule-time" error={errors.schedule}>
+                <Input id="schedule-time" type="time" value={scheduleTime} onChange={(e) => setScheduleTime(e.target.value)} className="appearance-none" />
+              </Field>
             </div>
           </div>
-        </div>
+          {message && (
+            <Alert variant="destructive" className="border-destructive/30 bg-destructive/5">
+              <CircleAlert />
+              <AlertDescription>{message.text}</AlertDescription>
+            </Alert>
+          )}
+          <DialogFooter>
+            <Button type="button" variant="ghost" onClick={() => setScheduleOpen(false)}>Cancel</Button>
+            <Button type="button" onClick={scheduleIt} disabled={busy !== null}>
+              <CalendarClock /> {busy === "schedule" ? "Scheduling…" : "Schedule"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Take offline */}
+      <AlertDialog open={offlineOpen} onOpenChange={setOfflineOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Take this {noun} offline?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {state === "scheduled" ? "It won't go live at the scheduled time and goes back to being a draft." : "It disappears from the website straight away and goes back to being a draft."}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={() => void takeOffline()}>Take offline</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Unsaved changes */}
+      <AlertDialog open={leaveTo !== null} onOpenChange={(o) => !o && setLeaveTo(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Leave without saving?</AlertDialogTitle>
+            <AlertDialogDescription>You have unsaved changes. If you leave now they will be lost.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Keep editing</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                const to = leaveTo;
+                setBaseline(valuesRef.current); // stops the browser's own unload warning too
+                if (to) router.push(to);
+              }}
+            >
+              Leave
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Delete (typed title) */}
+      {meta && (
+        <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete “{initial.title}”?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This can&apos;t be undone. {state === "live" && "The page will disappear from the website straight away. "}To confirm, type the title below.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <Input autoFocus value={typedTitle} onChange={(e) => setTypedTitle(e.target.value)} aria-label="Type the title to confirm" placeholder={initial.title} />
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                variant="destructive"
+                disabled={busy === "delete" || typedTitle.trim() !== initial.title.trim()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  void remove();
+                }}
+              >
+                {busy === "delete" ? "Deleting…" : "Delete for good"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       )}
     </form>
   );

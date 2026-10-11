@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Button } from "@/components/admin/ui/button";
 import { COLLECTIONS } from "./collections";
 
 export function AdminNav() {
@@ -11,14 +12,11 @@ export function AdminNav() {
       {COLLECTIONS.map((c) => {
         const active = pathname.startsWith(`/admin/${c.id}`);
         return (
-          <Link
-            key={c.id}
-            href={`/admin/${c.id}`}
-            aria-current={active ? "page" : undefined}
-            className={`rounded-lg px-3 py-1.5 text-sm font-medium ${active ? "bg-purple-100 text-purple-800" : "text-gray-700 hover:bg-gray-100"}`}
-          >
-            {c.label}
-          </Link>
+          <Button key={c.id} asChild variant={active ? "secondary" : "ghost"} size="sm" className={active ? "text-primary" : "text-muted-foreground"}>
+            <Link href={`/admin/${c.id}`} aria-current={active ? "page" : undefined}>
+              {c.label}
+            </Link>
+          </Button>
         );
       })}
     </nav>

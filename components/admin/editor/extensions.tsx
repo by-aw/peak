@@ -6,6 +6,14 @@ import { Table, TableCell, TableHeader, TableRow } from "@tiptap/extension-table
 import { Extension, Node, NodeViewWrapper, ReactNodeViewRenderer, mergeAttributes, type NodeViewProps } from "@tiptap/react";
 
 import StarterKit from "@tiptap/starter-kit";
+import { Pencil, Trash2 } from "lucide-react";
+import { useState, type ReactNode } from "react";
+import { cn } from "@/components/admin/lib/utils";
+import { Button } from "@/components/admin/ui/button";
+import { Input } from "@/components/admin/ui/input";
+import { Label } from "@/components/admin/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/admin/ui/popover";
+import { Switch } from "@/components/admin/ui/switch";
 
 /**
  * The editor only knows the HTML the public page can style (see lib/cms/blocks.ts for the allowlist). Custom blocks
@@ -33,57 +41,103 @@ const KeepClass = Extension.create({
   },
 });
 
-function RemoveButton({ onClick }: { onClick: () => void }) {
+/** Chrome around the CMS blocks inside the writing surface (the blocks' own preview stays in the page's style). */
+function BlockFrame({ title, selected, actions, children, muted }: { title: string; selected: boolean; actions: ReactNode; children?: ReactNode; muted?: boolean }) {
   return (
-    <button type="button" onClick={onClick} className="rounded-md border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-700 hover:bg-gray-100">
-      Remove
-    </button>
+    <NodeViewWrapper data-drag-handle contentEditable={false} className="my-4">
+      <div data-admin-root className={cn("rounded-xl border bg-card p-3 text-card-foreground", muted && "bg-muted/50", selected && "border-primary ring-2 ring-primary/20")}>
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">{title}</span>
+          <div className="flex items-center gap-1">{actions}</div>
+        </div>
+        {children && <div className="mt-3">{children}</div>}
+      </div>
+    </NodeViewWrapper>
   );
 }
 
-function CtaView({ node, updateAttributes, deleteNode, selected }: NodeViewProps) {
+function RemoveButton({ onClick }: { onClick: () => void }) {
+  return (
+    <Button type="button" variant="ghost" size="xs" onClick={onClick} className="text-muted-foreground hover:text-destructive">
+      <Trash2 /> Remove
+    </Button>
+  );
+}
+
+function EditPopover({ label, children, defaultOpen }: { label: string; children: ReactNode; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(Boolean(defaultOpen));
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button type="button" variant="outline" size="xs"><Pencil /> {label}</Button>
+      </PopoverTrigger>
+      <PopoverContent align="end" className="w-80 space-y-3">
+        {children}
+        <div className="flex justify-end">
+          <Button type="button" size="sm" onClick={() => setOpen(false)}>Done</Button>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+function CtaView({ node, updateAttributes, deleteNode, selected, editor }: NodeViewProps) {
   const a = node.attrs as { text: string; href: string; target: string };
   return (
-    <NodeViewWrapper data-drag-handle className={`my-4 rounded-xl border bg-white p-3 ${selected ? "border-purple-500" : "border-gray-200"}`} contentEditable={false}>
-      <div className="mb-2 flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">Button</span>
-        <RemoveButton onClick={deleteNode} />
-      </div>
-      <div className="grid gap-2 sm:grid-cols-2">
-        <label className="text-xs text-gray-600">
-          Button text
-          <input value={a.text} onChange={(e) => updateAttributes({ text: e.target.value })} placeholder="Try Mochi free" className="mt-1 w-full rounded-lg border border-gray-300 px-2 py-1.5 text-sm text-gray-900" />
-        </label>
-        <label className="text-xs text-gray-600">
-          Where it goes
-          <input value={a.href} onChange={(e) => updateAttributes({ href: e.target.value })} placeholder="https://… or /download" className="mt-1 w-full rounded-lg border border-gray-300 px-2 py-1.5 text-sm text-gray-900" />
-        </label>
-      </div>
-      <label className="mt-2 flex items-center gap-2 text-xs text-gray-600">
-        <input type="checkbox" checked={a.target === "_blank"} onChange={(e) => updateAttributes({ target: e.target.checked ? "_blank" : "" })} />
-        Open in a new tab
-      </label>
-      <div className="mt-3">
+    <BlockFrame
+      title="Button"
+      selected={selected}
+      actions={
+        <>
+          <EditPopover label="Edit" defaultOpen={!a.text && !a.href && editor.isFocused}>
+            <div className="grid gap-1.5">
+              <Label htmlFor="cta-text">Button text</Label>
+              <Input id="cta-text" value={a.text} onChange={(e) => updateAttributes({ text: e.target.value })} placeholder="Try Mochi free" />
+            </div>
+            <div className="grid gap-1.5">
+              <Label htmlFor="cta-href">Where it goes</Label>
+              <Input id="cta-href" value={a.href} onChange={(e) => updateAttributes({ href: e.target.value })} placeholder="https://… or /download" />
+            </div>
+            <div className="flex items-center gap-2">
+              <Switch id="cta-new-tab" checked={a.target === "_blank"} onCheckedChange={(on) => updateAttributes({ target: on ? "_blank" : "" })} />
+              <Label htmlFor="cta-new-tab">Open in a new tab</Label>
+            </div>
+          </EditPopover>
+          <RemoveButton onClick={deleteNode} />
+        </>
+      }
+    >
+      <div className="flex flex-wrap items-center gap-3">
         <span className="inline-flex rounded-lg bg-black px-4 py-2 text-sm font-medium text-white">{a.text || "Button"}</span>
+        <span className="min-w-0 truncate text-xs text-muted-foreground">
+          {a.href ? <>{a.href}{a.target === "_blank" && " (new tab)"}</> : "No link yet"}
+        </span>
       </div>
-    </NodeViewWrapper>
+    </BlockFrame>
   );
 }
 
 function AudioView({ node, updateAttributes, deleteNode, selected }: NodeViewProps) {
   const a = node.attrs as { src: string; duration: string };
   return (
-    <NodeViewWrapper data-drag-handle className={`my-4 rounded-xl border bg-white p-3 ${selected ? "border-purple-500" : "border-gray-200"}`} contentEditable={false}>
-      <div className="mb-2 flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">Audio clip</span>
-        <RemoveButton onClick={deleteNode} />
-      </div>
+    <BlockFrame
+      title="Audio clip"
+      selected={selected}
+      actions={
+        <>
+          <EditPopover label="Edit">
+            <div className="grid gap-1.5">
+              <Label htmlFor="audio-duration">Length shown on the player</Label>
+              <Input id="audio-duration" value={a.duration} onChange={(e) => updateAttributes({ duration: e.target.value })} placeholder="0:19" className="w-28" />
+            </div>
+          </EditPopover>
+          <RemoveButton onClick={deleteNode} />
+        </>
+      }
+    >
       <audio controls src={a.src} className="w-full" />
-      <label className="mt-2 block text-xs text-gray-600">
-        Length shown on the player
-        <input value={a.duration} onChange={(e) => updateAttributes({ duration: e.target.value })} placeholder="0:19" className="mt-1 w-24 rounded-lg border border-gray-300 px-2 py-1.5 text-sm text-gray-900" />
-      </label>
-    </NodeViewWrapper>
+      <p className="mt-2 text-xs text-muted-foreground">Length shown on the player: {a.duration || "not set"}</p>
+    </BlockFrame>
   );
 }
 
@@ -91,19 +145,18 @@ function EmbedView({ node, deleteNode, selected }: NodeViewProps) {
   const html = String(node.attrs.html ?? "");
   const kind = html.includes("<iframe") ? "YouTube video" : "Video";
   return (
-    <NodeViewWrapper data-drag-handle className={`my-4 flex items-center justify-between rounded-xl border bg-gray-50 p-3 ${selected ? "border-purple-500" : "border-gray-200"}`} contentEditable={false}>
-      <span className="text-sm text-gray-700">{kind} (shown on the page, kept exactly as it is)</span>
-      <RemoveButton onClick={deleteNode} />
-    </NodeViewWrapper>
+    <BlockFrame title={kind} selected={selected} muted actions={<RemoveButton onClick={deleteNode} />}>
+      <p className="text-sm text-muted-foreground">Shown on the page, kept exactly as it is.</p>
+    </BlockFrame>
   );
 }
 
 function BreakView({ deleteNode, selected }: NodeViewProps) {
   return (
-    <NodeViewWrapper data-drag-handle className={`my-4 flex items-center gap-3 ${selected ? "text-purple-600" : "text-gray-400"}`} contentEditable={false}>
+    <NodeViewWrapper data-drag-handle data-admin-root className={cn("my-4 flex items-center gap-3", selected ? "text-primary" : "text-muted-foreground")} contentEditable={false}>
       <span className="h-px flex-1 border-t border-dashed border-current" />
       <span className="text-xs">Section break (extra space between sections)</span>
-      <button type="button" onClick={deleteNode} className="text-xs underline">Remove</button>
+      <RemoveButton onClick={deleteNode} />
       <span className="h-px flex-1 border-t border-dashed border-current" />
     </NodeViewWrapper>
   );

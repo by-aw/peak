@@ -1,10 +1,15 @@
 import Link from "next/link";
+import { ExternalLink, FileText, Plus } from "lucide-react";
 import { notFound } from "next/navigation";
 import { requireEditor } from "@/lib/auth";
 import { DatabaseNotConnectedError, entryState, listEntries, type StatusFilter } from "@/lib/cms/admin-queries";
 import { getCollection } from "@/components/admin/shell/collections";
 import { DbNotice } from "@/components/admin/shell/db-notice";
 import { StatusBadge } from "@/components/admin/shell/status-badge";
+import { ListFilters } from "@/components/admin/shell/list-filters";
+import { Button } from "@/components/admin/ui/button";
+import { Card } from "@/components/admin/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/admin/ui/table";
 
 export const dynamic = "force-dynamic";
 
@@ -38,65 +43,59 @@ export default async function CollectionPage({
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold">{collection.label}</h1>
-        <Link href={`/admin/${collection.id}/new`} className="rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700">
-          New entry
-        </Link>
+        <Button asChild>
+          <Link href={`/admin/${collection.id}/new`}><Plus /> New entry</Link>
+        </Button>
       </div>
 
-      <form className="mt-6 flex flex-wrap gap-2" role="search">
-        <input
-          name="q"
-          defaultValue={q}
-          placeholder="Search title or slug"
-          className="min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm"
-        />
-        <select name="status" defaultValue={status ?? ""} className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm" aria-label="Status">
-          <option value="">All statuses</option>
-          {STATUSES.map((s) => (
-            <option key={s} value={s}>{s[0].toUpperCase() + s.slice(1)}</option>
-          ))}
-        </select>
-        <button type="submit" className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium hover:bg-gray-100">Filter</button>
-      </form>
+      <div className="mt-6">
+        <ListFilters q={q} status={status} />
+      </div>
 
       {rows.length === 0 ? (
-        <p className="mt-8 text-sm text-gray-600">No entries found.</p>
+        <Card className="mt-6 items-center gap-2 py-12 text-center">
+          <FileText aria-hidden className="size-8 text-muted-foreground" />
+          <p className="font-medium">No entries found.</p>
+          <p className="text-sm text-muted-foreground">{q || status ? "Try a different search or filter." : "Create the first one with New entry."}</p>
+        </Card>
       ) : (
-        <div className="mt-6 overflow-x-auto rounded-2xl border border-gray-200 bg-white">
-          <table className="w-full min-w-[640px] text-left text-sm">
-            <thead className="border-b border-gray-200 text-xs uppercase text-gray-500">
-              <tr>
-                <th className="px-4 py-3 font-medium">Title</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium">Last updated</th>
-                <th className="px-4 py-3" />
-              </tr>
-            </thead>
-            <tbody>
+        <Card className="mt-6 overflow-hidden py-0">
+          <Table className="min-w-[640px]">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="px-4">Title</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Last updated</TableHead>
+                <TableHead className="pr-4" />
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {rows.map((r) => {
                 const state = entryState(r);
                 return (
-                  <tr key={r.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-25">
-                    <td className="px-4 py-3">
-                      <Link href={`/admin/${collection.id}/${r.id}`} className="font-medium text-ink hover:text-purple-700">{r.title}</Link>
-                      <div className="text-xs text-gray-500">/{r.slug}</div>
-                    </td>
-                    <td className="px-4 py-3"><StatusBadge entry={r} state={state} /></td>
-                    <td className="px-4 py-3 text-gray-600">
+                  <TableRow key={r.id}>
+                    <TableCell className="px-4 whitespace-normal">
+                      <Link href={`/admin/${collection.id}/${r.id}`} className="font-medium hover:text-primary">{r.title}</Link>
+                      <div className="text-xs text-muted-foreground">/{r.slug}</div>
+                    </TableCell>
+                    <TableCell><StatusBadge entry={r} state={state} /></TableCell>
+                    <TableCell className="text-muted-foreground">
                       {fmt.format(r.updatedAt)} UTC
-                      {r.updatedBy && <div className="text-xs text-gray-500">by {r.updatedBy}</div>}
-                    </td>
-                    <td className="px-4 py-3 text-right">
+                      {r.updatedBy && <div className="text-xs">by {r.updatedBy}</div>}
+                    </TableCell>
+                    <TableCell className="pr-4 text-right">
                       {state === "published" && (
-                        <a href={collection.livePath(r.slug)} target="_blank" rel="noreferrer" className="text-purple-700 hover:underline">View live</a>
+                        <Button asChild variant="link" size="sm">
+                          <a href={collection.livePath(r.slug)} target="_blank" rel="noreferrer">View live <ExternalLink /></a>
+                        </Button>
                       )}
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 );
               })}
-            </tbody>
-          </table>
-        </div>
+            </TableBody>
+          </Table>
+        </Card>
       )}
     </div>
   );

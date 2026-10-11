@@ -7,6 +7,7 @@ import { DbNotice } from "@/components/admin/shell/db-notice";
 import { requireEditor } from "@/lib/auth";
 import { getEntryById } from "@/lib/cms/admin-queries";
 import { hasDatabase } from "@/lib/cms/db";
+import { selectOptions } from "@/lib/cms/field-options";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Edit" };
@@ -26,6 +27,7 @@ export default async function EditEntryPage({ params }: { params: Promise<{ coll
       collectionLabel={collection.label}
       livePath={collection.livePath("").replace(/\/$/, "")}
       initial={valuesFromRow(row)}
+      options={selectOptions()}
       meta={metaFromRow(row)}
     />
   );

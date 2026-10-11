@@ -38,7 +38,13 @@ export async function listEntries(collection: CollectionId, opts: { status?: Sta
     const like = `%${q.replace(/[\\%_]/g, "\\$&")}%`;
     conds.push(or(ilike(entries.title, like), ilike(entries.slug, like))!);
   }
-  const order = collection === "legal" ? [asc(entries.title)] : [sql`${entries.publishAt} desc nulls first`, asc(entries.sortOrder)];
+  // Updates: newest first. Watch / academy: the collection's own order (sort_order, what the site uses). Legal / audit: by title.
+  const order =
+    collection === "updates"
+      ? [sql`${entries.publishAt} desc nulls first`, asc(entries.sortOrder)]
+      : collection === "watch" || collection === "academy"
+        ? [asc(entries.sortOrder), asc(entries.slug)]
+        : [asc(entries.title)];
   return d.select().from(entries).where(and(...conds)).orderBy(...order);
 }
 

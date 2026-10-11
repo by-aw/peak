@@ -16,7 +16,7 @@ import { Switch } from "@/components/admin/ui/switch";
 import { Toggle } from "@/components/admin/ui/toggle";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/admin/ui/tooltip";
 import "./editor.css";
-import { buildExtensions, type Variant } from "./extensions";
+import { buildExtensions, VARIANTS, type Variant } from "./extensions";
 import { uploadAudio, uploadImage } from "./upload";
 
 type Props = {
@@ -29,6 +29,12 @@ type Props = {
   onReady?: (html: string) => void;
   placeholder?: string;
   label: string;
+  /** Height of the empty writing surface: "line" for one-line fields (a heading), "small" for short text. */
+  size?: "line" | "small" | "default";
+  /** Marks the editor as invalid (red border) for a field error shown by the caller. */
+  invalid?: boolean;
+  /** Keep the text's own spaces (leading / repeated) instead of collapsing them, for pages that render text pre-wrap. */
+  preserveWhitespace?: boolean;
 };
 
 /** One icon button on the toolbar, with a tooltip. `mousedown` is cancelled so the editor keeps its selection. */
@@ -55,8 +61,10 @@ function Tool({ label, active, disabled, onClick, children, ...rest }: { label: 
   );
 }
 
-export function RichEditor({ variant, initialHtml, onChange, onReady, placeholder, label }: Props) {
-  const rich = variant === "post";
+export function RichEditor({ variant, initialHtml, onChange, onReady, placeholder, label, size, invalid, preserveWhitespace }: Props) {
+  const rich = VARIANTS[variant].insert;
+  const { headings, lists, quote } = VARIANTS[variant];
+  const sizeClass = size === "line" ? "cms-prose-line" : size === "small" || variant === "intro" ? "cms-prose-small" : "";
   const [busy, setBusy] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
@@ -70,7 +78,8 @@ export function RichEditor({ variant, initialHtml, onChange, onReady, placeholde
     immediatelyRender: false,
     extensions: buildExtensions(variant, placeholder ?? "Start writing…"),
     content: initialHtml,
-    editorProps: { attributes: { class: `cms-prose ${variant === "intro" ? "cms-prose-small" : ""}`, "aria-label": label } },
+    ...(preserveWhitespace ? { parseOptions: { preserveWhitespace: true } } : {}),
+    editorProps: { attributes: { class: `cms-prose ${sizeClass}`, "aria-label": label } },
     onCreate: ({ editor }) => onReady?.(editor.getHTML()),
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
   });
@@ -95,7 +104,7 @@ export function RichEditor({ variant, initialHtml, onChange, onReady, placeholde
     }),
   });
 
-  if (!editor || !s) return <Skeleton className="min-h-[320px] rounded-xl" aria-busy />;
+  if (!editor || !s) return <Skeleton className={size === "line" ? "min-h-[96px] rounded-xl" : size === "small" || variant === "intro" ? "min-h-[170px] rounded-xl" : "min-h-[320px] rounded-xl"} aria-busy />;
 
   const run = async (name: string, fn: () => Promise<void>) => {
     setError(null);
@@ -130,9 +139,9 @@ export function RichEditor({ variant, initialHtml, onChange, onReady, placeholde
   const uploading = busy === "image" || busy === "audio";
 
   return (
-    <div className="rounded-xl border bg-background">
+    <div className={`rounded-xl border bg-background ${invalid ? "border-destructive ring-[3px] ring-destructive/20" : ""}`}>
       <div role="toolbar" aria-label={`${label} formatting`} style={{ top: "var(--cms-action-bar-h, 0px)" }} className="sticky z-10 flex flex-wrap items-center gap-0.5 rounded-t-xl border-b bg-background/95 p-1.5 backdrop-blur">
-        {variant !== "intro" && (
+        {headings.length > 0 && (
           <>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -142,9 +151,9 @@ export function RichEditor({ variant, initialHtml, onChange, onReady, placeholde
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" onCloseAutoFocus={(e) => e.preventDefault()}>
                 <DropdownMenuItem onSelect={() => editor.chain().focus().setParagraph().run()}>Paragraph</DropdownMenuItem>
-                {variant === "legal" && <DropdownMenuItem onSelect={() => h(1)}>Title</DropdownMenuItem>}
-                <DropdownMenuItem onSelect={() => h(2)}>Heading</DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => h(3)}>Subheading</DropdownMenuItem>
+                {headings.includes(1) && <DropdownMenuItem onSelect={() => h(1)}>Title</DropdownMenuItem>}
+                {headings.includes(2) && <DropdownMenuItem onSelect={() => h(2)}>Heading</DropdownMenuItem>}
+                {headings.includes(3) && <DropdownMenuItem onSelect={() => h(3)}>Subheading</DropdownMenuItem>}
               </DropdownMenuContent>
             </DropdownMenu>
             <Separator orientation="vertical" className="mx-1 data-[orientation=vertical]:h-5" />
@@ -190,10 +199,10 @@ export function RichEditor({ variant, initialHtml, onChange, onReady, placeholde
             </div>
           </PopoverContent>
         </Popover>
-        <Separator orientation="vertical" className="mx-1 data-[orientation=vertical]:h-5" />
-        <Tool label="Bulleted list" active={s.bullet} onClick={() => editor.chain().focus().toggleBulletList().run()}><List /></Tool>
-        <Tool label="Numbered list" active={s.ordered} onClick={() => editor.chain().focus().toggleOrderedList().run()}><ListOrdered /></Tool>
-        {rich && <Tool label="Quote" active={s.quote} onClick={() => editor.chain().focus().toggleBlockquote().run()}><Quote /></Tool>}
+        {(lists || quote) && <Separator orientation="vertical" className="mx-1 data-[orientation=vertical]:h-5" />}
+        {lists && <Tool label="Bulleted list" active={s.bullet} onClick={() => editor.chain().focus().toggleBulletList().run()}><List /></Tool>}
+        {lists && <Tool label="Numbered list" active={s.ordered} onClick={() => editor.chain().focus().toggleOrderedList().run()}><ListOrdered /></Tool>}
+        {quote && <Tool label="Quote" active={s.quote} onClick={() => editor.chain().focus().toggleBlockquote().run()}><Quote /></Tool>}
         {rich && (
           <>
             <Separator orientation="vertical" className="mx-1 data-[orientation=vertical]:h-5" />

@@ -5,6 +5,7 @@
  * Storage (what the public renderer reads):
  *   updates: `blocks` = html | cta | audio, `body` = every html block joined with "\n"
  *   legal:   `intro` / `body` = one sanitised HTML string each
+ *   watch / academy / audit: each rich-text field is one sanitised HTML string (profile per field, see lib/cms/fields.ts)
  *
  * Editor: one HTML string that Tiptap loads/serialises. The html blocks are concatenated in order and the non-html
  * blocks become marker elements the custom Tiptap nodes understand:
@@ -17,7 +18,14 @@
  * markup the public renderer does not style.
  */
 
-export type Profile = "post" | "legal";
+/**
+ * Allowlist per kind of field:
+ *   post    updates bodies (COMMON + images, tables, blockquotes, embeds)
+ *   legal   legal intro/body and academy lesson descriptions (COMMON: p, h1-h4, lists, strong, em, a, br)
+ *   audit   audit report sections (p, h2, lists, blockquote, strong, em, a, br)
+ *   inline  short descriptions (p, strong, em, a, br)
+ */
+export type Profile = "post" | "legal" | "audit" | "inline";
 
 export type StoredBlock =
   | { type: "html"; name: string; html: string }
@@ -150,8 +158,13 @@ const POST_ONLY: Record<string, string[]> = {
 const POST_CLASS_TAGS = new Set(["ul", "ol", "img"]);
 const ALIAS: Record<string, string> = { b: "strong", i: "em", h5: "h4", h6: "h4", dir: "ul", menu: "ul" };
 
+const AUDIT: Record<string, string[]> = { p: [], h2: [], strong: [], em: [], br: [], ul: [], ol: [], li: [], a: ["href", "target"], blockquote: [] };
+const INLINE: Record<string, string[]> = { p: [], strong: [], em: [], br: [], a: ["href", "target"] };
+
 function allowedTags(profile: Profile): Record<string, string[]> {
   if (profile === "legal") return COMMON;
+  if (profile === "audit") return AUDIT;
+  if (profile === "inline") return INLINE;
   return { ...COMMON, ...POST_ONLY, ul: ["class"], ol: ["class"] };
 }
 
@@ -301,7 +314,7 @@ function renderEl(el: El, parent: string, ctx: Ctx): string {
   }
   const inner = renderChildren(tag, children, ctx);
   if (tag === "p" && !inner) return "";
-  if (tag === "li" && ctx.profile === "legal" && !inner) return "";
+  if (tag === "li" && ctx.profile !== "post" && !inner) return "";
   return `${open}${inner}</${tag}>`;
 }
 

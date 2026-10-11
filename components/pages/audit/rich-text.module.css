@@ -1,0 +1,126 @@
+/*
+ * Framer rich-text presets of the Audit template. Framer rich text keeps whitespace (pre-wrap) and breaks long words.
+ *
+ * `.body` (Content 1-7, Overview / Archetypes title + body, Final Note):
+ * - p / li: Inter 400 14/24 #42424a with the cv03/cv04/cv09/cv11 sets; paragraphs and blockquotes after the first block
+ *   sit 20px lower, lists touch the paragraph above them
+ * - h2: Inter 600 24/32 +0.02em on phone, 20/28 from tablet, #1d1d20, no stylistic sets
+ * - strong: 600
+ * - ul / ol: 2ch of start padding with the bullet / "n." pinned at the start edge (Framer draws its markers this way)
+ * - blockquote: 22px of padding beside a 2px #ddd bar; its paragraphs are 14/28 #1d1d20
+ *
+ * `.summary` (the text under the hero): Inter 400 14/24, -0.2px, black, no stylistic sets. Live hardcodes this block
+ * as three plain paragraphs (no list markers, no paragraph spacing); the CMS "Summary" field holds the same text as a
+ * paragraph plus a two-item list, so lists render as plain paragraphs here.
+ */
+
+.body,
+.summary {
+  width: 100%;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.body {
+  color: var(--color-gray-750);
+  font-feature-settings: "blwf", "cv03", "cv04", "cv09", "cv11";
+}
+
+.body p:not(:first-child),
+.body blockquote {
+  margin-top: 20px;
+}
+
+.body h2 {
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+  color: var(--color-ink-3);
+  font-feature-settings: normal;
+}
+
+.body strong {
+  font-weight: 600;
+}
+
+.body em {
+  font-style: italic;
+}
+
+.body a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.body ul,
+.body ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.body li {
+  position: relative;
+  padding-left: 2ch;
+}
+
+.body ul > li::before {
+  content: "\2022";
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.body ol > li::before {
+  content: counter(list-item) ".";
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.body blockquote {
+  position: relative;
+  padding-left: 22px;
+}
+
+.body blockquote::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  border-radius: 1px;
+  background-color: #ddd;
+}
+
+.body blockquote p {
+  line-height: 28px;
+  color: var(--color-ink-3);
+}
+
+@media (min-width: 810px) {
+  .body h2 {
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: normal;
+  }
+}
+
+.summary {
+  letter-spacing: -0.2px;
+  color: #000;
+}
+
+.summary ul,
+.summary ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

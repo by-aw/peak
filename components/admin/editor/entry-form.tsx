@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { createEntry, deleteEntry, isSlugAvailable, publish, saveDraft, schedule, unpublish, type ActionResult, type EntryInput, type SavedEntry } from "@/lib/cms/admin-mutations";
+import { FIELD_GROUPS, type FieldValue, type SelectOption } from "@/lib/cms/fields";
 import type { CollectionId } from "@/lib/cms/types";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/admin/ui/alert-dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/admin/ui/alert";
@@ -19,6 +20,7 @@ import { Textarea } from "@/components/admin/ui/textarea";
 import { Count, DatePicker, Field, formatDay, ImageField, parseDay, Section } from "./fields";
 import { slugify, type EntryMeta, type FormValues } from "./form-values";
 import { RichEditor } from "./rich-editor";
+import { SpecFields } from "./spec-fields";
 
 type Props = {
   collection: CollectionId;
@@ -26,15 +28,28 @@ type Props = {
   livePath: string; // e.g. "/updates"
   initial: FormValues;
   meta: EntryMeta | null;
+  /** Options of the `select` fields of data-driven collections (see lib/cms/field-options.ts). */
+  options?: Record<string, SelectOption[]>;
 };
 
 const LABELS = ["Blog", "Product Updates", "Company"];
 const SLUG_OK = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const fmt = new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: "short" });
 
-export function EntryForm({ collection, collectionLabel, livePath, initial, meta: initialMeta }: Props) {
+const TITLE_PLACEHOLDER: Record<CollectionId, string> = {
+  updates: "What is this post about?",
+  legal: "For example: Terms of Service",
+  watch: "For example: Speed to Lead",
+  academy: "For example: AI Follow-Ups & Automations",
+  audit: "For example: Mochi Intelligence Report",
+};
+
+export function EntryForm({ collection, collectionLabel, livePath, initial, meta: initialMeta, options = {} }: Props) {
   const router = useRouter();
   const isUpdates = collection === "updates";
+  const isLegal = collection === "legal";
+  /** watch / academy / audit: sections described by FIELD_GROUPS instead of the hand-built updates / legal form */
+  const spec = FIELD_GROUPS[collection];
   const [values, setValues] = useState<FormValues>(initial);
   const [baseline, setBaseline] = useState<FormValues>(initial);
   const [meta, setMeta] = useState<EntryMeta | null>(initialMeta);
@@ -61,6 +76,7 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
   const scheduleAt = scheduleDay && scheduleTime ? `${scheduleDay}T${scheduleTime}` : "";
 
   const set = <K extends keyof FormValues>(key: K, value: FormValues[K]) => setValues((v) => ({ ...v, [key]: value }));
+  const setField = (key: string, value: FieldValue) => setValues((v) => ({ ...v, fields: { ...v.fields, [key]: value } }));
   const dirty = useMemo(() => JSON.stringify(values) !== JSON.stringify(baseline), [values, baseline]);
 
   const state: "new" | "draft" | "live" | "scheduled" = !meta ? "new" : meta.status !== "published" ? "draft" : meta.publishAt && Date.parse(meta.publishAt) > Date.parse(meta.updatedAt) && Date.parse(meta.publishAt) > mountedAt ? "scheduled" : "live";
@@ -284,7 +300,7 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
               const title = e.target.value;
               setValues((v) => ({ ...v, title, slug: slugTouched ? v.slug : slugify(title) }));
             }}
-            placeholder={isUpdates ? "What is this post about?" : "For example: Terms of Service"}
+            placeholder={TITLE_PLACEHOLDER[collection]}
             autoFocus={!meta}
           />
         </Field>
@@ -315,7 +331,7 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
           </Alert>
         )}
 
-        {isUpdates ? (
+        {spec ? null : isUpdates ? (
           <div className="grid gap-4 md:grid-cols-3">
             <Field label="Category" error={errors.label} htmlFor="label">
               <Select value={values.label} onValueChange={(v) => set("label", v)}>
@@ -370,7 +386,22 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
         </Section>
       )}
 
-      {!isUpdates && (
+      {spec && (
+        <SpecFields
+          groups={spec}
+          values={values.fields}
+          initial={initial.fields}
+          errors={errors}
+          options={options}
+          onChange={setField}
+          onReady={(key, html) => {
+            setValues((v) => ({ ...v, fields: { ...v.fields, [key]: html } }));
+            setBaseline((b) => ({ ...b, fields: { ...b.fields, [key]: html } }));
+          }}
+        />
+      )}
+
+      {isLegal && (
         <Section title="Introduction" description="The short paragraph under the title.">
           <RichEditor
             variant="intro"
@@ -385,38 +416,42 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
         </Section>
       )}
 
-      <Section title={isUpdates ? "Post" : "Document"}>
-        <RichEditor
-          variant={isUpdates ? "post" : "legal"}
-          label={isUpdates ? "Post content" : "Document content"}
-          initialHtml={initial.content}
-          placeholder={isUpdates ? "Start writing your post…" : "Write the document…"}
-          onReady={(html) => {
-            setValues((v) => ({ ...v, content: html }));
-            setBaseline((b) => ({ ...b, content: html }));
-          }}
-          onChange={(html) => set("content", html)}
-        />
-        {errors.content && <p role="alert" className="text-xs font-medium text-destructive">{errors.content}</p>}
-      </Section>
+      {!spec && (
+        <Section title={isUpdates ? "Post" : "Document"}>
+          <RichEditor
+            variant={isUpdates ? "post" : "legal"}
+            label={isUpdates ? "Post content" : "Document content"}
+            initialHtml={initial.content}
+            placeholder={isUpdates ? "Start writing your post…" : "Write the document…"}
+            onReady={(html) => {
+              setValues((v) => ({ ...v, content: html }));
+              setBaseline((b) => ({ ...b, content: html }));
+            }}
+            onChange={(html) => set("content", html)}
+          />
+          {errors.content && <p role="alert" className="text-xs font-medium text-destructive">{errors.content}</p>}
+        </Section>
+      )}
 
-      <Section title="Search & sharing" description="How this page looks in Google and when someone shares the link. Leave blank to use the defaults.">
-        <Field label="Search title" htmlFor="meta-title" hint={<Count value={values.metaTitle || values.title} limit={60} />}>
-          <Input id="meta-title" value={values.metaTitle} onChange={(e) => set("metaTitle", e.target.value)} placeholder={values.title ? `${values.title} - ${isUpdates ? "Mochi" : "The Mochi App"}` : ""} />
-        </Field>
-        <Field label="Search description" htmlFor="description" hint={<Count value={values.description} limit={160} />}>
-          <Textarea id="description" value={values.description} onChange={(e) => set("description", e.target.value)} rows={3} />
-        </Field>
-        {isUpdates && (
-          <Field label="Sharing picture" hint={ogFallback ? "Uses the cover picture unless you choose another." : "Shown when the link is shared (for example on social media)."} error={errors.ogImage}>
-            <ImageField
-              label="sharing picture"
-              src={values.ogImage || ogFallback}
-              onChange={(img) => set("ogImage", img && img.src !== values.coverSrc ? img.src : "")}
-            />
+      {!spec && (
+        <Section title="Search & sharing" description="How this page looks in Google and when someone shares the link. Leave blank to use the defaults.">
+          <Field label="Search title" htmlFor="meta-title" hint={<Count value={values.metaTitle || values.title} limit={60} />}>
+            <Input id="meta-title" value={values.metaTitle} onChange={(e) => set("metaTitle", e.target.value)} placeholder={values.title ? `${values.title} - ${isUpdates ? "Mochi" : "The Mochi App"}` : ""} />
           </Field>
-        )}
-      </Section>
+          <Field label="Search description" htmlFor="description" hint={<Count value={values.description} limit={160} />}>
+            <Textarea id="description" value={values.description} onChange={(e) => set("description", e.target.value)} rows={3} />
+          </Field>
+          {isUpdates && (
+            <Field label="Sharing picture" hint={ogFallback ? "Uses the cover picture unless you choose another." : "Shown when the link is shared (for example on social media)."} error={errors.ogImage}>
+              <ImageField
+                label="sharing picture"
+                src={values.ogImage || ogFallback}
+                onChange={(img) => set("ogImage", img && img.src !== values.coverSrc ? img.src : "")}
+              />
+            </Field>
+          )}
+        </Section>
+      )}
 
       {meta && (
         <Section title="Delete" description="Deleting removes this page for good. Take it offline instead if you might want it back.">

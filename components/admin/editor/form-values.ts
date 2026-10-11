@@ -1,4 +1,5 @@
-import { blocksToEditorHtml, legalToEditorHtml, toDay, type StoredBlock } from "@/lib/cms/blocks";
+import { blocksToEditorHtml, legalToEditorHtml, sanitizeHtml, toDay, type StoredBlock } from "@/lib/cms/blocks";
+import { fieldsOf, isSpecCollection, type FieldSpec, type FieldValue, type ImageValue } from "@/lib/cms/fields";
 import type { EntryRow } from "@/lib/cms/schema";
 import type { CollectionData, CollectionId } from "@/lib/cms/types";
 
@@ -26,6 +27,8 @@ export type FormValues = {
   lastUpdated: string;
   /** Editor HTML */
   intro: string;
+  /** watch / academy / audit: one value per `FIELD_GROUPS` field, keyed like `cms_entries.data` */
+  fields: Record<string, FieldValue>;
 };
 
 export type EntryMeta = {
@@ -57,11 +60,40 @@ export function emptyValues(collection: CollectionId): FormValues {
     effectiveDate: collection === "legal" ? today() : "",
     lastUpdated: collection === "legal" ? today() : "",
     intro: "",
+    fields: Object.fromEntries(fieldsOf(collection).map((f) => [f.key, emptyField(f)])),
   };
+}
+
+function emptyField(f: FieldSpec): FieldValue {
+  if (f.kind === "image") return null;
+  if (f.kind === "date") return today();
+  return "";
+}
+
+/** Stored value -> form value (numbers and dates become strings, rich text is sanitised like the server will). */
+function fieldFromData(f: FieldSpec, v: unknown): FieldValue {
+  switch (f.kind) {
+    case "rich":
+      return sanitizeHtml(typeof v === "string" ? v : "", f.profile);
+    case "number":
+      return typeof v === "number" && Number.isFinite(v) ? String(v) : "";
+    case "date":
+      return toDay(typeof v === "string" ? v : "");
+    case "image": {
+      const img = v as Partial<ImageValue> | null | undefined;
+      return img?.src ? { src: img.src, width: img.width ?? null, height: img.height ?? null, alt: img.alt ?? "" } : null;
+    }
+    default:
+      return typeof v === "string" ? v : "";
+  }
 }
 
 export function valuesFromRow(row: EntryRow): FormValues {
   const base = { ...emptyValues(row.collection), title: row.title, slug: row.slug };
+  if (isSpecCollection(row.collection)) {
+    const d = (row.data ?? {}) as Record<string, unknown>;
+    return { ...base, fields: Object.fromEntries(fieldsOf(row.collection).map((f) => [f.key, fieldFromData(f, d[f.key])])) };
+  }
   if (row.collection === "updates") {
     const d = row.data as CollectionData["updates"];
     return {

@@ -1,6 +1,11 @@
 /**
- * One-off (re-runnable) import of `content/updates` + `content/legal` into Neon, with every local `/framer/...`
- * asset referenced by those entries uploaded to Vercel Blob and the paths rewritten to the Blob URLs.
+ * One-off (re-runnable) import of `content/updates`, `content/legal`, `content/watch`, `content/academy` and
+ * `content/audit` into Neon, with every local `/framer/...` asset referenced by those entries (post images, the audit
+ * founder photos) uploaded to Vercel Blob and the paths rewritten to the Blob URLs.
+ *
+ * sort_order: updates, watch and academy follow their index.json; legal and audit follow file name order.
+ * publish_at: updates = post date, legal = effective date, audit = sent date; watch / academy have no date of their own
+ * and get the start time of the run (so they are live immediately).
  *
  *   pnpm cms:migrate                 create missing rows; leave rows that already exist untouched (keeps CMS edits)
  *   pnpm cms:migrate --overwrite     also overwrite existing rows with the content/ version
@@ -32,6 +37,7 @@ const OVERWRITE = args.has("--overwrite");
 const LOCAL_IMAGES = args.has("--local-images");
 const ROOT = process.cwd();
 const ASSET_RE = /\/framer\/[A-Za-z0-9._-]+/g;
+const RUN_STARTED = new Date();
 
 type Row = { collection: CollectionId; slug: string; title: string; publishAt: Date; sortOrder: number; data: Record<string, unknown> };
 
@@ -51,6 +57,22 @@ function collectRows(): Row[] {
   for (const f of fs.readdirSync(legalDir).filter((f) => f.endsWith(".json")).sort()) {
     const { slug, title, ...data } = readJson<{ slug: string; title: string; effectiveDate: string } & Record<string, unknown>>(path.join(legalDir, f));
     rows.push({ collection: "legal", slug, title, publishAt: new Date(data.effectiveDate), sortOrder: rows.filter((r) => r.collection === "legal").length, data });
+  }
+  // watch / academy: one file per entry plus index.json (the slugs in the collection's order).
+  for (const collection of ["watch", "academy"] as const) {
+    const dir = path.join(ROOT, "content", collection);
+    const order = readJson<string[]>(path.join(dir, "index.json"));
+    for (const f of fs.readdirSync(dir).filter((f) => f.endsWith(".json") && f !== "index.json").sort()) {
+      const { slug, title, ...data } = readJson<{ slug: string; title: string } & Record<string, unknown>>(path.join(dir, f));
+      const idx = order.indexOf(slug);
+      if (idx === -1) console.warn(`  ! ${collection}/${slug} is not in index.json; sorted last`);
+      rows.push({ collection, slug, title, publishAt: RUN_STARTED, sortOrder: idx === -1 ? order.length : idx, data });
+    }
+  }
+  const auditDir = path.join(ROOT, "content", "audit");
+  for (const f of fs.readdirSync(auditDir).filter((f) => f.endsWith(".json")).sort()) {
+    const { slug, title, ...data } = readJson<{ slug: string; title: string; sentDate: string } & Record<string, unknown>>(path.join(auditDir, f));
+    rows.push({ collection: "audit", slug, title, publishAt: new Date(data.sentDate), sortOrder: rows.filter((r) => r.collection === "audit").length, data });
   }
   return rows;
 }
@@ -101,7 +123,14 @@ async function main() {
     console.log("[dry run] nothing written");
     console.log(`  updates rows:  ${by("updates")} (sortOrder from index.json, status published, publishAt = post date)`);
     console.log(`  legal rows:    ${by("legal")}`);
+    console.log(`  watch rows:    ${by("watch")} (sortOrder from index.json, publishAt = now)`);
+    console.log(`  academy rows:  ${by("academy")} (sortOrder from index.json, publishAt = now)`);
+    console.log(`  audit rows:    ${by("audit")} (publishAt = sent date)`);
     console.log(`  images:        ${assets.size} unique /framer/ references (${(bytes / 1048576).toFixed(1)} MB) -> Blob cms/framer/<file>`);
+    for (const c of ["updates", "legal", "watch", "academy", "audit"] as const) {
+      const n = new Set(rows.filter((r) => r.collection === c).flatMap((r) => JSON.stringify(r.data).match(ASSET_RE) ?? [])).size;
+      if (n) console.log(`    of which ${c}: ${n}`);
+    }
     console.log(`  missing files: ${missing.length}${missing.length ? ` (${missing.slice(0, 5).join(", ")}${missing.length > 5 ? ", ..." : ""})` : ""}`);
     console.log(`  future-dated:  ${rows.filter((r) => r.publishAt > new Date()).length} (would be scheduled, not live)`);
     return;

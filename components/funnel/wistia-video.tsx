@@ -33,6 +33,7 @@ export function WistiaVideo({
   autoplay = false,
   aspect = "1.7777777777777777",
   className = wistiaFrameClassName,
+  playerAttributes,
 }: {
   mediaId: string;
   swatch?: boolean;
@@ -40,6 +41,8 @@ export function WistiaVideo({
   /** Width / height of the video (default 16:9). */
   aspect?: string;
   className?: string;
+  /** Extra `<wistia-player>` attributes (Wistia embed options), e.g. `{ autoplay: "true" }` for /watch. */
+  playerAttributes?: Record<string, string>;
 }) {
   const playerClassName = [
     // Until the custom element is defined it is an inline unknown element: make it a 16:9 block (as the live embed does).
@@ -59,6 +62,7 @@ export function WistiaVideo({
         className={playerClassName}
         style={swatch ? ({ "--wistia-swatch": `url('https://fast.wistia.com/embed/medias/${mediaId}/swatch')` } as React.CSSProperties) : undefined}
         {...(autoplay ? { silentautoplay: "true", muted: "true", playbutton: "false", transition: "none" } : {})}
+        {...playerAttributes}
       />
     </div>
   );

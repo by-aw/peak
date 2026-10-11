@@ -6,8 +6,10 @@ import { requireEditor } from "@/lib/auth";
 import { getEntryById, isSlugTaken } from "./admin-queries";
 import { blocksToBody, editorHtmlToBlocks, editorHtmlToLegal, parseDay, sanitizeHtml, type StoredBlock } from "./blocks";
 import { db, hasDatabase } from "./db";
+import { selectOptions } from "./field-options";
+import { fieldsOf, isSpecCollection, VIDEO_RULES, type FieldSpec } from "./fields";
 import { entries, type EntryRow } from "./schema";
-import { cmsTags, type CollectionData, type CollectionId } from "./types";
+import { cmsTags, isCollectionId, type CollectionData, type CollectionId } from "./types";
 
 /**
  * Server actions behind the editor. Every one: requireEditor() first, validates everything again on the server
@@ -43,6 +45,8 @@ export type EntryInput = {
   lastUpdated?: string;
   /** Editor HTML */
   intro?: string;
+  // watch / academy / audit: values keyed like `cms_entries.data` (see lib/cms/fields.ts)
+  fields?: Record<string, unknown>;
   /** `updatedAt` (ISO) of the row when the editor loaded it; a mismatch means someone else saved in between. */
   expectedUpdatedAt?: string | null;
 };
@@ -93,6 +97,66 @@ type Validated = {
   notes: string[];
 };
 
+const str = (v: unknown) => (typeof v === "string" ? v : "");
+
+/**
+ * One FIELD_GROUPS field: the stored value, or an error message. Rich text is sanitised with the field's profile;
+ * `publishing` only matters for fields that may be left empty while drafting.
+ */
+function validateField(f: FieldSpec, raw: unknown, publishing: boolean): { value: unknown } | { error: string } {
+  switch (f.kind) {
+    case "rich": {
+      const html = str(raw);
+      if (html.length > 500_000) return { error: "This is too long. Try removing some content." };
+      const clean = sanitizeHtml(html, f.profile);
+      if (f.required && publishing && !clean) return { error: "Add some text before publishing." };
+      return { value: clean };
+    }
+    case "text": {
+      const v = str(raw).trim();
+      if (v.length > f.max) return { error: `Keep this under ${f.max} characters.` };
+      if (!v && f.required && publishing) return { error: "Fill this in before publishing." };
+      return { value: v || (f.nullable ? null : "") };
+    }
+    case "url": {
+      const v = str(raw).trim();
+      if (!v) return f.required && publishing ? { error: "Add the video link before publishing." } : { value: f.nullable ? null : "" };
+      let u: URL;
+      try {
+        u = new URL(v);
+      } catch {
+        return { error: VIDEO_RULES[f.accept].error };
+      }
+      if (u.protocol !== "https:" || v.length > 500 || !VIDEO_RULES[f.accept].test(u)) return { error: VIDEO_RULES[f.accept].error };
+      return { value: v };
+    }
+    case "number": {
+      const v = str(typeof raw === "number" ? String(raw) : raw).trim();
+      const n = v === "" ? NaN : Number(v);
+      if (!Number.isFinite(n)) return { error: "Enter a number." };
+      if (f.integer && !Number.isInteger(n)) return { error: "Enter a whole number." };
+      if (f.min !== undefined && n < f.min) return { error: `Enter ${f.min} or more.` };
+      if (f.max !== undefined && n > f.max) return { error: `Enter ${f.max} or less.` };
+      return { value: n };
+    }
+    case "date": {
+      const day = parseDay(str(raw));
+      return day ? { value: day.iso.slice(0, 10) } : { error: "Pick a date." };
+    }
+    case "select": {
+      const v = str(raw);
+      return selectOptions()[f.options].some((o) => o.value === v) ? { value: v } : { error: "Pick one." };
+    }
+    case "image": {
+      const img = raw as { src?: unknown; width?: unknown; height?: unknown; alt?: unknown } | null | undefined;
+      if (!img || !str(img.src).trim()) return { value: null };
+      const src = cleanAsset(str(img.src));
+      if (!src) return { error: "That image can't be used. Upload it again." };
+      return { value: { src, width: dim(img.width as number), height: dim(img.height as number), alt: str(img.alt).trim().slice(0, 300) } };
+    }
+  }
+}
+
 function validate(input: EntryInput, existing: EntryRow | null, transition: Transition["kind"] | "draft"): Validated | ActionResult<never> {
   const errors: Record<string, string> = {};
   const title = (input.title ?? "").trim();
@@ -108,6 +172,18 @@ function validate(input: EntryInput, existing: EntryRow | null, transition: Tran
   const description = (input.description ?? "").trim().slice(0, 500);
   const metaTitle = (input.metaTitle ?? "").trim().slice(0, 200);
   const notes: string[] = [];
+
+  if (isSpecCollection(input.collection)) {
+    const raw = input.fields && typeof input.fields === "object" ? input.fields : {};
+    const next: Record<string, unknown> = existing?.collection === input.collection ? { ...(existing.data as Record<string, unknown>) } : {};
+    for (const f of fieldsOf(input.collection)) {
+      const r = validateField(f, raw[f.key], publishing);
+      if ("error" in r) errors[`fields.${f.key}`] = r.error;
+      else next[f.key] = r.value;
+    }
+    if (Object.keys(errors).length) return fail("Please fix the highlighted fields.", errors);
+    return { title, slug, data: next as unknown as CollectionData[CollectionId], notes };
+  }
 
   if (input.collection === "updates") {
     const label = LABELS.includes(input.label ?? "") ? (input.label as string) : null;
@@ -200,7 +276,7 @@ function isUniqueViolation(e: unknown): boolean {
 async function persist(id: string | null, input: EntryInput, transition: Transition): Promise<ActionResult> {
   const editor = await requireEditor();
   if (!hasDatabase) return fail(NOT_CONNECTED);
-  if (input?.collection !== "updates" && input?.collection !== "legal") return fail("Unknown collection.");
+  if (!isCollectionId(input?.collection)) return fail("Unknown collection.");
 
   const existing = id ? await getEntryById(id) : null;
   if (id && !existing) return fail("This entry no longer exists. It may have been deleted.");
@@ -247,7 +323,7 @@ async function persist(id: string | null, input: EntryInput, transition: Transit
         .returning();
       invalidate(input.collection, [existing.slug, v.slug]);
     } else {
-      // New updates go to the front of the collection order, new legal pages to the back.
+      // New updates go to the front of the collection order, everything else (legal, watch, academy, audit) to the back.
       const [agg] = await d.select({ lo: min(entries.sortOrder), hi: max(entries.sortOrder) }).from(entries).where(eq(entries.collection, input.collection));
       const sortOrder = input.collection === "updates" ? (agg?.lo ?? 0) - 1 : (agg?.hi ?? 0) + 1;
       [row] = await d
@@ -321,6 +397,6 @@ export async function deleteEntry(id: string, typedTitle: string): Promise<Actio
 /** Live "is this web address free?" check for the slug field. */
 export async function isSlugAvailable(collection: CollectionId, slug: string, exceptId?: string): Promise<boolean> {
   await requireEditor();
-  if (!hasDatabase || (collection !== "updates" && collection !== "legal") || !SLUG.test(slug ?? "")) return true;
+  if (!hasDatabase || !isCollectionId(collection) || !SLUG.test(slug ?? "")) return true;
   return !(await isSlugTaken(collection, slug, exceptId));
 }

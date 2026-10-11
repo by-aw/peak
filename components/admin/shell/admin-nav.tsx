@@ -8,7 +8,7 @@ import { COLLECTIONS } from "./collections";
 export function AdminNav() {
   const pathname = usePathname();
   return (
-    <nav className="flex items-center gap-1" aria-label="Collections">
+    <nav className="flex flex-wrap items-center gap-1" aria-label="Collections">
       {COLLECTIONS.map((c) => {
         const active = pathname.startsWith(`/admin/${c.id}`);
         return (

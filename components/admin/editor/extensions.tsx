@@ -20,7 +20,25 @@ import { Switch } from "@/components/admin/ui/switch";
  * serialise to `<div data-cms="...">` markers that blocks.ts turns into the CTA / audio / html blocks of an update.
  */
 
-export type Variant = "post" | "legal" | "intro";
+export type Variant = "post" | "legal" | "intro" | "lesson" | "audit" | "inline";
+
+/**
+ * What each variant offers (the server sanitiser decides what is kept; see `Profile` in lib/cms/blocks.ts):
+ *   post    updates body: headings, lists, quotes, Insert menu (images, tables, buttons, audio, section breaks)
+ *   legal   legal body: title/heading/subheading, lists
+ *   intro   legal intro: lists, no heading menu
+ *   lesson  academy description: heading/subheading, lists
+ *   audit   audit report sections: heading (h2 only), lists, quotes
+ *   inline  short descriptions: bold, italic, links only
+ */
+export const VARIANTS: Record<Variant, { headings: (1 | 2 | 3)[]; lists: boolean; quote: boolean; insert: boolean }> = {
+  post: { headings: [2, 3], lists: true, quote: true, insert: true },
+  legal: { headings: [1, 2, 3], lists: true, quote: false, insert: false },
+  intro: { headings: [], lists: true, quote: false, insert: false },
+  lesson: { headings: [2, 3], lists: true, quote: false, insert: false },
+  audit: { headings: [2], lists: true, quote: true, insert: false },
+  inline: { headings: [], lists: false, quote: false, insert: false },
+};
 
 /** `class="phone-mt-8"` on lists and images is a phone-spacing hook set by the Framer import; keep it when it is there. */
 const KeepClass = Extension.create({
@@ -214,10 +232,13 @@ export const SectionBreak = Node.create({
 
 export function buildExtensions(variant: Variant, placeholder: string) {
   const rich = variant === "post";
+  const v = VARIANTS[variant];
   return [
     StarterKit.configure({
-      heading: { levels: [1, 2, 3, 4] },
-      blockquote: rich ? {} : false,
+      // The audit profile keeps h2 only and inline fields no headings at all; others keep pasted h1-h4.
+      heading: variant === "inline" ? false : { levels: variant === "audit" ? [2] : [1, 2, 3, 4] },
+      blockquote: v.quote ? {} : false,
+      ...(v.lists ? {} : { bulletList: false, orderedList: false, listItem: false, listKeymap: false }),
       link: { openOnClick: false, autolink: false, linkOnPaste: true, HTMLAttributes: { rel: null, target: null, class: null } },
       underline: false,
       strike: false,

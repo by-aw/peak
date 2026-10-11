@@ -7,18 +7,20 @@ import { PostBody } from "@/components/pages/updates/post-body";
 import { PostHeader } from "@/components/pages/updates/post-header";
 import { ScaleCta } from "@/components/pages/updates/scale-cta";
 import { getAllUpdates, getUpdate } from "@/lib/updates";
+import { PreviewBanner } from "@/components/admin/preview-banner";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const dynamicParams = false;
+// New posts published after the build render on first request (and are then cached); unknown slugs 404 via notFound().
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return getAllUpdates().map(({ slug }) => ({ slug }));
+export async function generateStaticParams() {
+  return (await getAllUpdates()).map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getUpdate(slug);
+  const post = await getUpdate(slug);
   if (!post) return {};
   const image = post.ogImage ?? post.cover?.src ?? "/og-image.png";
   const path = `/updates/${slug}`;
@@ -32,11 +34,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function UpdatePage({ params }: Props) {
   const { slug } = await params;
-  const post = getUpdate(slug);
+  const post = await getUpdate(slug);
   if (!post) notFound();
-  const others = getAllUpdates().filter((p) => p.slug !== slug);
+  const others = (await getAllUpdates()).filter((p) => p.slug !== slug);
   return (
     <>
+      <PreviewBanner path={`/updates/${slug}`} />
       <div className="relative flex w-full flex-col items-center pt-[58px]">
         <UpdatesClouds />
         <div className="relative z-[1] flex w-full flex-col items-center gap-20 px-4 py-[72px] md:px-8 md:pt-[133px] md:pb-[180px]">

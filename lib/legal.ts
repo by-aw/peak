@@ -1,5 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
+import { hasDatabase } from "@/lib/cms/db";
+import { getEntry, listEntries } from "@/lib/cms/read";
 
 /**
  * Loader for the Framer "Legal" CMS collection (Terms of Service, Data Privacy Policy), scraped into
@@ -16,7 +18,7 @@ export type LegalHeading = {
   level: 1 | 2 | 3 | 4;
 };
 
-type LegalFile = {
+export type LegalFile = {
   slug: string;
   title: string;
   /** `<title>` / og:title of the live page, e.g. "Terms of Service - The Mochi App" */
@@ -43,7 +45,8 @@ export type LegalEntry = Omit<LegalFile, "body"> & {
 const DIR = path.join(process.cwd(), "content", "legal");
 
 /** Slug of every entry in the collection. */
-export function getAllLegalSlugs(): string[] {
+export async function getAllLegalSlugs(): Promise<string[]> {
+  if (hasDatabase) return (await listEntries("legal")).map((r) => r.slug).sort();
   return fs
     .readdirSync(DIR)
     .filter((f) => f.endsWith(".json"))
@@ -73,8 +76,14 @@ function anchorHeadings(html: string): { body: string; headings: LegalHeading[] 
   return { body, headings };
 }
 
-export function getLegalEntry(slug: string): LegalEntry | null {
+export async function getLegalEntry(slug: string): Promise<LegalEntry | null> {
   if (!/^[a-z0-9-]+$/.test(slug)) return null;
+  if (hasDatabase) {
+    const row = await getEntry("legal", slug);
+    if (!row) return null;
+    const entry = { ...row.data, slug: row.slug, title: row.title } as LegalFile;
+    return { ...entry, ...anchorHeadings(entry.body) };
+  }
   const file = path.join(DIR, `${slug}.json`);
   if (!fs.existsSync(file)) return null;
   const entry = JSON.parse(fs.readFileSync(file, "utf8")) as LegalFile;

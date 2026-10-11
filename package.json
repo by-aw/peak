@@ -7,11 +7,25 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test components/home/testimonial-layout.test.mjs"
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test components/home/testimonial-layout.test.mjs",
+    "cms:generate": "drizzle-kit generate",
+    "cms:push": "drizzle-kit push",
+    "cms:migrate-db": "drizzle-kit migrate",
+    "cms:migrate": "tsx scripts/migrate-content.ts"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
+    "@tiptap/extension-image": "^3.31.4",
+    "@tiptap/extension-placeholder": "^3.31.4",
+    "@tiptap/extension-table": "^3.31.4",
+    "@tiptap/pm": "^3.31.4",
+    "@tiptap/react": "^3.31.4",
+    "@tiptap/starter-kit": "^3.31.4",
+    "@vercel/blob": "^2.8.1",
+    "drizzle-orm": "^0.45.4",
     "motion": "^14.0.0",
     "next": "16.2.6",
+    "next-auth": "5.0.0-beta.32",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
@@ -20,9 +34,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.11",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

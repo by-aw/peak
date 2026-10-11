@@ -45,10 +45,10 @@ const ROUTES = [
 ];
 
 // Live emits bare <loc> entries (no lastmod/changefreq/priority), blog posts last in collection order.
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     { url: `${SITE_URL}/` },
     ...ROUTES.map((route) => ({ url: `${SITE_URL}${route}` })),
-    ...getAllUpdates().map(({ slug }) => ({ url: `${SITE_URL}/updates/${slug}` })),
+    ...(await getAllUpdates()).map(({ slug }) => ({ url: `${SITE_URL}/updates/${slug}` })),
   ];
 }

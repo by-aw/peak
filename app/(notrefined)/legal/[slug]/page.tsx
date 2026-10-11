@@ -3,18 +3,19 @@ import { notFound } from "next/navigation";
 import { FeatureBackground } from "@/components/shared/feature-background";
 import { LegalDocument } from "@/components/pages/legal/document";
 import { getAllLegalSlugs, getLegalEntry } from "@/lib/legal";
+import { PreviewBanner } from "@/components/admin/preview-banner";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return getAllLegalSlugs().map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  return (await getAllLegalSlugs()).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const entry = getLegalEntry(slug);
+  const entry = await getLegalEntry(slug);
   if (!entry) return {};
   const path = `/legal/${slug}`;
   return {
@@ -31,10 +32,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  */
 export default async function LegalPage({ params }: Props) {
   const { slug } = await params;
-  const entry = getLegalEntry(slug);
+  const entry = await getLegalEntry(slug);
   if (!entry) notFound();
   return (
     <>
+      <PreviewBanner path={`/legal/${slug}`} />
       <FeatureBackground />
       <div aria-hidden className="h-[68px] w-full md:h-[82px]" />
       <LegalDocument entry={entry} />

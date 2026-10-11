@@ -10,6 +10,7 @@
 | Inner pages in `app/(notrefined)` (attribution ×5, features ×4, reply-agent, download, mcp, meta-ads, payments, zapier, updates) | done, verified against live |
 | Remaining unique pages: partner, calculator, legal ×2, business, agent, prompt-library, changelog, track-to-ig, features/offer, dm-audit, learn, thank-you (noindex, not in the sitemap); funnel pages without site chrome: demo, demo-jia, schedule-your-call, spot-confirmed, unconfirmed, vsl, vsl-2, thank-you-pdf, book-dm-audit | done, verified against live at 390/1024/1440 (section heights within a few px; remaining document-height gaps are the shared CTA block and phone footer, see below) |
 | CMS collections | Updates (57) and Legal (2) done; Watch 31, Academy 11, Audit 2 not started |
+| Custom CMS (`/admin`: Neon Postgres + Vercel Blob + Auth.js Google login) | built; not live until the env vars are set and content is migrated (see Custom CMS) |
 | Demo multi-step form backend (`app/api/demo`), calculator, Calendly/Wistia/YouTube/Instagram embeds | done; the form needs `DEMO_FORM_WEBHOOK_URL` set (see Next steps) |
 | Site files: per-page canonical + og:url, redirects (`next.config.ts`), `app/sitemap.ts`, `app/robots.ts`, `public/llms.txt`, `public/.well-known/security.txt` | done |
 
@@ -64,9 +65,30 @@
 - /thank-you: Wistia posters are mirrored and card heights are static (live fetches both from oEmbed at runtime).
 - Wistia is embedded inline with `next/script` instead of Framer's iframe, so the blurred swatch placeholder actually shows.
 
+## Custom CMS
+
+Replaces Framer's CMS. Publishers edit at `/admin`; content lives in Neon Postgres, uploads in Vercel Blob.
+
+- **Data**: one table, `cms_entries` (`lib/cms/schema.ts`). Shared fields are columns (collection, slug, title, status, publish_at, sort_order, updated_by); the collection-specific shape is `data` jsonb (`CollectionData` in `lib/cms/types.ts`). Live = `status = 'published' AND publish_at <= now()`; a future `publish_at` schedules an entry. Adding watch / academy / audit means extending `CollectionId` / `CollectionData`, the admin collection list (`components/admin/shell/collections.ts`) and the editor's per-collection fields; no schema change.
+- **Public reads**: `lib/updates.ts` / `lib/legal.ts` keep their API (now async) and read through `lib/cms/read.ts` when `DATABASE_URL` is set, otherwise from `content/` as before, so the site works before the database exists. Reads are cached with `unstable_cache` and tagged `cms:<collection>` / `cms:<collection>:<slug>` (1h revalidate as a fallback). `[slug]` pages keep `generateStaticParams` and set `dynamicParams = true`, so entries published after a deploy render without one.
+- **Editing**: `app/admin/**`, `components/admin/**`, server actions in `lib/cms/admin-mutations.ts` (each calls `requireEditor()`, re-validates and sanitises HTML server-side, then `updateTag`s the entry + collection tags). Tiptap editor with custom CTA / audio / embed / section-break nodes; `lib/cms/blocks.ts` converts between the stored `blocks` array and editor HTML (`lib/cms/blocks.test.mjs` round-trips every post and legal page). Concurrent saves are refused if someone else saved in between.
+- **Auth**: Auth.js v5 (`next-auth@beta`), Google provider, JWT sessions (12h). Only verified emails on `ADMIN_EMAIL_DOMAIN` (unset = nobody). `proxy.ts` guards `/admin/**` and `/api/admin/**`; pages, actions and routes call `requireEditor()` again. Local dev without Google: set `ADMIN_DEV_EMAIL` (works only under `next dev` with `AUTH_GOOGLE_ID` unset).
+- **Uploads**: `app/api/admin/upload` (Blob client uploads). Images png/jpeg/webp/gif up to 10MB, audio mp3/m4a/wav up to 50MB. Blob images in post bodies are rewritten to `/_next/image` (`components/pages/updates/post-body.tsx`) so views don't bill Blob transfer.
+- **Preview**: `/api/admin/preview` enables draft mode and opens the public URL, where drafts and scheduled entries show and a "Previewing drafts" bar links to `/api/admin/preview/exit`.
+- **Scheduling**: `/api/cron/publish` (hourly in `vercel.json`, `Authorization: Bearer $CRON_SECRET`) refreshes the tags of entries whose `publish_at` just passed. Hourly crons need Vercel Pro.
+- **Known limits**: saving a live entry publishes the change immediately (no separate draft of a live page). Changing a published slug 404s the old URL (the editor warns; no redirects yet).
+
+### Going live
+
+1. Add Neon Postgres and Vercel Blob to the Vercel project (Storage), which sets `DATABASE_URL` and `BLOB_READ_WRITE_TOKEN`.
+2. Set `AUTH_SECRET` (`npx auth secret`), `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `ADMIN_EMAIL_DOMAIN`, `CRON_SECRET`. All variables are listed in `.env.example`.
+3. Register `https://<domain>/api/auth/callback/google` as the Google OAuth redirect URI.
+4. With the env in `.env.local`: `pnpm cms:push` (creates the table), `pnpm cms:migrate --dry-run`, then `pnpm cms:migrate` (uploads the 65 post images to Blob and inserts the rows; re-runs only add missing rows, `--overwrite` resets rows from `content/`).
+5. Once the DB-backed pages are verified in production, `content/updates` and `content/legal` can be deleted.
+
 ## Next steps
 
-1. Scrape the remaining Framer CMS collections (server-rendered entries come through with curl; the rest render client-side) into `content/` and build the `watch`, `academy`, `audit` templates. Most `watch` entries embed Wistia: reuse `components/funnel/wistia-video.tsx`.
+1. Scrape the remaining Framer CMS collections (server-rendered entries come through with curl; the rest render client-side) straight into `cms_entries` (extend `CollectionId`, see Custom CMS) and build the `watch`, `academy`, `audit` templates. Most `watch` entries embed Wistia: reuse `components/funnel/wistia-video.tsx`.
 2. Set `DEMO_FORM_WEBHOOK_URL` in the deployment to whatever consumed Framer's form webhook (live posts to Framer's form store, form `a976c191-a5fe-404e-8b65-7f02dc12086e`). Until then `app/api/demo` logs each lead (with contact details) to the server log and returns 200.
 3. /business carries props-driven copies of the home features cards, timeline, comparison and testimonials (`components/pages/business/`); letting the home components take their copy as props would reduce those to data files.
 4. Decide whether to port Framer's `data-preserve-internal-params`: on live, every internal link gets the landing URL's query string (UTMs, `ref`, `fbclid`) appended. `public/js/attribution.js` still stores UTMs in localStorage, but on later pages the tracking scripts no longer see them in the URL.

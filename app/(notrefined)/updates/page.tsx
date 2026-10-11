@@ -3,6 +3,7 @@ import { UpdatesHero } from "@/components/pages/updates/hero";
 import { PostList } from "@/components/pages/updates/post-list";
 import { ScaleCta } from "@/components/pages/updates/scale-cta";
 import { getUpdatesByDate } from "@/lib/updates";
+import { PreviewBanner } from "@/components/admin/preview-banner";
 
 const TITLE = "Product Updates & Customer Wins | Mochi";
 const DESCRIPTION =
@@ -16,10 +17,11 @@ export const metadata: Metadata = {
   openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og/updates.png", width: 1200, height: 630 }] },
 };
 
-export default function UpdatesPage() {
-  const posts = getUpdatesByDate();
+export default async function UpdatesPage() {
+  const posts = await getUpdatesByDate();
   return (
     <>
+      <PreviewBanner path="/updates" />
       <div aria-hidden className="h-[58px] w-full md:hidden" />
       <UpdatesHero />
       <PostList posts={posts} />

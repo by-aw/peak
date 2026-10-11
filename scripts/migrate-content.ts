@@ -5,6 +5,7 @@
  *   pnpm cms:migrate                 create missing rows; leave rows that already exist untouched (keeps CMS edits)
  *   pnpm cms:migrate --overwrite     also overwrite existing rows with the content/ version
  *   pnpm cms:migrate --dry-run       touch neither the DB nor Blob; print a summary
+ *   pnpm cms:migrate --local-images  skip Blob and keep the `/framer/...` paths (served from public/); for local testing
  *
  * Needs DATABASE_URL and BLOB_READ_WRITE_TOKEN (read from .env.local) unless --dry-run.
  * Idempotent: rows upsert on (collection, slug); Blob pathnames are deterministic (`cms/framer/<file>`) and an image
@@ -28,6 +29,7 @@ for (const f of [".env.local", ".env"]) {
 const args = new Set(process.argv.slice(2));
 const DRY = args.has("--dry-run");
 const OVERWRITE = args.has("--overwrite");
+const LOCAL_IMAGES = args.has("--local-images");
 const ROOT = process.cwd();
 const ASSET_RE = /\/framer\/[A-Za-z0-9._-]+/g;
 
@@ -106,7 +108,7 @@ async function main() {
   }
 
   if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not set (put it in .env.local)");
-  if (!process.env.BLOB_READ_WRITE_TOKEN) throw new Error("BLOB_READ_WRITE_TOKEN is not set (put it in .env.local)");
+  if (!LOCAL_IMAGES && !process.env.BLOB_READ_WRITE_TOKEN) throw new Error("BLOB_READ_WRITE_TOKEN is not set (put it in .env.local)");
   const db = drizzle(neon(process.env.DATABASE_URL), { schema });
   const { entries } = schema;
 
@@ -114,7 +116,7 @@ async function main() {
   let updated = 0;
   let skipped = 0;
   for (const r of rows) {
-    const values = { collection: r.collection, slug: r.slug, title: r.title, status: "published" as const, publishAt: r.publishAt, sortOrder: r.sortOrder, data: await rewrite(r.data) as never };
+    const values = { collection: r.collection, slug: r.slug, title: r.title, status: "published" as const, publishAt: r.publishAt, sortOrder: r.sortOrder, data: (LOCAL_IMAGES ? r.data : await rewrite(r.data)) as never };
     if (OVERWRITE) {
       const res = await db
         .insert(entries)

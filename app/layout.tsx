@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { fontVariables } from "./fonts";
 import { Analytics } from "@/components/layout/analytics";
+import { PreserveParams } from "@/components/layout/preserve-params";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         {children}
         <Analytics />
+        <PreserveParams />
       </body>
     </html>
   );

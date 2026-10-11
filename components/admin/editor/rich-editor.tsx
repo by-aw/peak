@@ -131,7 +131,7 @@ export function RichEditor({ variant, initialHtml, onChange, onReady, placeholde
 
   return (
     <div className="rounded-xl border bg-background">
-      <div role="toolbar" aria-label={`${label} formatting`} className="sticky top-0 z-10 flex flex-wrap items-center gap-0.5 rounded-t-xl border-b bg-background/95 p-1.5 backdrop-blur">
+      <div role="toolbar" aria-label={`${label} formatting`} style={{ top: "var(--cms-action-bar-h, 0px)" }} className="sticky z-10 flex flex-wrap items-center gap-0.5 rounded-t-xl border-b bg-background/95 p-1.5 backdrop-blur">
         {variant !== "intro" && (
           <>
             <DropdownMenu>

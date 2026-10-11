@@ -193,18 +193,31 @@ export function EntryForm({ collection, collectionLabel, livePath, initial, meta
       <Badge variant="secondary">{state === "new" ? "New" : "Draft"}</Badge>
     );
 
+  // The editors' toolbars stick just under the action bar, whose height changes when its buttons wrap.
+  const formRef = useRef<HTMLFormElement>(null);
+  const actionBarRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const form = formRef.current;
+    const bar = actionBarRef.current;
+    if (!form || !bar) return;
+    const observer = new ResizeObserver(() => form.style.setProperty("--cms-action-bar-h", `${bar.offsetHeight}px`));
+    observer.observe(bar);
+    return () => observer.disconnect();
+  }, []);
+
   const ogFallback = values.coverSrc;
   const noun = isUpdates ? "post" : "page";
 
   return (
     <form
+      ref={formRef}
       onSubmit={(e) => {
         e.preventDefault();
         void save();
       }}
       className="space-y-6"
     >
-      <div className="sticky top-0 z-20 -mx-4 border-b bg-background/95 px-4 py-3 backdrop-blur">
+      <div ref={actionBarRef} className="sticky top-0 z-20 -mx-4 border-b bg-background/95 px-4 py-3 backdrop-blur">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
           <Button asChild variant="ghost" size="sm" className="-ml-2 text-muted-foreground">
             <Link

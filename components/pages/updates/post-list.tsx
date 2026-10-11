@@ -3,8 +3,8 @@
 import { useMemo, useState } from "react";
 import { MagnifyingGlassMicro } from "@/components/icons/updates-icons";
 import type { UpdateSummary } from "@/lib/updates";
+import { interFeatures } from "@/components/shared/inter-features";
 import { PostCard } from "./post-card";
-import { interFeatures } from "./inter-features";
 
 /** Category chips of the Framer collection list (in this order; "Blog" posts have no chip). */
 const CATEGORIES = ["Product Updates", "How-to Guides", "Testimonials", "Company"] as const;

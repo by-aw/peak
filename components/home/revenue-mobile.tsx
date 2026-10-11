@@ -14,35 +14,38 @@ const mobileImages = [
 ];
 
 /**
- * Phone variant of the Framer "Revenue Section", tabbed like tablet/desktop: the 3 tabs, then the active tab's heading,
- * paragraph and screen. Every tab's copy and screen is stacked in one grid cell with only the active one visible, so
- * the screen never moves when the copy changes length and the screens are already loaded when switched to.
+ * Phone variant of the Framer "Revenue Section" (mochi-web-v2 Figma, node 545:20669): the active tab's heading and
+ * paragraph, the tabs, then the active tab's screen. Every tab's copy and screen is stacked in one grid cell with only
+ * the active one visible, so nothing moves when the copy changes length and the screens are already loaded when
+ * switched to.
  */
 export function RevenueMobile() {
   const [active, setActive] = useState(0);
 
   return (
     <Reveal y={80} className="flex w-full flex-col gap-8">
-      <RevenueTabBar active={active} onChange={setActive} layoutId="revenue-tab-indicator-mobile" />
+      <div className="flex flex-col gap-6">
+        <div className="grid">
+          {revenueTabs.map((t, i) => (
+            <div
+              key={t.label}
+              aria-hidden={i !== active}
+              className={`col-start-1 row-start-1 flex flex-col items-center gap-[14px] text-center ${i === active ? "" : "invisible"}`}
+            >
+              <h3 className="font-display text-[36px] font-semibold leading-[39.6px] tracking-[1.4px] text-balance text-ink whitespace-pre-wrap max-w-[516px]">
+                {t.heading}
+              </h3>
+              <p className={`whitespace-pre-wrap ${descriptionText}`}>
+                {t.body}
+              </p>
+            </div>
+          ))}
+        </div>
 
-      <div className="grid">
-        {revenueTabs.map((t, i) => (
-          <div
-            key={t.label}
-            aria-hidden={i !== active}
-            className={`col-start-1 row-start-1 flex flex-col gap-[14px] ${i === active ? "" : "invisible"}`}
-          >
-            <h3 className="font-display text-[32px] font-semibold leading-[35.2px] tracking-[1px] text-balance text-ink whitespace-pre-wrap">
-              {t.heading}
-            </h3>
-            <p className={`whitespace-pre-wrap ${descriptionText}`}>
-              {t.body}
-            </p>
-          </div>
-        ))}
+        <RevenueTabBar active={active} onChange={setActive} labels="active" />
       </div>
 
-      <div className="grid w-full overflow-clip [mask-image:linear-gradient(#000_74%,rgba(0,0,0,0)_91%)]">
+      <div className="grid w-full">
         {mobileImages.map((src, i) => (
           <Image
             key={src}
@@ -50,7 +53,7 @@ export function RevenueMobile() {
             alt=""
             width={1336}
             height={1248}
-            sizes="350px"
+            sizes="calc(100vw - 40px)"
             className={`col-start-1 row-start-1 h-auto w-full ${i === active ? "" : "invisible"}`}
           />
         ))}
@@ -58,3 +61,4 @@ export function RevenueMobile() {
     </Reveal>
   );
 }
+

@@ -1,7 +1,7 @@
 import type { UpdateBlock } from "@/lib/updates";
+import { interFeatures } from "@/components/shared/inter-features";
+import { StackButton } from "@/components/shared/stack-button";
 import { AudioPlayer } from "./audio-player";
-import { StackButton } from "./stack-button";
-import { interFeatures } from "./inter-features";
 
 /** Turns the live site's absolute links to itself into site-relative paths. */
 function localHref(href: string) {

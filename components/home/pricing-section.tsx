@@ -64,12 +64,9 @@ const PLANS: Plan[] = [
 
 const APP_URL = "https://use.themochi.app";
 
-/** Framer 0.8px border drawn with a box-shadow ring so it does not affect layout. */
-const ring = (color: string) => `shadow-[inset_0_0_0_0.8px_${color}]`;
-
 function Toggle({ period, onChange }: { period: "monthly" | "yearly"; onChange: (p: "monthly" | "yearly") => void }) {
   return (
-    <div className={`relative flex h-[46px] w-full items-center rounded-[12px] bg-[#f5f5f5] md:h-[47px] md:w-[350px] lg:h-[50px] lg:w-auto ${ring("#e7e7e7")}`}>
+    <div className="relative flex h-[46px] w-full items-center rounded-[12px] bg-[#f5f5f5] shadow-[inset_0_0_0_0.8px_#e7e7e7] md:h-[47px] md:w-[350px] pricing:w-auto lg:h-[50px]">
       {(["monthly", "yearly"] as const).map((p) => {
         const active = period === p;
         return (
@@ -77,7 +74,7 @@ function Toggle({ period, onChange }: { period: "monthly" | "yearly"; onChange: 
             key={p}
             type="button"
             onClick={() => onChange(p)}
-            className="relative z-[1] flex flex-1 cursor-pointer items-center justify-center rounded-[12px] px-4 py-3 lg:flex-none"
+            className="relative z-[1] flex flex-1 cursor-pointer items-center justify-center rounded-[12px] px-4 py-3 pricing:flex-none"
             aria-pressed={active}
           >
             {active && (
@@ -104,7 +101,7 @@ function Toggle({ period, onChange }: { period: "monthly" | "yearly"; onChange: 
 function PlanCard({ plan, period }: { plan: Plan; period: "monthly" | "yearly" }) {
   const yearly = period === "yearly";
   const body = (
-    <div className={`flex w-full flex-col items-start gap-4 rounded-[20px] bg-white p-4 lg:flex-1 ${ring("#e7e7e7")}`}>
+    <div className="flex w-full flex-col items-start gap-4 rounded-[20px] bg-white p-4 pricing:flex-1 max-md:shadow-[inset_0_0_0_0.8px_#e7e7e7]">
       {/* Top */}
       <div className="flex w-full flex-col items-start">
         <div className="flex w-full items-center gap-[10px] p-2">
@@ -112,7 +109,7 @@ function PlanCard({ plan, period }: { plan: Plan; period: "monthly" | "yearly" }
             {plan.name}
           </p>
         </div>
-        <div className="flex h-[84px] w-full items-start gap-[10px] p-2 md:h-auto lg:h-[84px]">
+        <div className="flex h-[84px] w-full items-start gap-[10px] p-2 md:h-auto pricing:min-h-[84px]">
           <p className="flex-1 text-[15px] leading-[21px] font-normal tracking-[-0.3px] text-black md:text-[16px] md:leading-[22.4px] md:tracking-[-0.32px]">
             {plan.description}
           </p>
@@ -121,7 +118,7 @@ function PlanCard({ plan, period }: { plan: Plan; period: "monthly" | "yearly" }
       {/* Price */}
       <div className="flex w-full flex-col items-start gap-4 overflow-clip p-2">
         <div className="flex items-end gap-1">
-          <h5 className="font-display text-[32px] leading-[32px] font-semibold tracking-[0.64px] whitespace-pre text-black md:text-[24px] md:leading-[24px] lg:text-[32px] lg:leading-[32px]">
+          <h5 className="font-display text-[40px] leading-[40px] font-semibold tracking-[0.8px] whitespace-pre text-black md:text-[32px] md:leading-[32px] md:tracking-[0.64px] lg:text-[40px] lg:leading-[40px] lg:tracking-[0.8px]">
             {yearly ? plan.yearly : plan.monthly}
           </h5>
           <AnimatePresence initial={false}>
@@ -134,7 +131,7 @@ function PlanCard({ plan, period }: { plan: Plan; period: "monthly" | "yearly" }
                 transition={{ duration: 0.25 }}
                 className="overflow-hidden"
               >
-                <h5 className="font-display text-[32px] leading-[32px] font-medium tracking-[0.64px] whitespace-pre text-black line-through md:text-[24px] md:leading-[24px] lg:text-[32px] lg:leading-[32px]">
+                <h5 className="font-display text-[40px] leading-[40px] font-medium tracking-[0.8px] whitespace-pre text-black line-through md:text-[32px] md:leading-[32px] md:tracking-[0.64px] lg:text-[40px] lg:leading-[40px] lg:tracking-[0.8px]">
                   {plan.monthly}
                 </h5>
               </motion.div>
@@ -145,7 +142,7 @@ function PlanCard({ plan, period }: { plan: Plan; period: "monthly" | "yearly" }
         <Button
           variant="primaryBig"
           href={APP_URL}
-          className={`w-full ${
+          className={`w-full rounded-[12px]! ${
             plan.popular ? "bg-[linear-gradient(#a855f7_0%,#a855f7_100%)] hover:bg-[linear-gradient(#a855f7_0%,#a855f7_100%)]" : ""
           }`}
         >
@@ -163,7 +160,7 @@ function PlanCard({ plan, period }: { plan: Plan; period: "monthly" | "yearly" }
             </div>
           ))}
           {Array.from({ length: plan.fillers }).map((_, i) => (
-            <div key={i} aria-hidden="true" className="hidden min-h-[14px] w-full lg:flex" />
+            <div key={i} aria-hidden="true" className="hidden min-h-[14px] w-full pricing:flex" />
           ))}
         </div>
       </div>
@@ -172,7 +169,7 @@ function PlanCard({ plan, period }: { plan: Plan; period: "monthly" | "yearly" }
 
   if (plan.popular) {
     return (
-      <div className={`flex w-full flex-col items-center rounded-[20px] bg-purple-50 lg:flex-1 ${ring("#f3e8ff")}`}>
+      <div className="flex w-full flex-col items-center rounded-[20px] bg-purple-50 pricing:flex-1 max-md:shadow-[inset_0_0_0_0.8px_#f3e8ff]">
         <div className="flex w-full items-center justify-center gap-[10px] px-4 py-3">
           <p className="flex-1 text-center text-[15px] leading-[22.5px] font-medium tracking-[-0.3px] text-purple-600 md:text-[16px] md:leading-[24px] md:tracking-[-0.32px]">Most Popular</p>
         </div>
@@ -181,9 +178,9 @@ function PlanCard({ plan, period }: { plan: Plan; period: "monthly" | "yearly" }
     );
   }
   return (
-    <div className="flex w-full flex-col items-center rounded-[20px] lg:flex-1">
+    <div className="flex w-full flex-col items-center rounded-[20px] pricing:flex-1">
       {/* desktop: keep the card bottom-aligned with the "Most Popular" card (48px header) */}
-      <div aria-hidden="true" className="hidden h-[48px] w-full shrink-0 lg:block" />
+      <div aria-hidden="true" className="hidden h-[48px] w-full shrink-0 pricing:block" />
       {body}
     </div>
   );
@@ -196,16 +193,16 @@ function PlanCard({ plan, period }: { plan: Plan; period: "monthly" | "yearly" }
 export function PricingSection() {
   const [period, setPeriod] = useState<"monthly" | "yearly">("monthly");
   return (
-    <section className="flex w-full flex-col items-center overflow-clip px-[20px] py-[48px] md:px-[32px] md:py-[64px] lg:px-[100px] lg:py-[80px]" aria-label="Pricing">
+    <section className="flex w-full flex-col items-center overflow-clip px-[20px] py-[48px] md:px-[32px] md:py-[64px] lg:px-[100px] lg:pb-0 lg:pt-[180px]" aria-label="Pricing">
       <Reveal y={80} className="w-full max-w-[1000px] md:max-w-[960px] lg:max-w-[1000px]">
         <div className="flex w-full flex-col items-center gap-[36px] overflow-clip">
           {/* Header */}
-          <div className="flex w-full flex-col items-center gap-[20px] md:gap-[24px] lg:flex-row lg:items-start lg:justify-between lg:gap-0">
-            <h3 className="text-center font-display text-[32px] leading-[35.2px] font-semibold tracking-[1px] text-ink md:text-[40px] md:leading-[44px] md:tracking-[1.6px] lg:text-left lg:text-[48px] lg:leading-[52.8px]">
+          <div className="flex w-full flex-col items-center gap-[20px] md:gap-[24px] pricing:flex-row pricing:items-start pricing:justify-between pricing:gap-0">
+            <h3 className="text-center text-balance font-display text-[36px] leading-[39.6px] font-semibold tracking-[1.4px] text-ink pricing:text-left md:text-[40px] md:leading-[44px] md:tracking-[1.6px] lg:text-[48px] lg:leading-[52.8px]">
               Try Mochi for
               <br />7 days free
             </h3>
-            <div className="flex w-full flex-col items-center gap-[16px] md:w-auto md:gap-[14px] lg:flex-row lg:gap-[16px]">
+            <div className="flex w-full flex-col items-center gap-[16px] md:w-auto md:gap-[14px] pricing:flex-row pricing:gap-[16px]">
               <p className="text-[15px] leading-[22.5px] font-medium tracking-[-0.3px] whitespace-pre text-purple-500 md:text-[16px] md:leading-[24px] md:tracking-[-0.32px]">Save 25% with yearly</p>
               <Toggle period={period} onChange={setPeriod} />
             </div>
@@ -213,14 +210,14 @@ export function PricingSection() {
 
           {/* Pricing Wrapper */}
           <div className="flex w-full flex-col items-center gap-1 rounded-[24px] bg-[linear-gradient(#fff_0%,#f6f6f6_100%)] p-1">
-            <div className="flex w-full flex-col items-end gap-3 lg:flex-row lg:items-stretch">
+            <div className="flex w-full flex-col items-end gap-3 pricing:flex-row pricing:items-stretch">
               {PLANS.map((p) => (
                 <PlanCard key={p.name} plan={p} period={period} />
               ))}
             </div>
             {/* Bottom */}
             <div className="flex w-full flex-col-reverse items-center gap-4 px-3 py-2 md:flex-row md:justify-between md:gap-0 md:px-3 md:py-1">
-              <div className="flex flex-col items-center gap-3 md:flex-row md:gap-4 md:p-[10px]">
+              <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-3 md:p-[10px]">
                 {["Cancel anytime", "Setup in under 5 minutes"].map((t) => (
                   <div key={t} className="flex items-center gap-[6px] opacity-80">
                     <IconCheckmark className="shrink-0 text-black" />

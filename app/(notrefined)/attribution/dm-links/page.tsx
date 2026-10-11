@@ -15,11 +15,13 @@ import { FAQ, LABELS, SUMMARY } from "@/components/pages/attribution-dm-links/da
 const TITLE = "Trackable DM Links for Instagram | Mochi";
 const DESCRIPTION =
   "Track the links your team sends in Instagram DMs. See who clicked, who booked and who bought, instead of only knowing the link was sent.";
+const PATH = "/attribution/dm-links";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
+  alternates: { canonical: PATH },
+  openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
 };
 
 const CARDS: FeatureCard[] = [

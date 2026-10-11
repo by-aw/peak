@@ -12,11 +12,13 @@ import { ZapierApps } from "@/components/pages/zapier/apps";
 
 const TITLE = "Zapier Integration | Mochi";
 const DESCRIPTION = "Connect Mochi to thousands of tools with Zapier and send Instagram DM events into the systems your business already runs on.";
+const PATH = "/zapier";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og/zapier.png", width: 2400, height: 1260 }] },
+  alternates: { canonical: PATH },
+  openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og/zapier.png", width: 2400, height: 1260 }] },
 };
 
 export default function ZapierPage() {

@@ -49,7 +49,7 @@ function Block({
       className="flex w-full flex-col items-center gap-7 overflow-clip rounded-[32px] px-5 pt-10 pb-5"
       style={{ background: cardBackground(feature.tint, "50%") }}
     >
-      <FeatureHeader feature={feature} className="items-center text-center" />
+      <FeatureHeader feature={feature} card className="items-center text-center" />
       <FitPhone>
         <PhoneFrame fade={fade}>{inView ? children(true) : null}</PhoneFrame>
       </FitPhone>
@@ -60,7 +60,7 @@ function Block({
 /** "Turn DMs into revenue" (Figma 544:19958): the timeline's card stack, then the centred heading and copy. */
 function TimelineIntro() {
   return (
-    <section className="flex w-full flex-col items-center gap-10 px-5 pt-14 pb-12 md:hidden">
+    <section className="flex w-full flex-col items-center gap-10 px-5 py-24 md:hidden">
       <TimelineStack />
       <div className="flex flex-col items-center gap-5 text-center">
         <FeatureHeader feature={TIMELINE} className="items-center" />
@@ -88,7 +88,7 @@ export function FeaturesMobile() {
             {() => <CrmMockup />}
           </Block>
         </div>
-        <div className="sticky bottom-[calc(20px+env(safe-area-inset-bottom))] z-10 mt-5 w-full">
+        <div className="sticky bottom-[calc(20px+env(safe-area-inset-bottom))] z-10 mt-5 flex w-full justify-center">
           <FeatureCta />
         </div>
       </section>

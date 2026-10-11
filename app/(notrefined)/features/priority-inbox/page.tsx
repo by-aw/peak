@@ -7,11 +7,13 @@ import { PriorityCloserSection, PriorityEfficiencySection } from "@/components/p
 
 const TITLE = "Priority Inbox for Instagram DMs | Mochi";
 const DESCRIPTION = "Work the leads that matter first. Mochi sorts your Instagram inbox by who is qualified and waiting instead of whoever messaged last.";
+const PATH = "/features/priority-inbox";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
+  alternates: { canonical: PATH },
+  openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
 };
 
 const FAQ: FaqEntry[] = [

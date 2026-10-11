@@ -8,11 +8,13 @@ import { PersonalizationCloserSection } from "@/components/pages/personalization
 const TITLE = "Personalized Instagram DM Replies | Mochi";
 const DESCRIPTION =
   "Give every reply the context of the whole conversation. Summaries, suggested responses and voice notes so messages feel personal instead of templated.";
+const PATH = "/features/personalization";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
+  alternates: { canonical: PATH },
+  openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
 };
 
 const FAQ: FaqEntry[] = [

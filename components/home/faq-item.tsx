@@ -26,9 +26,9 @@ export function FaqItem({ question, answer, defaultOpen = false }: { question: s
         aria-expanded={open}
         className="flex w-full cursor-pointer items-start gap-4 rounded-[20px] p-6 text-left"
       >
-        <p className="flex-1 text-[16px] leading-[22.4px] font-medium tracking-[-0.24px] text-black md:text-[18px] md:leading-[25.2px] lg:text-[20px] lg:leading-[28px]">{question}</p>
+        <p className="flex-1 text-[16px] leading-[22.4px] font-medium tracking-[-0.24px] text-black md:text-[18px] md:leading-[25.2px]">{question}</p>
         <motion.span
-          className="flex size-[29px] shrink-0 items-center justify-center"
+          className="flex size-[24px] shrink-0 items-center justify-center"
           initial={false}
           animate={{ rotate: open ? 45 : 0, color: open ? "#000000" : "#a855f7" }}
           transition={{ duration: 0.3, ease: EASE }}

@@ -1,24 +1,15 @@
 import type { ComponentType, SVGProps } from "react";
-import {
-  AttributionIcon,
-  ClaudeIcon,
-  MetaIcon,
-  PaymentsIcon,
-  PersonalizationIcon,
-  PriorityInboxIcon,
-  ReplyAgentIcon,
-  SalesPerformanceIcon,
-  TeamCollaborationIcon,
-  ZapierIcon,
-} from "@/components/icons/nav-icons";
+import { ClaudeIcon, MetaIcon, ZapierIcon } from "@/components/icons/nav-icons";
 
 export type MenuItem = {
   title: string;
   description: string;
   href: string;
-  icon?: ComponentType<SVGProps<SVGSVGElement>>;
-  /** Rendered icon box size (Framer sizes differ per icon). */
-  iconClass?: string;
+  /**
+   * Icon in the 48px tile: an SVG from /public drawn at its own size (mochi-web-v2 Figma, node 546:2244), or one of
+   * the Framer brand icons sized by `className`.
+   */
+  icon?: { src: string; size: number } | { Svg: ComponentType<SVGProps<SVGSVGElement>>; className: string };
 };
 
 export type MenuSection = {
@@ -37,18 +28,18 @@ export const menuSections: MenuSection[] = [
     heading: "PRODUCT FEATURES",
     mobileLabel: "Features",
     items: [
-      { title: "Reply Agent", description: "AI replies in your voice.", href: "/reply-agent", icon: ReplyAgentIcon, iconClass: "h-5 w-5" },
-      { title: "Priority Inbox", description: "Best leads answered first.", href: "/features/priority-inbox", icon: PriorityInboxIcon, iconClass: "h-[19px] w-[18px]" },
-      { title: "Personalization", description: "Every reply fits the lead.", href: "/features/personalization", icon: PersonalizationIcon, iconClass: "h-[18px] w-[18px]" },
-      { title: "Sales Performance", description: "See which DMs become calls.", href: "/features/sales-performance", icon: SalesPerformanceIcon, iconClass: "h-[18px] w-[18px]" },
-      { title: "Team Collaboration", description: "Your whole team, one inbox.", href: "/features/team-collaboration", icon: TeamCollaborationIcon, iconClass: "h-[14px] w-6" },
+      { title: "Reply Agent", description: "AI replies in your voice.", href: "/reply-agent", icon: { src: "/icon-arrow-share-left.svg", size: 20 } },
+      { title: "Priority Inbox", description: "Best leads answered first.", href: "/features/priority-inbox", icon: { src: "/icon-inbox-empty.svg", size: 20 } },
+      { title: "Personalization", description: "Every reply fits the lead.", href: "/features/personalization", icon: { src: "/icon-user-heart.svg", size: 20 } },
+      { title: "Sales Performance", description: "See which DMs become calls.", href: "/features/sales-performance", icon: { src: "/icon-chart-4.svg", size: 20 } },
+      { title: "Team Collaboration", description: "Your whole team, one inbox.", href: "/features/team-collaboration", icon: { src: "/icon-team.svg", size: 20 } },
     ],
   },
   {
     heading: "DATA HUB",
     mobileLabel: "Data Hub",
     items: [
-      { title: "Attribution Tracking", description: "See which posts start DMs.", href: "/attribution", icon: AttributionIcon, iconClass: "h-[21px] w-[17px]" },
+      { title: "Attribution Tracking", description: "See which posts start DMs.", href: "/attribution", icon: { src: "/icon-tag.svg", size: 20 } },
     ],
     subItems: [
       { title: "DM Links", description: "Know who clicked and bought.", href: "/attribution/dm-links" },
@@ -61,10 +52,10 @@ export const menuSections: MenuSection[] = [
     heading: "INTEGRATIONS",
     mobileLabel: "Connectors",
     items: [
-      { title: "Claude MCP", description: "Ask Claude about your DMs.", href: "/mcp", icon: ClaudeIcon, iconClass: "h-6 w-6" },
-      { title: "Zapier", description: "Connect 6,000+ other tools.", href: "/zapier", icon: ZapierIcon, iconClass: "h-[22px] w-[22px]" },
-      { title: "Meta Ads", description: "Show Meta who actually buys.", href: "/meta-ads", icon: MetaIcon, iconClass: "h-[19px] w-7" },
-      { title: "Payments", description: "Match payments to leads.", href: "/payments", icon: PaymentsIcon, iconClass: "h-[18px] w-5" },
+      { title: "Claude MCP", description: "Ask Claude about your DMs.", href: "/mcp", icon: { Svg: ClaudeIcon, className: "h-6 w-6" } },
+      { title: "Zapier", description: "Connect 6,000+ other tools.", href: "/zapier", icon: { Svg: ZapierIcon, className: "h-[22px] w-[22px]" } },
+      { title: "Meta Ads", description: "Show Meta who actually buys.", href: "/meta-ads", icon: { Svg: MetaIcon, className: "h-[19px] w-7" } },
+      { title: "Payments", description: "Match payments to leads.", href: "/payments", icon: { src: "/icon-currency-dollar.svg", size: 24 } },
     ],
   },
 ];

@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 
 /**
- * Framer FAQ "Icon" (plus sign, 29x29). Rotated 45deg by the parent when the item is open.
+ * Framer FAQ "Icon" (plus sign, 24x24). Rotated 45deg by the parent when the item is open.
  * Fill follows `currentColor` (purple-500 closed, black open).
  */
 export function FaqPlusIcon(props: ComponentProps<"svg">) {

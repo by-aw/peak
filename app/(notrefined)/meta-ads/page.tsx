@@ -11,11 +11,13 @@ import { MetaAdsSetup } from "@/components/pages/meta-ads/setup";
 
 const TITLE = "Meta Ads Attribution for Instagram DMs | Mochi";
 const DESCRIPTION = "Connect click-to-message ads to the Instagram conversations they create and filter ad-driven leads inside your inbox.";
+const PATH = "/meta-ads";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
+  alternates: { canonical: PATH },
+  openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
 };
 
 const FAQ: FaqEntry[] = [

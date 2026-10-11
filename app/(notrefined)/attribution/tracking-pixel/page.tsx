@@ -14,11 +14,13 @@ import { FAQ, LABELS, SUMMARY } from "@/components/pages/attribution-tracking-pi
 
 const title = "Website Tracking Pixel for DM Attribution | Mochi";
 const description = "Paste one script on your site and connect website visits to the Instagram conversations they turn into.";
+const path = "/attribution/tracking-pixel";
 
 export const metadata: Metadata = {
   title,
   description,
-  openGraph: { title, description, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
+  alternates: { canonical: path },
+  openGraph: { type: "website", url: path, title, description, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
 };
 
 const CARDS = [

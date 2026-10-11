@@ -40,7 +40,7 @@ const stepText = "w-full font-dm text-[14px] leading-[22.75px] font-normal white
  */
 export function McpConnect() {
   return (
-    <McpSection label="How to connect Mochi to Claude">
+    <McpSection id="set-up" label="How to connect Mochi to Claude">
       <div className="flex w-full flex-col items-center gap-8 md:gap-12 lg:gap-16">
         <div className="flex w-full flex-col items-center gap-3 md:w-[554px] md:gap-4">
           <div className="flex flex-wrap items-center justify-center gap-2">
@@ -80,7 +80,7 @@ export function McpConnect() {
           </div>
           <div className="flex w-full max-w-[392px] flex-col items-center gap-5">
             <ConnectButton className="w-full" />
-            <p className="w-full text-center font-dm text-[14px] leading-[18.2px] font-normal whitespace-pre-wrap text-[#635e58]">
+            <p className="w-full text-center font-dm text-[14px] leading-[18.2px] font-normal whitespace-pre-wrap text-[#635e58] opacity-75">
               Currently available on claude.ai (web). Desktop and mobile support coming soon. You need an active Mochi account with data to connect.
             </p>
           </div>

@@ -22,11 +22,13 @@ import { AwayModeMockup, DebriefMockup, TagTriggeredMockup, TakeoverMockup } fro
 const TITLE = "Reply Agent: AI That Answers Instagram DMs | Mochi";
 const DESCRIPTION =
   "AI that replies to your Instagram DMs in your voice, using the full conversation and the instructions you approve. Turn it on for every conversation or only the ones you choose, and take over any time.";
+const PATH = "/reply-agent";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
+  alternates: { canonical: PATH },
+  openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
 };
 
 const FAQ: FaqEntry[] = [

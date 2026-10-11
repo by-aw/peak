@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { StackButton } from "./stack-button";
-import { interFeatures } from "./inter-features";
+import { interFeatures } from "@/components/shared/inter-features";
+import { StackButton } from "@/components/shared/stack-button";
 
 /**
  * "You already built something great / Now let's scale it" card shown under the Updates list and

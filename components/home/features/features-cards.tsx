@@ -98,7 +98,7 @@ function FeatureCard({
 
 export function FeaturesCards() {
   return (
-    <section className="hidden w-full flex-col gap-8 px-8 pt-16 md:flex lg:pt-20">
+    <section className="hidden w-full flex-col gap-8 px-8 pt-16 md:flex lg:pt-[180px]">
       <FeatureCard feature={TIMELINE} phone={false}>
         {() => <Timeline className="h-[max(560px,calc(100svh-256px))] w-[350px] lg:w-[440px]" />}
       </FeatureCard>

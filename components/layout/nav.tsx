@@ -1,11 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Button, buttonShadow } from "@/components/ui/button";
 import { MochiLogo } from "@/components/icons/mochi-logo";
-import { LiquidGlass } from "./liquid-glass";
 import { LOGIN_URL, SIGNUP_URL, menuSections, navLinks, type MenuItem, type MenuSection } from "./nav-data";
 
 const spring = { type: "spring", stiffness: 300, damping: 30 } as const;
@@ -22,24 +22,26 @@ function Chevron({ className = "" }: { className?: string }) {
   );
 }
 
+function MenuIcon({ icon }: { icon: NonNullable<MenuItem["icon"]> }) {
+  if ("src" in icon) return <Image src={icon.src} alt="" width={icon.size} height={icon.size} />;
+  const { Svg, className } = icon;
+  return <Svg className={className} />;
+}
+
 /** Menu card used both in the desktop mega menu ("Desktop/Inactive") and the phone menu ("Mobile"). */
 function MenuCard({ item }: { item: MenuItem }) {
-  const Icon = item.icon;
   return (
     <Link
       href={item.href}
-      className="group flex w-full items-center gap-1 overflow-clip rounded-[12px] p-2 transition-colors duration-150 hover:bg-[#f8f8f8]"
+      className="flex w-full items-center gap-1 overflow-clip rounded-[12px] p-2 transition-colors duration-150 hover:bg-[#f8f8f8]"
     >
       <div className="flex flex-1 items-center gap-2.5">
         <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-clip rounded-[8px] bg-white shadow-[inset_0_0_0_1px_#e4e4e4,0_1px_2px_0_rgba(224,224,224,0.06)]">
-          {/* Framer greys the icon with mix-blend-mode: luminosity until the row is hovered */}
-          <div className="flex items-center justify-center md:mix-blend-luminosity md:group-hover:mix-blend-normal">
-            {Icon ? <Icon className={item.iconClass} /> : null}
-          </div>
+          {item.icon ? <MenuIcon icon={item.icon} /> : null}
         </div>
         <div className="flex flex-1 flex-col items-start gap-0.5">
           <p className="text-[15px] font-medium leading-[22.5px] tracking-[-0.3px] text-gray-700 md:text-[16px] md:leading-6 md:tracking-[-0.32px]">{item.title}</p>
-          <p className="whitespace-pre-line text-[14px] font-normal leading-[19.6px] tracking-[-0.2px] text-gray-550">{item.description}</p>
+          <p className="whitespace-pre-line text-[14px] font-normal leading-[19.6px] tracking-[-0.2px] text-gray-550 lg:whitespace-nowrap">{item.description}</p>
         </div>
       </div>
     </Link>
@@ -49,7 +51,7 @@ function MenuCard({ item }: { item: MenuItem }) {
 /** Grey sub list ("Sub-menu" / "Desktop/Sub Menu") under Attribution Tracking. */
 function SubMenu({ items }: { items: MenuItem[] }) {
   return (
-    <div className="flex w-full flex-1 flex-col items-center justify-start gap-1 rounded-[8px] bg-gray-50 p-2 md:gap-0 md:p-1">
+    <div className="flex w-full flex-1 flex-col items-center justify-start gap-1 rounded-[8px] bg-gray-50 p-2 md:gap-0 md:rounded-[10px] md:p-1">
       {items.map((item) => (
         <Link
           key={item.href}
@@ -66,10 +68,11 @@ function SubMenu({ items }: { items: MenuItem[] }) {
   );
 }
 
+/** Mega menu column (mochi-web-v2 Figma, node 546:2110): white card with a hairline ring drawn inside its padding. */
 function MegaMenuSection({ section }: { section: MenuSection }) {
   return (
-    <div className="flex flex-1 basis-0 flex-col items-start gap-2.5 rounded-[12px] bg-white p-2">
-      <div className="flex w-full items-center px-2 py-1.5">
+    <div className="flex flex-1 basis-0 flex-col items-start gap-2 rounded-[18px] bg-white p-2 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.1)]">
+      <div className="flex h-8 w-full px-2 py-1.5">
         <p className="flex-1 text-[14px] font-medium leading-[19.6px] tracking-[-0.2px] text-[rgba(82,82,82,0.8)]">{section.heading}</p>
       </div>
       <div className={`flex w-full flex-col items-center overflow-clip ${section.subItems ? "flex-1 gap-1" : ""}`}>
@@ -121,10 +124,9 @@ function MobileAccordion({ section }: { section: MenuSection }) {
 
 /**
  * Site navigation ported from the Framer "Desktop/Default" / "Tablet" / "Phone" nav variants.
- * - fixed frosted pill (gradient white + backdrop blur + liquid-glass displacement layer)
- * - "Features" opens the mega menu on hover (desktop/tablet)
- * - after scrolling ~64px the pill becomes solid white and shrinks to its content (Framer "Desktop/Expand")
- * - on phones a hamburger expands the pill into the full menu (Framer "Phone/Open")
+ * - fixed frosted pill (80% white + 8px backdrop blur, as in the mochi-web-v2 Figma)
+ * - "Features" opens the mega menu on hover (desktop/tablet): the pill grows to hold it (mochi-web-v2 Figma, node 546:2067)
+ * - on phones the hamburger grows the pill the same way to reveal the full menu (Framer "Phone/Open" contents)
  */
 export function Nav({ compact = false }: { compact?: boolean }) {
   // `compact` forces the scrolled/solid state from the start (Framer "Desktop/Expand" / "Phone/Scroll"
@@ -133,11 +135,8 @@ export function Nav({ compact = false }: { compact?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
-  const [contentWidth, setContentWidth] = useState<number | null>(null);
   const closeTimer = useRef<number | null>(null);
-  const logoRef = useRef<HTMLAnchorElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const buttonsRef = useRef<HTMLDivElement>(null);
+  const pillRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tabletMq = window.matchMedia("(min-width: 810px) and (max-width: 1199px)");
@@ -159,20 +158,6 @@ export function Nav({ compact = false }: { compact?: boolean }) {
     };
   }, [compact]);
 
-  // Width of the collapsed ("Expand") pill: logo + menu + buttons + 2x40 gap + 2x8 padding.
-  useEffect(() => {
-    const measure = () => {
-      const logo = logoRef.current?.offsetWidth ?? 0;
-      const menu = menuRef.current?.offsetWidth ?? 0;
-      // the button group is flex-1 in the default state, so sum its children (+8px gap) instead
-      const buttons = buttonsRef.current ? Array.from(buttonsRef.current.children).reduce((w, c) => w + (c as HTMLElement).offsetWidth, 0) + 8 : 0;
-      setContentWidth(logo + menu + buttons + 80 + 16);
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [isDesktop]);
-
   const openMega = () => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current);
     setFeaturesOpen(true);
@@ -182,33 +167,33 @@ export function Nav({ compact = false }: { compact?: boolean }) {
     closeTimer.current = window.setTimeout(() => setFeaturesOpen(false), 250);
   };
 
-  const expanded = scrolled && !menuOpen;
-  const compactWidth = expanded && isDesktop && contentWidth ? `${contentWidth}px` : "100%";
-  const solid = expanded || menuOpen;
+  const megaOpen = featuresOpen && isDesktop;
+
+  // While the phone menu is open this layer covers the screen. Tapping outside the pill closes the menu, and so does
+  // following one of its links (the nav stays mounted across pages, so it would otherwise stay open on the next one).
+  const closeMenuOnTap = (e: React.MouseEvent) => {
+    const target = e.target as Element;
+    if (!pillRef.current?.contains(target) || target.closest("a")) setMenuOpen(false);
+  };
 
   return (
-    <div className={`fixed inset-x-0 top-0 z-10 ${menuOpen ? "bottom-0 overflow-y-auto" : ""}`}>
-      <nav
-        className={`flex flex-col items-center px-5 md:px-8 md:pt-6 lg:px-0 ${scrolled || menuOpen ? "pt-4" : "pt-5"} ${menuOpen ? "min-h-full" : ""}`}
-        aria-label="Main"
-      >
-        {/* Wrapper */}
+    <div className={`fixed inset-x-0 top-0 z-10 select-none ${menuOpen ? "bottom-0 overflow-y-auto" : ""}`} onClick={menuOpen ? closeMenuOnTap : undefined}>
+      <nav className={`flex flex-col items-center px-5 md:px-8 md:pt-6 lg:px-0 ${scrolled ? "pt-4" : "pt-5"}`} aria-label="Main">
+        {/* Wrapper. The closed pill is 54px tall, so 27px reads as fully round while letting the radius ease to the open
+            menu's 26px (from 9999px it would bulge the growing pill into an ellipse). */}
         <div
-          className={`relative w-full max-w-[896px] transition-[width,border-radius] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${menuOpen ? "rounded-[32px]" : "rounded-full"}`}
-          style={{ width: compactWidth }}
+          ref={pillRef}
+          className={`relative w-full max-w-[896px] transition-[border-radius] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            menuOpen || megaOpen ? "rounded-[26px]" : "rounded-[27px]"
+          }`}
         >
-          <LiquidGlass />
           {/* Container */}
           <div
-            className={`relative z-[3] flex w-full overflow-clip rounded-[inherit] border border-white ${menuOpen ? "" : pillShadow} ${
-              menuOpen
-                ? "flex-col items-start gap-6 bg-white px-2 pb-6 pt-2.5"
-                : `items-center justify-center px-2 py-2.5 md:p-2 bg-white/80`
-            }`}
+            className={`relative flex w-full flex-wrap items-center justify-center overflow-clip rounded-[inherit] border border-white bg-white/80 px-2 py-2.5 backdrop-blur-[8px] md:p-2 ${pillShadow}`}
           >
             {/* Left: logo (+ hamburger on phone) */}
-            <div className={`flex items-center justify-between pr-0.5 md:pr-0 ${menuOpen ? "w-full" : "w-full md:w-auto md:flex-1 md:basis-0"}`}>
-              <Link ref={logoRef} href="/" aria-label="Mochi" className="flex h-8 items-center px-2">
+            <div className="flex w-full items-center justify-between pr-0.5 md:w-auto md:flex-1 md:basis-0 md:pr-0">
+              <Link href="/" aria-label="Mochi" className="flex h-8 items-center px-2">
                 <MochiLogo />
               </Link>
               <button
@@ -236,17 +221,23 @@ export function Nav({ compact = false }: { compact?: boolean }) {
             </div>
 
             {/* Desktop / tablet menu */}
-            <div ref={menuRef} className="hidden items-start md:flex">
+            <div className="hidden items-start md:flex">
               <div className="relative" onMouseEnter={openMega} onMouseLeave={scheduleClose}>
                 <button
                   type="button"
                   aria-haspopup="true"
-                  aria-expanded={featuresOpen}
+                  aria-expanded={megaOpen}
                   onClick={() => (featuresOpen ? scheduleClose() : openMega())}
-                  className="flex items-center rounded-full px-2.5 py-1.5"
+                  className={`flex items-center rounded-full p-1.5 transition-colors duration-200 ${megaOpen ? "bg-black/5" : ""}`}
                 >
-                  <span className="whitespace-pre text-[16px] font-normal leading-[22.4px] tracking-[-0.32px] text-black">Features</span>
-                  <Chevron className={`shrink-0 text-black transition-transform duration-300 ${featuresOpen ? "rotate-180" : ""}`} />
+                  <span className="whitespace-pre px-1 text-[16px] font-normal leading-[22.4px] tracking-[-0.32px] text-black">Features</span>
+                  <Image
+                    src="/icon-chevron-top-small.svg"
+                    alt=""
+                    width={20}
+                    height={20}
+                    className={`shrink-0 transition-transform duration-300 ${megaOpen ? "" : "rotate-180"}`}
+                  />
                 </button>
               </div>
               {navLinks.map((l) => (
@@ -259,7 +250,7 @@ export function Nav({ compact = false }: { compact?: boolean }) {
             </div>
 
             {/* Desktop / tablet buttons */}
-            <div ref={buttonsRef} className="hidden items-center justify-end gap-2 md:flex md:flex-1 md:basis-0">
+            <div className="hidden items-center justify-end gap-2 md:flex md:flex-1 md:basis-0">
               <Button variant="white" href={LOGIN_URL}>
                 Log In
               </Button>
@@ -268,7 +259,33 @@ export function Nav({ compact = false }: { compact?: boolean }) {
               </Button>
             </div>
 
-            {/* Phone menu body */}
+            {/* Mega menu (mochi-web-v2 Figma, node 546:2109): wraps onto its own row inside the pill, 8px below the bar */}
+            <AnimatePresence initial={false}>
+              {megaOpen ? (
+                <motion.div
+                  key="mega"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={spring}
+                  onMouseEnter={openMega}
+                  onMouseLeave={scheduleClose}
+                  className="hidden w-full basis-full overflow-hidden md:block"
+                >
+                  <div className="flex items-stretch gap-1.5 pt-2">
+                    {menuSections.map((section) => (
+                      <MegaMenuSection key={section.heading} section={section} />
+                    ))}
+                  </div>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+
+            {/* Phone menu (Framer "Phone/Open" contents): wraps onto its own row inside the pill like the mega menu, with the
+                24px above and below it inside the animated row (the pill's 10px padding + 14px) so they grow with it.
+                Open, the pill fills the screen down to the same 20px gutter as its sides: the row is 100dvh minus the
+                top offset (20px, 16px once scrolled), the 43px bar (border + 10px padding + 32px), the 11px (padding +
+                border) under the row and that 20px. The accordions scroll; the buttons stay at the bottom. */}
             <AnimatePresence initial={false}>
               {menuOpen ? (
                 <motion.div
@@ -277,10 +294,10 @@ export function Nav({ compact = false }: { compact?: boolean }) {
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={spring}
-                  className="w-full overflow-hidden md:hidden"
+                  className="w-full basis-full overflow-hidden md:hidden"
                 >
-                  <div className="flex w-full flex-col gap-6">
-                    <div className="flex max-h-[56vh] w-full flex-col items-start gap-3.5 overflow-y-auto">
+                  <div className={`flex w-full flex-col gap-6 pb-3.5 pt-6 ${scrolled ? "h-[calc(100dvh-90px)]" : "h-[calc(100dvh-94px)]"}`}>
+                    <div className="flex min-h-0 w-full flex-1 flex-col items-start gap-3.5 overflow-y-auto overscroll-contain">
                       {menuSections.map((section) => (
                         <MobileAccordion key={section.heading} section={section} />
                       ))}
@@ -290,7 +307,7 @@ export function Nav({ compact = false }: { compact?: boolean }) {
                         </Link>
                       ))}
                     </div>
-                    <div className="flex w-full flex-col items-center gap-3.5 px-4">
+                    <div className="flex w-full shrink-0 flex-col items-center gap-3.5 px-4">
                       <Link
                         href={LOGIN_URL}
                         target="_blank"
@@ -315,30 +332,6 @@ export function Nav({ compact = false }: { compact?: boolean }) {
           </div>
         </div>
       </nav>
-
-      {/* Desktop mega menu (Framer "Mega Menu", fixed at top 78px, centred +54.8px, width min(896, 100vw-278)) */}
-      <AnimatePresence>
-        {featuresOpen && isDesktop ? (
-          <motion.div
-            key="mega"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            onMouseEnter={openMega}
-            onMouseLeave={scheduleClose}
-            className="fixed left-[calc(50%+54.8px)] top-[78px] z-[11] hidden w-[min(896px,calc(100vw-278px))] -translate-x-1/2 md:block"
-          >
-            <div className="rounded-[10px] shadow-[0_10px_20px_0_rgba(0,0,0,0.05)]">
-              <div className="flex items-stretch gap-1.5 overflow-clip rounded-[14px] bg-[rgba(245,245,245,0.32)] p-1.5 shadow-[0_2px_4px_0_rgba(224,224,224,0.1)] backdrop-blur-[12px]">
-                {menuSections.map((section) => (
-                  <MegaMenuSection key={section.heading} section={section} />
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
-import { buttonShadow } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { SIGNUP_URL } from "./nav-data";
 
 const steps = [
@@ -10,14 +9,14 @@ const steps = [
 ];
 
 /**
- * Framer "CTA" section ("Get up and running in 5 minutes"): heading + white CTA button,
+ * Framer "CTA" section ("Get up and running in 5 minutes"): heading + dark CTA button,
  * the 3-step row with dots and lines, and the dashboard mockup with the mascots.
  * Desktop 1440x798, tablet 1024x777, phone 390x855 (the image stack is a different mobile variant).
  */
 export function CtaSection() {
   return (
     <section className="relative flex w-full justify-center overflow-clip">
-      <div className="flex w-full flex-col items-center px-5 pt-12 md:px-[100px] md:pt-20">
+      <div className="flex w-full flex-col items-center px-5 pt-12 md:px-[100px] md:pt-20 lg:pt-[180px]">
         <div className="flex w-full max-w-[1000px] flex-col items-center gap-10 md:gap-16">
           {/* Phone-only image stack (Framer "Image" / "Footer Image Mobile") */}
           <div className="relative z-[3] flex h-[314px] w-full flex-col items-center px-8 md:hidden">
@@ -36,18 +35,13 @@ export function CtaSection() {
 
           {/* Header */}
           <div className="z-[3] flex w-full flex-col items-start gap-6 md:flex-row md:items-center md:justify-between md:gap-0">
-            <h3 className="w-full text-center font-display text-[32px] font-semibold leading-[35.2px] tracking-[1px] text-ink md:max-w-[520px] md:flex-1 md:basis-0 md:text-left md:text-[40px] md:leading-[44px] md:tracking-[1.6px] lg:text-[48px] lg:leading-[52.8px]">
+            <h3 className="w-full text-center text-balance font-display text-[36px] font-semibold leading-[39.6px] tracking-[1.4px] text-ink max-w-[520px] self-center md:self-auto md:flex-1 md:basis-0 md:text-left md:text-[40px] md:leading-[44px] md:tracking-[1.6px] lg:text-[48px] lg:leading-[52.8px]">
               Get up and running in 5 minutes
             </h3>
-            <div className="flex w-full items-center gap-3 md:w-auto md:items-start">
-              <Link
-                href={SIGNUP_URL}
-                target="_blank"
-                rel="noopener"
-                className={`flex flex-1 items-center justify-center rounded-[12px] bg-white px-5 py-3 text-[20px] font-medium leading-[21.75px] tracking-[-0.3px] text-black transition-colors duration-200 hover:text-gray-800 md:flex-none ${buttonShadow}`}
-              >
+            <div className="flex w-full items-center justify-center gap-3 md:w-auto md:items-start">
+              <Button variant="primaryBig" href={SIGNUP_URL} target="_blank" rel="noopener">
                 Start Free Trial
-              </Link>
+              </Button>
             </div>
           </div>
 

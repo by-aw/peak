@@ -40,7 +40,7 @@ export function HeroClouds() {
         initial={false}
         animate={anim}
         transition={spring}
-        className="pointer-events-none absolute top-[-182px] left-[827px] z-[1] hidden aspect-[1.42424/1] w-[327px] md:block lg:top-[-198px] lg:left-[782px] lg:w-[396px]"
+        className="pointer-events-none absolute top-[-182px] right-[-258px] z-[1] hidden aspect-[1.42424/1] w-[327px] md:block lg:top-[-198px] lg:right-[-282px] lg:w-[396px]"
       >
         <Image src="/framer/QpXF2llpzQjzZEwxxbDuVTWKSA.png" alt="" width={1448} height={1086} sizes="396px" className="h-full w-full object-cover" />
       </motion.div>

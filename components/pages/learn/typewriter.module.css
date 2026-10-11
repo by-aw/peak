@@ -1,0 +1,14 @@
+/* Framer "Mochitypewriter" caret: 1.5px bar blinking with a 0.8s step-end animation. */
+.caret {
+  animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

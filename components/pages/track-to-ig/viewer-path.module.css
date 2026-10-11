@@ -1,0 +1,1167 @@
+/*
+ * "Viewer path" interaction of /track-to-ig: the Framer page embeds this prototype as an HTML iframe (310px tall on
+ * tablet/desktop, 312x539 on phone). It is ported here without the iframe, so the iframe's viewport media queries
+ * became container queries on `.root` (920px, the prototype's own compact breakpoint) and `vw` became `cqw`.
+ *
+ * Desktop: a 128.5px rail of five icons that spread out on hover; the hovered stage's icon morphs into a card
+ * (`.panel`) that sits over the rail. Compact: the five icons become a row of tabs with the card underneath.
+ */
+
+.root {
+  --ink: #101114;
+  --muted: #6f7075;
+  --surface: #f6f6f7;
+  --blue: #3b82f6;
+  --pink: #ec4899;
+  --purple: #a855f7;
+  --green: #10b981;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  container-type: inline-size;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--font-sans), Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  text-align: left;
+}
+
+.root *,
+.root *::before,
+.root *::after {
+  box-sizing: border-box;
+}
+
+.root button {
+  font: inherit;
+}
+
+.section {
+  width: 100%;
+  padding: 0 0 40px;
+}
+
+/* ------------------------------------------------------------------ rail */
+
+.journey {
+  display: flex;
+  width: min(1000px, 100%);
+  margin: 0 auto;
+  gap: 8px;
+  align-items: flex-start;
+  height: 128.5px;
+  position: relative;
+}
+
+.journey::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: #dedede;
+  pointer-events: none;
+}
+
+.stage {
+  --accent: var(--blue);
+  --tint: #e7f0fe;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  width: 0;
+  flex: 0.7625 1 0;
+  min-height: auto;
+  height: 128.5px;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    flex-grow 1050ms var(--ease),
+    transform 780ms var(--ease);
+}
+
+.stage[data-key="watch"] {
+  --accent: var(--pink);
+  --tint: #fde9f4;
+}
+.stage[data-key="qualified"] {
+  --accent: #f59e0b;
+  --tint: #fff4da;
+}
+.stage[data-key="click"] {
+  --accent: var(--purple);
+  --tint: #f3e8ff;
+}
+.stage[data-key="buy"] {
+  --accent: var(--green);
+  --tint: #e7f8f2;
+}
+
+.stage[aria-selected="true"] {
+  flex-grow: 1.95;
+  background: transparent;
+  box-shadow: none;
+}
+.journey[data-active="-1"] .stage {
+  flex-grow: 1;
+}
+
+.stage:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 4px;
+}
+
+.stageHead {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  padding: 0;
+}
+.stage .stageHead {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
+  padding: 0;
+  height: 128.5px;
+}
+
+.icon {
+  width: 64px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--tint);
+  color: var(--accent);
+  font-size: 0;
+}
+.icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+.stage .icon {
+  width: 48px;
+  align-self: flex-start;
+  flex: 0 0 auto;
+  margin-left: var(--icon-x, calc(50% - 24px));
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 0 10px #fff;
+  transition:
+    margin-left 1050ms var(--ease),
+    transform 680ms var(--ease),
+    opacity 420ms ease;
+}
+
+/* Where each icon rests, depending on which stage is open (the open one's icon is hidden: it becomes the card). */
+.journey[data-active="0"] .stage:nth-child(1) {
+  --icon-x: 0px;
+}
+.journey[data-active="0"] .stage:nth-child(n + 2) {
+  --icon-x: calc(100% - 48px);
+}
+.journey[data-active="1"] .stage:nth-child(1) {
+  --icon-x: 0px;
+}
+.journey[data-active="1"] .stage:nth-child(2) {
+  --icon-x: calc(50% - 24px);
+}
+.journey[data-active="1"] .stage:nth-child(n + 3) {
+  --icon-x: calc(100% - 48px);
+}
+.journey[data-active="2"] .stage:nth-child(-n + 2) {
+  --icon-x: 0px;
+}
+.journey[data-active="2"] .stage:nth-child(3) {
+  --icon-x: calc(50% - 24px);
+}
+.journey[data-active="2"] .stage:nth-child(n + 4) {
+  --icon-x: calc(100% - 48px);
+}
+.journey[data-active="3"] .stage:nth-child(-n + 3) {
+  --icon-x: 0px;
+}
+.journey[data-active="3"] .stage:nth-child(4) {
+  --icon-x: calc(50% - 24px);
+}
+.journey[data-active="3"] .stage:nth-child(5) {
+  --icon-x: calc(100% - 48px);
+}
+.journey[data-active="4"] .stage:nth-child(-n + 4) {
+  --icon-x: 0px;
+}
+.journey[data-active="4"] .stage:nth-child(5) {
+  --icon-x: calc(100% - 48px);
+}
+.journey[data-active="-1"] .stage:nth-child(1) {
+  --icon-x: 0px;
+}
+.journey[data-active="-1"] .stage:nth-child(2) {
+  --icon-x: calc(25% - 24px);
+}
+.journey[data-active="-1"] .stage:nth-child(3) {
+  --icon-x: calc(50% - 24px);
+}
+.journey[data-active="-1"] .stage:nth-child(4) {
+  --icon-x: calc(75% - 24px);
+}
+.journey[data-active="-1"] .stage:nth-child(5) {
+  --icon-x: calc(100% - 48px);
+}
+.journey:not([data-active="-1"]) .stage[aria-selected="true"] .icon {
+  opacity: 0;
+  transform: scale(0.66);
+}
+
+.labelWrap {
+  min-width: 0;
+}
+.stage .labelWrap {
+  position: absolute;
+  top: 72px;
+  left: calc(var(--icon-x, calc(50% - 24px)) + 24px);
+  width: max(100%, 180px);
+  min-width: 0;
+  overflow: visible;
+  text-align: center;
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%);
+  transition:
+    left 1050ms var(--ease),
+    opacity 320ms ease,
+    transform 720ms var(--ease),
+    visibility 0s linear;
+}
+.stage[aria-selected="true"] .labelWrap {
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  visibility: hidden;
+  transition:
+    opacity 320ms ease,
+    transform 720ms var(--ease),
+    visibility 0s linear 320ms;
+}
+
+.label {
+  display: block;
+  font-size: 1.12rem;
+  font-weight: 500;
+  letter-spacing: -0.36px;
+  color: #3d3d3d;
+  white-space: nowrap;
+}
+.promise {
+  display: block;
+  margin-top: 8px;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 16px;
+  line-height: 22.4px;
+  letter-spacing: -0.32px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  transition: opacity 260ms ease;
+}
+.journey .stage:not([aria-selected="true"]) .promise {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 260ms ease,
+    visibility 0s linear 260ms;
+}
+.journey[data-active="-1"] .stage .promise {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 180ms, 0s;
+}
+
+/* ------------------------------------------------------------------ card */
+
+.panel {
+  display: grid;
+  grid-template-columns: 152px minmax(0, 1fr);
+  gap: 0;
+  width: var(--panel-width, min(390px, 39%));
+  height: 270px;
+  margin: -128.5px 0 0 calc(max(0px, calc(50% - 500px)) + var(--panel-offset, 0px));
+  padding: 0;
+  border-radius: 14px;
+  overflow: visible;
+  background: #fff;
+  box-shadow: 0 20px 42px rgba(16, 17, 20, 0.09);
+  position: relative;
+  z-index: 20;
+  isolation: isolate;
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  clip-path: inset(0 0 0 0 round 18px);
+  will-change: transform, opacity, clip-path;
+  transition:
+    opacity 360ms ease,
+    transform 760ms var(--ease),
+    filter 520ms ease,
+    clip-path 820ms var(--ease);
+}
+.panel > * {
+  position: relative;
+  z-index: 1;
+}
+.panel.collapsed {
+  height: 0;
+  margin-top: 0;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(-10px) scale(0.985);
+  filter: blur(5px);
+  clip-path: inset(0 0 100% 0 round 14px);
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.panel .visual {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px 0 0 14px;
+}
+
+.visual {
+  position: relative;
+  width: min(100%, 220px);
+  aspect-ratio: 9 / 16;
+  min-height: 0;
+  justify-self: center;
+  border-radius: 13px;
+  overflow: hidden;
+  background: linear-gradient(145deg, #20242d, #0c0d10);
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.visual.reelImage {
+  padding: 0;
+  background: #130c16;
+}
+.reelFrame {
+  position: absolute;
+  inset: 0;
+}
+.visual.reelImage img {
+  object-fit: cover;
+}
+.watchStats {
+  display: none;
+}
+.visual.artworkImage {
+  padding: 0;
+  background: #fff;
+}
+.visual.artworkImage img {
+  object-fit: contain;
+  object-position: center;
+}
+.panel:has(.artworkImage) {
+  grid-template-columns: 270px minmax(0, 1fr);
+}
+.panel:has(.artworkImage) .visual.artworkImage {
+  width: 270px;
+  height: 270px;
+  aspect-ratio: 1 / 1;
+}
+.panel:has(.artworkImage) .evidence {
+  box-shadow: none;
+}
+.sourceAsset {
+  position: relative;
+  width: 270px;
+  height: 270px;
+  overflow: hidden;
+  border-radius: 13px 0 0 13px;
+  background: #fff;
+}
+
+.clickList {
+  width: calc(100% - 3px);
+  margin-left: 3px;
+  padding: 10px 8px;
+  background: #fff;
+  isolation: isolate;
+}
+.clickTrack {
+  animation: clickStream 8s linear infinite;
+  will-change: transform;
+}
+.clickRow {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: start;
+  margin-bottom: 7px;
+  padding: 10px;
+  border: 1px solid #ececef;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.76);
+  color: #171719;
+  font-style: normal;
+}
+.clickRow.isFocus {
+  position: absolute;
+  z-index: 2;
+  left: 8px;
+  right: 8px;
+  top: 96px;
+  margin: 0;
+  background: #fff;
+  box-shadow: 0 8px 18px rgba(16, 17, 20, 0.13);
+  animation: clickFocus 3.2s ease-in-out infinite;
+}
+.clickAvatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #eee center / cover no-repeat;
+}
+.clickAvatar.a1 {
+  background-image: url("/framer/HoMs1ZaqfaLWHV8xjmnPTyoFk.jpg");
+}
+.clickAvatar.a2 {
+  background-image: url("/framer/MEANJJdWGojt97waP5Bd015RbY.png");
+}
+.clickAvatar.a3 {
+  background-image: url("/framer/uyMNkc1W4Bn5CbyD4mBiNN15mZs.png");
+}
+.clickAvatar.a4 {
+  background-image: url("/framer/f9vR8cxJv5A1iVPQyp77NAdX6cY.png");
+}
+.clickRow b,
+.clickRow small,
+.clickRow em {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.clickRow b {
+  font-size: 10px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+.clickRow small {
+  margin-top: 2px;
+  color: #7a7b80;
+  font-size: 8px;
+}
+.clickRow em {
+  width: max-content;
+  margin-top: 5px;
+  padding: 3px 7px;
+  border: 1px solid #dedfe2;
+  border-radius: 999px;
+  background: #f1f1f2;
+  color: #6d6d6d;
+  font-size: 8px;
+  font-style: normal;
+}
+.clickRow em.clicked {
+  color: #10b981;
+}
+.clickRow time {
+  align-self: center;
+  color: #6d6d6d;
+  font-size: 8px;
+}
+@keyframes clickStream {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-140px);
+  }
+}
+@keyframes clickFocus {
+  0%,
+  100% {
+    transform: translateY(0) scale(1.035);
+    box-shadow: 0 8px 18px rgba(16, 17, 20, 0.12);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.045);
+    box-shadow: 0 13px 24px rgba(16, 17, 20, 0.16);
+  }
+}
+
+.paymentFlow {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: #fff;
+  color: #171719;
+}
+.paymentCanvas {
+  position: relative;
+  width: 270px;
+  height: 270px;
+  padding: 14px 10px;
+  background: #fff;
+}
+.payProviders {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+.payProviders span:nth-child(2) {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.payProviders span,
+.payAblefy,
+.payMochi {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 9px;
+  border: 1px dashed #e5e5e9;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 10px;
+  font-weight: 600;
+}
+.payProviders img,
+.payAblefy img,
+.payMochi img {
+  width: 20px;
+  height: 20px;
+  display: block;
+  object-fit: contain;
+}
+.payMochi img {
+  width: 24px;
+}
+.payAblefy {
+  width: max-content;
+  margin: 18px auto 0;
+}
+.payMochi {
+  position: relative;
+  width: max-content;
+  margin: 16px auto 0;
+  border-color: #d774ff;
+}
+.payLines {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.payLines path {
+  fill: none;
+  stroke: #dfc7ff;
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.payLines circle {
+  fill: #dfc7ff;
+}
+.payLines .flowPulse {
+  stroke: #a855f7;
+  stroke-width: 1.4;
+  stroke-dasharray: 22 250;
+  animation: paymentSignal 3.2s linear infinite;
+}
+@keyframes paymentSignal {
+  to {
+    stroke-dashoffset: -272;
+  }
+}
+.payTransaction {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 13px;
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 9px;
+  border: 1px dashed #e5e5e9;
+  border-radius: 10px;
+  background: #fff;
+}
+.buyerFace {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: url("/framer/1ZbcZCcN31uPukJWvkGer73BKM.png") center / cover;
+}
+.payTransaction b,
+.payTransaction small {
+  display: block;
+}
+.payTransaction b {
+  font-size: 9px;
+  font-weight: 700;
+}
+.payTransaction small {
+  color: #777;
+  font-size: 7px;
+  font-weight: 400;
+}
+.payTransaction strong {
+  color: #24c62d;
+  font-size: 11px;
+  text-align: right;
+}
+
+.bookingTimeline {
+  width: 270px;
+  height: 270px;
+  padding: 18px;
+  overflow: hidden;
+  border-radius: 13px 0 0 13px;
+  background: #fff;
+  color: #17181c;
+}
+.bookingLabel {
+  margin-bottom: 13px;
+  color: #777980;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.bookingEvent {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 9px;
+  min-height: 45px;
+}
+.bookingEvent:not(:last-of-type)::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 14px;
+  bottom: -2px;
+  width: 1px;
+  background: #d9dce2;
+}
+.bookingDot {
+  position: relative;
+  z-index: 1;
+  width: 13px;
+  height: 13px;
+  margin-top: 2px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #aeb3bd;
+  box-shadow: 0 0 0 1px #d9dce2;
+}
+.bookingEvent.isBooked .bookingDot {
+  background: #3b82f6;
+  box-shadow: 0 0 0 1px #bfdbfe;
+}
+.bookingEvent strong {
+  display: block;
+  font-size: 11px;
+  line-height: 1.25;
+  font-weight: 700;
+}
+.bookingEvent small {
+  display: block;
+  margin-top: 2px;
+  color: #777980;
+  font-size: 9px;
+  line-height: 1.25;
+}
+.callDetail {
+  margin-top: 7px;
+  padding: 11px 12px;
+  border: 1px solid #dbe7fb;
+  border-radius: 11px;
+  background: #fff;
+  box-shadow: 0 7px 18px rgba(16, 17, 20, 0.07);
+}
+.callDetailHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.callDetailHead strong {
+  font-size: 12px;
+  font-weight: 700;
+}
+.callDetailHead span {
+  color: #3b82f6;
+  font-size: 9px;
+  font-weight: 600;
+}
+.callDetailMeta {
+  display: flex;
+  gap: 10px;
+  margin-top: 7px;
+  color: #62646b;
+  font-size: 9px;
+}
+
+.reelPlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(16, 17, 20, 0.52);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+  transform: translate(-50%, -50%);
+  backdrop-filter: blur(5px);
+  pointer-events: none;
+}
+.reelPlay svg {
+  width: 20px;
+  height: 20px;
+  margin-left: 2px;
+}
+
+.evidence {
+  min-width: 0;
+  background: #fff;
+  border-radius: 13px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: inset 0 0 0 1px rgba(16, 17, 20, 0.07);
+}
+.evidenceHeading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 8px;
+}
+.evidenceHeading h2 {
+  margin: 0;
+}
+.evidence h2 {
+  margin: 22px 0 8px;
+  font-size: clamp(1.35rem, 2cqw, 2rem);
+  line-height: 1.14;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+}
+.stageIcon {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--tint);
+  color: var(--accent);
+  transform-origin: center;
+}
+.stageIcon svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+}
+.stageIcon.watch svg {
+  width: 15px;
+  height: 15px;
+}
+.evidence p {
+  margin: 0;
+  color: #5c5e65;
+  line-height: 1.45;
+  font-size: 0.98rem;
+}
+.source {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 20px;
+  color: #303137;
+  font-size: 0.83rem;
+  font-weight: 680;
+}
+.source.metrics {
+  align-items: stretch;
+  gap: 0;
+  padding-top: 12px;
+  border-top: 1px solid #ececef;
+}
+.metric {
+  flex: 1;
+  min-width: 0;
+  padding: 0 12px;
+  border-left: 1px solid #ececef;
+}
+.metric:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.metric small {
+  display: block;
+  margin-bottom: 3px;
+  color: #8a8b91;
+  font-size: 0.65rem;
+  font-weight: 500;
+}
+.metric strong {
+  display: block;
+  color: #303137;
+  font-size: 0.78rem;
+}
+
+.panel .evidence {
+  padding: 14px;
+  min-height: 0;
+  border-radius: 0 14px 14px 0;
+  box-shadow: inset 0 0 0 1px rgba(16, 17, 20, 0.07);
+  background: #fff;
+}
+.panel .evidence h2 {
+  margin: 10px 0 6px;
+  font-size: 1.06rem;
+  line-height: 1.12;
+  font-weight: 700;
+}
+.panel .evidence p {
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+.panel .source {
+  margin-top: 10px;
+  font-size: 0.7rem;
+}
+
+@container (min-width: 921px) {
+  .panel:has(.artworkImage),
+  .panel:has(.sourceAsset),
+  .panel:has(.bookingTimeline) {
+    border: 1px solid rgba(16, 17, 20, 0.08);
+  }
+  .panel:has(.sourceAsset),
+  .panel:has(.bookingTimeline) {
+    grid-template-columns: 270px minmax(0, 1fr);
+  }
+  .panel:has(.sourceAsset) .evidence,
+  .panel:has(.bookingTimeline) .evidence {
+    box-shadow: none;
+  }
+}
+
+/* ------------------------------------------------------------------ compact (<= 920px) */
+
+@container (max-width: 920px) {
+  .journey,
+  .journey[data-active] {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
+    height: auto;
+    transition: none;
+  }
+  .stage,
+  .stage[aria-selected="true"] {
+    width: auto;
+    flex: none;
+    min-height: auto;
+    height: auto;
+    overflow: visible;
+    border-radius: 12px;
+    background: transparent;
+    box-shadow: none;
+  }
+  .stageHead,
+  .stage:not([aria-selected="true"]) .stageHead {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 8px;
+    padding: 8px 2px 12px;
+    text-align: center;
+    height: auto;
+  }
+  .icon {
+    width: 48px;
+    font-size: 21px;
+  }
+  .stage .icon {
+    align-self: center;
+    margin-left: 0;
+  }
+  .icon svg {
+    width: 21px;
+    height: 21px;
+  }
+  .journey::before {
+    display: none;
+  }
+  .stage[aria-selected="true"] .icon {
+    opacity: 1;
+    transform: none;
+    box-shadow: 0 10px 20px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+  .journey:not([data-active="-1"]) .stage[aria-selected="true"] .icon {
+    opacity: 1;
+    transform: none;
+  }
+  .stage[aria-selected="true"] .labelWrap {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+  }
+  .stage .labelWrap {
+    position: static;
+    width: 100%;
+    transform: none;
+    text-align: center;
+  }
+  .label {
+    font-size: 0.78rem;
+  }
+  .promise {
+    display: none;
+  }
+  .panel {
+    width: 100%;
+    height: auto;
+    margin: 8px 0 0;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 18px;
+    background: var(--surface);
+    box-shadow: 0 20px 48px rgba(16, 17, 20, 0.08);
+  }
+  .panel.collapsed {
+    height: auto;
+    margin: 16px 0 0;
+    padding: 14px;
+    opacity: 1;
+    transform: none;
+    filter: none;
+    clip-path: none;
+    box-shadow: 0 20px 48px rgba(16, 17, 20, 0.08);
+    pointer-events: auto;
+  }
+  .panel .visual {
+    width: min(62cqw, 210px);
+    min-height: 0;
+    border-radius: 13px;
+  }
+  .panel .visual.artworkImage {
+    width: min(86cqw, 340px);
+    height: min(72cqw, 285px);
+    aspect-ratio: auto;
+    order: 2;
+    border-radius: 16px 16px 0 0;
+  }
+  .panel .visual.artworkImage img {
+    object-fit: cover;
+    object-position: center top;
+  }
+  .panel:has(.artworkImage) {
+    padding: 0;
+    gap: 12px;
+    background: transparent;
+    box-shadow: none;
+  }
+  .panel:has(.artworkImage) .evidence {
+    order: 1;
+  }
+  .panel .sourceAsset {
+    width: min(100%, 333px);
+    height: 290px;
+    order: 2;
+    justify-self: center;
+    border-radius: 16px 16px 0 0;
+  }
+  .panel:has(.sourceAsset) {
+    padding: 0;
+    gap: 12px;
+    background: transparent;
+    box-shadow: none;
+  }
+  .panel:has(.sourceAsset) .evidence {
+    order: 1;
+  }
+  .panel .bookingTimeline {
+    width: 100%;
+    height: 270px;
+    order: 2;
+    border-radius: 16px 16px 0 0;
+  }
+  .panel:has(.bookingTimeline) {
+    padding: 0;
+    gap: 12px;
+    background: transparent;
+    box-shadow: none;
+  }
+  .panel:has(.bookingTimeline) .evidence {
+    order: 1;
+  }
+  .panel,
+  .panel:has(.artworkImage),
+  .panel:has(.sourceAsset),
+  .panel:has(.bookingTimeline) {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    padding: 0;
+    gap: 0;
+    overflow: hidden;
+    border: 1px solid rgba(16, 17, 20, 0.08);
+    background: #fff;
+    box-shadow: none;
+  }
+  .panel .evidence {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    order: 1;
+    border-radius: 16px 16px 0 0;
+    background: #fff;
+    box-shadow: none;
+  }
+  .panel .stageIcon {
+    display: grid;
+  }
+  .panel .evidenceHeading {
+    display: flex;
+  }
+  .panel .evidence h2 {
+    margin-top: 0;
+  }
+  .panel .visual,
+  .panel .visual.artworkImage,
+  .panel .sourceAsset,
+  .panel .bookingTimeline {
+    width: 100%;
+    max-width: none;
+    order: 2;
+  }
+  .panel .visual:not(.artworkImage) {
+    height: 270px;
+  }
+  .panel .visual.reelImage {
+    display: grid;
+    grid-template-columns: minmax(0, 58%) minmax(0, 42%);
+    align-items: stretch;
+    height: min(72cqw, 285px);
+    aspect-ratio: auto;
+    padding: 16px;
+    background: #fff;
+  }
+  .panel .visual.reelImage img {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    border: 0;
+    border-radius: inherit;
+    box-shadow: none;
+  }
+  .panel .reelFrame {
+    position: relative;
+    inset: auto;
+    width: auto;
+    height: calc(100% - 28px);
+    aspect-ratio: 1004 / 1567;
+    align-self: start;
+    justify-self: center;
+    margin-bottom: 28px;
+    overflow: hidden;
+    border: 1px solid rgba(16, 17, 20, 0.08);
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgba(16, 17, 20, 0.12);
+  }
+  .panel .visual.reelImage .reelPlay {
+    left: 50%;
+    top: 50%;
+  }
+  .panel .source.metrics {
+    display: none;
+  }
+  .watchStats {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 4px 10px 20px;
+    border-left: 0;
+  }
+  .watchStat small {
+    display: block;
+    margin-bottom: 5px;
+    color: #8a8b91;
+    font-size: 0.7rem;
+  }
+  .watchStat strong {
+    display: block;
+    color: #303137;
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+  .panel .visual,
+  .panel .visual.artworkImage,
+  .panel .sourceAsset,
+  .panel .bookingTimeline {
+    border-radius: 0 0 15px 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root *,
+  .root *::before,
+  .root *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
+
+/*
+ * The prototype's Inter @font-face (declared as 400-700) is a single regular-weight file, so every weight in the live
+ * embed renders as regular (headings, labels and bold names included). Match that.
+ */
+.root,
+.root * {
+  font-weight: 400 !important;
+}

@@ -8,6 +8,8 @@
   --breakpoint-*: initial;
   --breakpoint-md: 810px;
   --breakpoint-lg: 1200px;
+  /* Pricing cards go from a column to a row at this width (Framer: 1200px). */
+  --breakpoint-pricing: 810px;
 
   --font-sans: var(--font-inter), Inter, sans-serif;
   --font-display: var(--font-clash), "Clash Display", sans-serif;
@@ -114,11 +116,14 @@ body:has([data-sky-background]) {
   background-color: transparent;
 }
 
-h1, h2, h3, h4, h5, h6, p, figure { margin: 0; }
+/* Layered so utilities win: unlayered `height: auto` was overriding `size-*`/`h-*` on images. */
+@layer base {
+  h1, h2, h3, h4, h5, h6, p, figure { margin: 0; }
 
-button, input, textarea, select { font: inherit; }
+  button, input, textarea, select { font: inherit; }
 
-img, video { max-width: 100%; height: auto; display: block; }
+  img, video { max-width: 100%; height: auto; display: block; }
+}
 
 /* Rich text of the Updates (blog) posts: Framer "Blog Content" typography presets. */
 .prose-update {

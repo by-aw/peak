@@ -12,6 +12,7 @@ export function McpSection({
   wrapperClassName = "",
   innerClassName = "px-4 py-12 md:px-5 md:py-16 lg:px-10 lg:py-20",
   label,
+  id,
 }: {
   children: ReactNode;
   className?: string;
@@ -20,9 +21,11 @@ export function McpSection({
   /** Padding of the framed container. */
   innerClassName?: string;
   label?: string;
+  /** Anchor id (live has `#questions` and `#set-up`); scrolls in below the fixed nav. */
+  id?: string;
 }) {
   return (
-    <section className={`relative flex w-full flex-col items-center ${className}`.trim()} aria-label={label}>
+    <section id={id} className={`relative flex w-full scroll-mt-24 flex-col items-center ${className}`.trim()} aria-label={label}>
       <div className={`flex w-full flex-col items-center px-5 md:px-10 lg:px-[100px] ${wrapperClassName}`.trim()}>
         <div
           className={`relative flex w-full max-w-[1200px] flex-col items-center after:pointer-events-none after:absolute after:inset-0 after:border-x after:border-[#e7e5e5] ${innerClassName}`}

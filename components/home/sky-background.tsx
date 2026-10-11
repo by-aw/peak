@@ -31,16 +31,9 @@ export function SkyBackground() {
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 z-[1] aspect-[2/1] overflow-clip bg-linear-to-b from-[#3fb5f4] to-white opacity-50 [mask-image:linear-gradient(#000_79.75%,transparent_96.6%)] md:aspect-auto md:h-[563px]"
       >
-        <div className="absolute -top-[10px] left-0 aspect-[2/1] w-full">
-          <Image
-            src="/framer/7PQ7OQVSA5ymolSKHxCMTc6moc.png"
-            alt=""
-            width={2880}
-            height={1440}
-            preload
-            sizes="100vw"
-            className="h-full w-full"
-          />
+        {/* At least as tall as the layer: between md and ~1100px a 2:1 image ends above the mask's fade, leaving a hard edge */}
+        <div className="absolute -top-[10px] left-0 h-[max(50vw,calc(100%+10px))] w-full">
+          <Image src="/framer/7PQ7OQVSA5ymolSKHxCMTc6moc.png" alt="" fill preload sizes="100vw" className="object-cover" />
         </div>
       </div>
     </>

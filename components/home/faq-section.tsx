@@ -47,10 +47,10 @@ export const FAQ_ITEMS: { question: string; answer: string }[] = [
 /** Framer "FAQ Section": centered heading + independent accordion items (first one open by default). */
 export function FaqSection() {
   return (
-    <section className="flex w-full flex-col items-center overflow-clip px-[20px] py-[48px] md:px-[32px] md:py-[64px] lg:px-[100px] lg:py-[80px]" aria-label="Frequently asked questions">
+    <section className="flex w-full flex-col items-center overflow-clip px-[20px] py-[48px] md:px-[32px] md:py-[64px] lg:px-[100px] lg:pb-0 lg:pt-[180px]" aria-label="Frequently asked questions">
       <Reveal y={80} className="w-full max-w-[960px] lg:max-w-[1000px]">
         <div className="flex w-full flex-col items-center gap-[48px] lg:gap-[64px]">
-          <h3 className="text-center font-display text-[32px] leading-[35.2px] font-semibold tracking-[1px] text-ink md:w-[416px] md:text-[40px] md:leading-[44px] md:tracking-[1.6px] lg:text-[48px] lg:leading-[52.8px]">
+          <h3 className="text-center text-balance font-display text-[36px] leading-[39.6px] font-semibold tracking-[1.4px] text-ink md:w-[416px] md:text-[40px] md:leading-[44px] md:tracking-[1.6px] lg:text-[48px] lg:leading-[52.8px]">
             Frequently asked questions
           </h3>
           <div className="flex w-full max-w-[896px] flex-col items-start gap-[10px]">

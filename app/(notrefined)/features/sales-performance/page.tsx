@@ -9,11 +9,13 @@ import { SalesAfterCallSection, SalesCloserSection, SalesEfficiencySection } fro
 const TITLE = "DM Sales Performance Dashboard | Mochi";
 const DESCRIPTION =
   "See which conversations turn into booked calls, which scripts convert and how each person is performing, instead of guessing from message counts.";
+const PATH = "/features/sales-performance";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
+  alternates: { canonical: PATH },
+  openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
 };
 
 const FAQ: FaqEntry[] = [

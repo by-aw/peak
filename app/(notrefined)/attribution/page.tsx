@@ -14,11 +14,13 @@ import { FAQ } from "@/components/pages/attribution/data";
 
 const TITLE = "Instagram DM Attribution Tracking | Mochi";
 const DESCRIPTION = "See which posts, ads and links actually start Instagram conversations, and what happens after your team hits send.";
+const PATH = "/attribution";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
+  alternates: { canonical: PATH },
+  openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
 };
 
 /** Framer hero "Badge": purple-tinted pill with the gradient NEW tag. */

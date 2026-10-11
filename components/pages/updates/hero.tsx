@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightMini } from "@/components/icons/updates-icons";
+import { interFeatures } from "@/components/shared/inter-features";
 import { UpdatesClouds } from "./clouds";
-import { interFeatures } from "./inter-features";
 
 const badgeShadow =
   "shadow-[0_1px_3px_0_rgba(133,0,122,0.08),0_5px_5px_0_rgba(133,0,122,0.07),0_11px_6px_0_rgba(133,0,122,0.04),0_19px_8px_0_rgba(133,0,122,0.01),0_29px_8px_0_rgba(133,0,122,0)]";

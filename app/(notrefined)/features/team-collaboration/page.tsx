@@ -8,11 +8,13 @@ import { TeamCloserSection } from "@/components/pages/team-collaboration/closer"
 const TITLE = "Team Collaboration for Instagram DM Teams | Mochi";
 const DESCRIPTION =
   "One inbox your whole team can work. Route new leads, discuss each conversation in a private thread and hand over without losing context.";
+const PATH = "/features/team-collaboration";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
+  alternates: { canonical: PATH },
+  openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
 };
 
 const FAQ: FaqEntry[] = [

@@ -1,0 +1,13 @@
+/* /book-dm-audit testimonial ring: the whole ring turns once every 28s (rotateY 0 -> -360deg), as in the embedded page. */
+.ring {
+  animation: spin 28s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-360deg);
+  }
+}

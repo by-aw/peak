@@ -26,7 +26,7 @@ const BUBBLES: QuestionBubbleProps[] = [
  */
 export function McpQuestions() {
   return (
-    <McpSection label="What can you ask Claude">
+    <McpSection id="questions" label="What can you ask Claude">
       <div className="relative h-[767px] w-full">
         <div className="absolute top-[55%] left-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-3 md:top-1/2 md:w-[554px]">
           <p className="text-center font-fraunces text-[20px] leading-[23px] font-semibold whitespace-pre-wrap text-[#0d0d12] md:text-[32px] md:leading-[36.8px] lg:text-[36px] lg:leading-[41.4px]">

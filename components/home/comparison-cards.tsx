@@ -77,7 +77,7 @@ function WithoutCard({ className = "", style }: { className?: string; style?: Re
     >
       <div className="flex w-full flex-col gap-2 px-4 md:items-center">
         <div className="opacity-50">
-          <h5 className="font-display text-[20px] font-semibold leading-6 tracking-[0.64px] text-black whitespace-pre-wrap md:text-center md:text-[24px] md:leading-[28.8px] lg:text-[32px] lg:leading-[38.4px]">
+          <h5 className="text-balance font-display text-[20px] font-semibold leading-6 tracking-[0.64px] text-black whitespace-pre-wrap md:text-center md:text-[24px] md:leading-[28.8px] lg:text-[32px] lg:leading-[38.4px]">
             Without Mochi
           </h5>
         </div>
@@ -121,7 +121,7 @@ function WithCard({ className = "", style }: { className?: string; style?: React
       className={`flex w-full flex-col gap-8 overflow-clip rounded-[32px] bg-white px-4 pb-4 pt-12 shadow-[0_3px_7px_0_rgba(36,7,65,0.05),0_13px_13px_0_rgba(36,7,65,0.04),0_29px_18px_0_rgba(36,7,65,0.02),0_52px_21px_0_rgba(36,7,65,0.01),0_81px_23px_0_rgba(36,7,65,0),inset_0_0_0_1px_rgba(0,0,0,0.1)] md:flex-1 ${className}`}
     >
       <div className="flex w-full flex-col gap-2 px-4 md:items-center">
-        <h5 className="font-display text-[20px] font-semibold leading-6 tracking-[0.64px] text-purple-500 whitespace-pre-wrap md:text-center md:text-[24px] md:leading-[28.8px] lg:text-[32px] lg:leading-[38.4px]">
+        <h5 className="text-balance font-display text-[20px] font-semibold leading-6 tracking-[0.64px] text-purple-500 whitespace-pre-wrap md:text-center md:text-[24px] md:leading-[28.8px] lg:text-[32px] lg:leading-[38.4px]">
           With Mochi
         </h5>
         <p className={`${labelText} text-black md:text-center`}>Now the inbox works for your team</p>
@@ -193,7 +193,7 @@ export function ComparisonCards() {
 
   return (
     <div className="flex w-full flex-col items-center">
-      <div className="flex w-full flex-col items-center gap-[160px] px-5 py-12 md:px-8 md:pb-16 md:pt-12 lg:px-[100px] lg:pb-20 lg:pt-16">
+      <div className="flex w-full flex-col items-center gap-[160px] px-5 py-12 md:px-8 md:pb-16 md:pt-12 lg:px-[100px] lg:pb-[180px] lg:pt-16">
         <div className="z-[1] flex w-full max-w-[1000px] flex-col items-center gap-8 md:gap-12 lg:sticky lg:top-[160px]">
           <Reveal y={80} className="flex w-full flex-col items-start gap-6 md:flex-row">
             <WithoutCard

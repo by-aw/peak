@@ -4,11 +4,14 @@ import { Analytics } from "@/components/layout/analytics";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
+// Site-wide fallback (what the live 404 page shows). Each page sets its own
+// `alternates.canonical` and `openGraph.url`: `openGraph` is shallow-merged, so
+// an og:url here would be dropped by every page, and the 404 should get none.
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "The Mochi App",
   description:
-    "Mochi gives your team one workspace to manage Instagram conversations, prioritize leads, and turn more DMs into booked calls.",
+    "Mochi gives your team one workspace to manage conversations, prioritize buyers, follow up faster, and see what is actually happening in your inbox.",
   openGraph: {
     type: "website",
     siteName: "Mochi",

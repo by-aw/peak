@@ -1,9 +1,20 @@
-import { buttonShadow } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { descriptionText } from "@/components/ui/text";
 import { CTA_HREF, type FeatureCopy } from "./data";
 
-/** Label + heading of one feature. Sizes: phone 16/32, tablet 18/40, desktop 20/48. */
-export function FeatureHeader({ feature, className = "" }: { feature: FeatureCopy; className?: string }) {
+/**
+ * Label + heading of one feature. Sizes: phone 16/36, tablet 18/40, desktop 20/48.
+ * `card`: the heading sits inside a phone feature card, so it drops to 32 on phone.
+ */
+export function FeatureHeader({
+  feature,
+  card = false,
+  className = "",
+}: {
+  feature: FeatureCopy;
+  card?: boolean;
+  className?: string;
+}) {
   return (
     <div className={`flex flex-col gap-5 ${className}`}>
       {feature.label ? (
@@ -11,7 +22,13 @@ export function FeatureHeader({ feature, className = "" }: { feature: FeatureCop
           {feature.label}
         </p>
       ) : null}
-      <h3 className="font-display text-[32px] leading-[35.2px] font-semibold tracking-[1px] text-ink md:text-[40px] md:leading-[44px] md:tracking-[1.6px] lg:text-[48px] lg:leading-[52.8px]">
+      <h3
+        className={`text-balance font-display font-semibold text-ink lg:text-[48px] lg:leading-[52.8px] ${
+          card
+            ? "text-[32px] leading-[35.2px] tracking-[1px] md:text-[40px] md:leading-[44px] md:tracking-[1.6px]"
+            : "text-[36px] leading-[39.6px] tracking-[1.4px] md:text-[40px] md:leading-[44px] md:tracking-[1.6px]"
+        }`}
+      >
         {feature.heading}
       </h3>
     </div>
@@ -20,7 +37,7 @@ export function FeatureHeader({ feature, className = "" }: { feature: FeatureCop
 
 /**
  * Label + heading + body of one feature ("Content N" in Framer).
- * Sizes: phone 16/32/18, tablet 18/40/18, desktop 20/48/20.
+ * Sizes: phone 16/36/20, tablet 18/40/20, desktop 20/48/20.
  */
 export function FeatureText({ feature }: { feature: FeatureCopy }) {
   return (
@@ -35,17 +52,12 @@ export function FeatureText({ feature }: { feature: FeatureCopy }) {
 }
 
 /**
- * "Start Free Trial" CTA ("Desktop/Big" button, 20px text). Phone: full width.
+ * "Start Free Trial" CTA ("Desktop/Big" button), sized to its label.
  */
 export function FeatureCta() {
   return (
-    <a
-      href={CTA_HREF}
-      target="_blank"
-      rel="noopener"
-      className={`inline-flex w-full items-center justify-center rounded-[12px] bg-[linear-gradient(#14151a_0%,#14151a_100%)] px-5 py-3 font-sans text-[20px] leading-[21.75px] font-medium tracking-[-0.3px] text-white transition-[background] duration-200 hover:bg-[linear-gradient(#000_0%,#14151a_100%)] md:w-auto ${buttonShadow}`}
-    >
+    <Button variant="primaryBig" href={CTA_HREF} target="_blank" rel="noopener" className="font-sans">
       Start Free Trial
-    </a>
+    </Button>
   );
 }

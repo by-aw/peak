@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightMini } from "@/components/icons/updates-icons";
 import type { UpdateSummary } from "@/lib/updates";
+import { interFeatures, interFeaturesMd } from "@/components/shared/inter-features";
 import { ring } from "./post-card";
-import { interFeatures, interFeaturesMd } from "./inter-features";
 
 /**
  * One "Other Updates" card: cover at its own aspect ratio, title (20/24px black; the tablet variant uses 20/28px #1d1d20),

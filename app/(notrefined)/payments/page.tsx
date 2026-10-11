@@ -9,11 +9,13 @@ import { PaymentsBeforeCta } from "@/components/pages/payments/before-cta";
 
 const TITLE = "Payment Tracking for DM Sales | Mochi";
 const DESCRIPTION = "Match every payment back to the lead who made it and the person who closed it, across your payment providers.";
+const PATH = "/payments";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
+  alternates: { canonical: PATH },
+  openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
 };
 
 export default function PaymentsPage() {

@@ -13,30 +13,34 @@ const mask = "[mask-image:linear-gradient(0deg,rgba(0,0,0,0)_0%,#000_7%)]";
 
 /**
  * Tablet / desktop variant of the Framer "Revenue Section" (Desk/2):
- * header (heading left, paragraph right), 3 tabs with a sliding active pill, product mockup, CTA.
+ * centered header (heading over paragraph), 3 icon + label tabs, product mockup, CTA. Every tab's copy is stacked in
+ * one grid cell with only the active one visible, so the tabs don't move when the copy changes length.
  */
 export function RevenueDesktop() {
   const [active, setActive] = useState(0);
-  const tab = revenueTabs[active];
 
   return (
     <div className="flex w-full flex-col items-center gap-12">
       <Reveal y={80} className="flex w-full flex-col items-center gap-12 overflow-clip">
-        <div className="flex w-full items-center justify-between lg:min-h-[112px]">
-          <div className="min-w-0 flex-1">
-            <h3 className="font-display text-[40px] font-semibold leading-[44px] tracking-[1.6px] text-ink whitespace-pre-wrap lg:text-[48px] lg:leading-[52.8px]">
-              {tab.heading}
-            </h3>
-          </div>
-          <div className="w-[440px] shrink-0">
-            <p className={`whitespace-pre-wrap ${descriptionText}`}>
-              {tab.body}
-            </p>
-          </div>
+        <div className="grid w-full">
+          {revenueTabs.map((t, i) => (
+            <div
+              key={t.label}
+              aria-hidden={i !== active}
+              className={`col-start-1 row-start-1 flex flex-col items-center gap-[14px] text-center ${i === active ? "" : "invisible"}`}
+            >
+              <h3 className="max-w-[640px] text-balance font-display text-[40px] font-semibold leading-[44px] tracking-[1.6px] text-ink whitespace-pre-wrap lg:text-[48px] lg:leading-[52.8px]">
+                {t.heading}
+              </h3>
+              <p className={`max-w-[560px] whitespace-pre-wrap ${descriptionText}`}>
+                {t.body}
+              </p>
+            </div>
+          ))}
         </div>
 
         <div className="flex w-full flex-col items-center gap-12">
-          <RevenueTabBar active={active} onChange={setActive} layoutId="revenue-tab-indicator" />
+          <RevenueTabBar active={active} onChange={setActive} labels="all" />
 
           <div className={`relative flex w-full flex-col items-center overflow-clip ${mask}`}>
             {active === 0 && (

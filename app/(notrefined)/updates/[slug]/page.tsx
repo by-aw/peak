@@ -21,10 +21,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getUpdate(slug);
   if (!post) return {};
   const image = post.ogImage ?? post.cover?.src ?? "/og-image.png";
+  const path = `/updates/${slug}`;
   return {
     title: post.metaTitle,
     description: post.description,
-    openGraph: { title: post.metaTitle, description: post.description, images: [{ url: image }] },
+    alternates: { canonical: path },
+    openGraph: { type: "website", url: path, title: post.metaTitle, description: post.description, images: [{ url: image }] },
   };
 }
 

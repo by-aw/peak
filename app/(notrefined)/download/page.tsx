@@ -5,11 +5,13 @@ import { DownloadSection } from "@/components/pages/download/download-section";
 
 const TITLE = "Download Mochi | Mochi";
 const DESCRIPTION = "Get Mochi on web, iOS and any mobile browser so your team can work the Instagram inbox from anywhere.";
+const PATH = "/download";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
+  alternates: { canonical: PATH },
+  openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
 };
 
 export default function DownloadPage() {

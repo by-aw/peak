@@ -9,7 +9,7 @@ import { RevenueMobile } from "./revenue-mobile";
 export function RevenueSection() {
   return (
     <section className="flex w-full items-center justify-center overflow-clip">
-      <div className="flex w-full flex-1 items-center justify-center px-5 py-12 md:px-8 md:py-16 lg:px-[100px] lg:py-20">
+      <div className="flex w-full flex-1 items-center justify-center px-5 py-12 md:px-8 md:py-16 lg:px-[100px] lg:pb-0 lg:pt-[180px]">
         <div className="flex w-full max-w-[1000px] flex-1 flex-col items-center gap-8 md:gap-12">
           {/* phone */}
           <div className="w-full md:hidden">

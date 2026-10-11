@@ -43,7 +43,7 @@ const FORBES_URL =
   "https://www.forbes.com/sites/kolawolesamueladebayo/2026/02/13/how-ai-is-helping-creators-scale-sales-without-losing-the-personal-touch/";
 
 const h1Class =
-  "text-center text-pretty font-display font-semibold tracking-[1.68px] text-ink text-[48px] leading-[48px] md:text-[56px] md:leading-[61.6px] lg:text-[64px] lg:leading-[70.4px]";
+  "max-w-[14em] text-center text-balance font-display font-semibold tracking-[1.68px] text-ink text-[48px] leading-[48px] md:text-[56px] md:leading-[61.6px] lg:text-[64px] lg:leading-[70.4px]";
 
 /** Meta Business Partner + "As seen in Forbes". The caller sets the display/layout classes. */
 function PartnerLogos({ className }: { className: string }) {
@@ -75,9 +75,9 @@ function PartnerLogos({ className }: { className: string }) {
 }
 
 /**
- * Home hero: headline, CTA, partner logos, "Trusted by" ticker and the founder video.
- * Phone (mochi-web-v2 Figma, node 540:16490): "Trusted by" title centred over a full-width ticker with the
- * partner logos in two columns below it. Tablet/desktop: logos under the CTA, "Trusted by" inline before the ticker.
+ * Home hero: headline, CTA, partner logos, the founder video and the "Trusted by" ticker.
+ * Phone: "Trusted by" title centred over the partner logos (two columns), then a full-width ticker.
+ * Tablet/desktop: logos under the CTA, "Trusted by" inline before the ticker.
  */
 export function HeroSection() {
   return (
@@ -86,11 +86,8 @@ export function HeroSection() {
         <div className="flex w-full max-w-[1200px] flex-1 flex-col items-center gap-8 md:gap-16">
           <div className="flex w-full flex-col items-center gap-8 md:gap-10">
             <div className="flex w-full flex-col items-center gap-4 md:gap-6">
-              <Reveal y={48} delay={0.2} className="w-full">
-                {/* Framer uses one h1 on phone and two stacked h1s on tablet/desktop */}
-                <h1 className={`${h1Class} md:hidden`}>Stop losing money inside your DMs</h1>
-                <h1 className={`${h1Class} hidden md:block`}>Stop losing money</h1>
-                <h1 className={`${h1Class} hidden md:block`}>inside your DMs</h1>
+              <Reveal y={48} delay={0.2} className="flex w-full justify-center">
+                <h1 className={h1Class}>Stop losing money inside your DMs</h1>
               </Reveal>
               <Reveal y={48} delay={0.2} className="w-full max-w-[526px]">
                 <p className={`text-center ${descriptionText}`}>
@@ -100,14 +97,15 @@ export function HeroSection() {
               </Reveal>
             </div>
             <Reveal y={32} delay={0.3} className="flex w-full flex-col items-center gap-6 md:w-auto">
-              <Button variant="primaryBig" href="https://use.themochi.app/" className="w-full rounded-full! md:w-auto">
+              <Button variant="primaryBig" href="https://use.themochi.app/">
                 Start Free Trial
               </Button>
               <PartnerLogos className="hidden gap-10 md:flex" />
             </Reveal>
           </div>
 
-          <Reveal y={40} delay={0.35} className="relative flex w-full flex-col gap-16 md:w-[896px] md:gap-8">
+          <Reveal y={40} delay={0.35} className="relative flex w-full flex-col gap-8 md:max-w-[896px]">
+            <FounderVideo />
             <div className="flex w-full flex-col items-center gap-4 md:flex-row md:gap-0">
               <div className="flex shrink-0 items-center justify-center rounded-full p-2.5">
                 <p className="text-[18px] leading-5 font-medium tracking-[-0.6px] whitespace-pre text-ink-3 opacity-80 md:text-[16px] md:opacity-50">
@@ -115,13 +113,12 @@ export function HeroSection() {
                 </p>
               </div>
               <div className="flex w-full min-w-0 flex-col gap-6 md:flex-1">
+                <PartnerLogos className="flex w-full md:hidden" />
                 <div className="flex w-full">
                   <TrustedTicker users={TRUSTED_BY} />
                 </div>
-                <PartnerLogos className="flex w-full md:hidden" />
               </div>
             </div>
-            <FounderVideo />
             <HeroClouds />
           </Reveal>
         </div>

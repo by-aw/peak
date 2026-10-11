@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
 import { CtaSection } from "@/components/layout/cta-section";
@@ -9,6 +10,19 @@ import { ComparisonSection } from "@/components/home/comparison-section";
 import { TestimonialSection } from "@/components/home/testimonial-section";
 import { PricingSection } from "@/components/home/pricing-section";
 import { FaqSection } from "@/components/home/faq-section";
+
+const TITLE = "Mochi | One Workspace for Instagram DM Sales";
+const DESCRIPTION =
+  "Mochi gives your team one workspace to manage Instagram conversations, prioritize buyers, follow up faster and see what is actually happening in your inbox.";
+const PATH = "/";
+
+// Only applies to `/`: not-found.tsx renders <HomePage /> but keeps the root layout's metadata.
+export const metadata: Metadata = {
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: PATH },
+  openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og-image.png", width: 3600, height: 1890 }] },
+};
 
 export default function HomePage() {
   return (

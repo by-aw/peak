@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightMini } from "@/components/icons/updates-icons";
 import type { UpdateSummary } from "@/lib/updates";
-import { interFeatures } from "./inter-features";
+import { interFeatures } from "@/components/shared/inter-features";
 
 /** 3px #efefef inset ring the Framer image frames draw over the picture (::after). */
 export const ring = "after:pointer-events-none after:absolute after:inset-0 after:rounded-[12px] after:border-[3px] after:border-[#efefef] after:content-['']";

@@ -9,11 +9,13 @@ import { McpCta } from "@/components/pages/mcp/cta";
 
 const TITLE = "Mochi MCP for Claude | Mochi";
 const DESCRIPTION = "Connect your real Instagram DM data to Claude and ask questions about your inbox, leads and team inside the AI you already use.";
+const PATH = "/mcp";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og/mcp.png", width: 3600, height: 1890 }] },
+  alternates: { canonical: PATH },
+  openGraph: { type: "website", url: PATH, title: TITLE, description: DESCRIPTION, images: [{ url: "/og/mcp.png", width: 3600, height: 1890 }] },
 };
 
 /**

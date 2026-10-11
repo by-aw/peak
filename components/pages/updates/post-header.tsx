@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowLeftMini } from "@/components/icons/updates-icons";
 import type { Update } from "@/lib/updates";
-import { interFeatures } from "./inter-features";
+import { interFeatures } from "@/components/shared/inter-features";
 
 /** Back link, title and the date / version / category row of a post. */
 export function PostHeader({ post }: { post: Update }) {
